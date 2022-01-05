@@ -1,0 +1,6077 @@
+Last login: Tue Jan  4 16:47:17 on ttys000
+ashleykim@Ashleys-MacBook-Pro-2 ~ % cd Desktop
+ashleykim@Ashleys-MacBook-Pro-2 Desktop % python --version
+Python 3.9.8
+ashleykim@Ashleys-MacBook-Pro-2 Desktop % pip list
+Package         Version
+--------------- ---------
+beautifulsoup4  4.10.0
+bs4             0.0.1
+certifi         2020.6.20
+chardet         3.0.4
+click           7.1.2
+cycler          0.10.0
+Encoder         1.1
+fire            0.4.0
+idna            2.8
+joblib          0.17.0
+kiwisolver      1.2.0
+matplotlib      3.3.2
+nltk            3.6.2
+numpy           1.19.2
+Pillow          8.0.0
+pip             21.3.1
+pyparsing       2.4.7
+python-dateutil 2.8.1
+regex           2017.4.5
+requests        2.21.0
+setuptools      49.2.1
+six             1.15.0
+soupsieve       2.3.1
+termcolor       1.1.0
+toposort        1.5
+tqdm            4.31.1
+urllib3         1.24.3
+ashleykim@Ashleys-MacBook-Pro-2 Desktop % cd gpt-2-finetuning
+ashleykim@Ashleys-MacBook-Pro-2 gpt-2-finetuning % python download_model.py 117M
+Fetching checkpoint: 1.00kit [00:00, 364kit/s]                                                      
+Fetching encoder.json: 1.04Mit [00:01, 740kit/s]                                                    
+Fetching hparams.json: 1.00kit [00:00, 715kit/s]                                                    
+Fetching model.ckpt.data-00000-of-00001: 498Mit [06:31, 1.27Mit/s]                                  
+Fetching model.ckpt.index: 6.00kit [00:00, 3.17Mit/s]                                               
+Fetching model.ckpt.meta: 472kit [00:00, 955kit/s]                                                  
+Fetching vocab.bpe: 457kit [00:00, 1.62Mit/s]                                                       
+ashleykim@Ashleys-MacBook-Pro-2 gpt-2-finetuning % cd src
+ashleykim@Ashleys-MacBook-Pro-2 src % python encode-copy-1.py free-verse.txt free-verse.npz
+Reading files
+100%|██████████████████████████████████████████████████████████████████████| 1/1 [00:01<00:00,  1.54s/it]
+Writing free-verse.npz
+ashleykim@Ashleys-MacBook-Pro-2 src % python train-copy-1.py --dataset free-verse.npz
+Traceback (most recent call last):
+  File "/Users/ashleykim/Desktop/gpt-2-finetuning/src/train-copy-1.py", line 314, in <module>
+    main()
+  File "/Users/ashleykim/Desktop/gpt-2-finetuning/src/train-copy-1.py", line 89, in main
+    enc = encoder.get_encoder(args.model_name, models_dir=args.models_dir)
+  File "/Users/ashleykim/Desktop/gpt-2-finetuning/src/encoder.py", line 109, in get_encoder
+    with open(os.path.join(models_dir, model_name, 'encoder.json'), 'r') as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'models/124M/encoder.json'
+ashleykim@Ashleys-MacBook-Pro-2 src % python train-copy-1.py --dataset free-verse.npz
+2022-01-04 19:49:22.084602: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING:tensorflow:From /Users/ashleykim/Desktop/gpt-2-finetuning/src/sample.py:60: to_float (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.cast` instead.
+WARNING:tensorflow:From /usr/local/lib/python3.9/site-packages/tensorflow/python/util/dispatch.py:1096: multinomial (from tensorflow.python.ops.random_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.random.categorical` instead.
+Using Adam optimizer
+Loading checkpoint models/117M/model.ckpt
+Loading dataset...
+100%|██████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 60.21it/s]
+dataset has 187851 tokens
+Training...
+[1 | 10.20] loss=4.23 avg=4.23
+[2 | 18.57] loss=4.18 avg=4.21
+[3 | 26.92] loss=4.22 avg=4.21
+[4 | 35.58] loss=4.54 avg=4.29
+[5 | 55.44] loss=3.92 avg=4.22
+[6 | 74.20] loss=3.51 avg=4.10
+[7 | 82.28] loss=3.93 avg=4.07
+[8 | 90.80] loss=3.78 avg=4.03
+[9 | 98.65] loss=3.81 avg=4.01
+[10 | 107.97] loss=4.04 avg=4.01
+[11 | 116.65] loss=3.90 avg=4.00
+[12 | 124.78] loss=3.57 avg=3.96
+[13 | 132.37] loss=3.52 avg=3.93
+[14 | 139.89] loss=3.71 avg=3.91
+[15 | 147.28] loss=3.81 avg=3.90
+[16 | 154.72] loss=4.19 avg=3.92
+[17 | 162.28] loss=3.80 avg=3.91
+[18 | 169.96] loss=3.79 avg=3.91
+[19 | 177.40] loss=3.89 avg=3.91
+[20 | 184.92] loss=3.71 avg=3.90
+[21 | 192.38] loss=3.62 avg=3.88
+[22 | 199.88] loss=3.57 avg=3.86
+[23 | 207.63] loss=3.54 avg=3.85
+[24 | 215.03] loss=3.85 avg=3.85
+[25 | 222.56] loss=3.48 avg=3.83
+[26 | 230.25] loss=4.10 avg=3.84
+[27 | 237.77] loss=3.47 avg=3.83
+[28 | 245.32] loss=3.73 avg=3.82
+[29 | 252.69] loss=3.66 avg=3.82
+[30 | 260.08] loss=3.53 avg=3.81
+[31 | 267.61] loss=4.09 avg=3.82
+[32 | 274.86] loss=3.20 avg=3.79
+[33 | 282.34] loss=3.51 avg=3.78
+[34 | 289.81] loss=4.32 avg=3.80
+[35 | 297.15] loss=3.84 avg=3.80
+[36 | 304.48] loss=4.45 avg=3.83
+[37 | 311.89] loss=4.30 avg=3.84
+[38 | 319.08] loss=3.77 avg=3.84
+[39 | 326.33] loss=3.65 avg=3.83
+[40 | 333.62] loss=4.06 avg=3.84
+[41 | 340.98] loss=3.58 avg=3.83
+[42 | 348.35] loss=3.85 avg=3.83
+[43 | 355.87] loss=4.02 avg=3.84
+[44 | 363.20] loss=4.05 avg=3.84
+[45 | 370.66] loss=3.60 avg=3.84
+[46 | 377.95] loss=4.04 avg=3.84
+[47 | 385.61] loss=3.07 avg=3.82
+[48 | 395.73] loss=3.97 avg=3.83
+[49 | 403.53] loss=3.75 avg=3.82
+[50 | 410.78] loss=3.50 avg=3.82
+[51 | 418.10] loss=3.94 avg=3.82
+[52 | 425.44] loss=4.06 avg=3.82
+[53 | 432.63] loss=4.18 avg=3.83
+[54 | 439.78] loss=4.32 avg=3.85
+[55 | 446.96] loss=4.12 avg=3.85
+[56 | 454.23] loss=3.82 avg=3.85
+[57 | 461.48] loss=4.07 avg=3.86
+[58 | 469.07] loss=3.82 avg=3.86
+[59 | 476.83] loss=3.37 avg=3.84
+[60 | 484.30] loss=3.84 avg=3.84
+[61 | 491.59] loss=3.90 avg=3.85
+[62 | 498.93] loss=3.77 avg=3.84
+[63 | 506.54] loss=3.86 avg=3.84
+[64 | 514.39] loss=3.94 avg=3.85
+[65 | 521.78] loss=3.81 avg=3.85
+[66 | 529.20] loss=3.80 avg=3.84
+[67 | 536.46] loss=3.80 avg=3.84
+[68 | 543.70] loss=3.77 avg=3.84
+[69 | 551.03] loss=4.14 avg=3.85
+[70 | 558.36] loss=3.79 avg=3.85
+[71 | 565.61] loss=3.77 avg=3.85
+[72 | 572.79] loss=3.54 avg=3.84
+[73 | 580.02] loss=4.04 avg=3.84
+[74 | 587.60] loss=4.04 avg=3.85
+[75 | 594.99] loss=3.47 avg=3.84
+[76 | 602.33] loss=3.60 avg=3.84
+[77 | 609.65] loss=3.61 avg=3.83
+[78 | 616.95] loss=3.78 avg=3.83
+[79 | 624.18] loss=3.34 avg=3.82
+[80 | 631.37] loss=3.82 avg=3.82
+[81 | 638.78] loss=3.63 avg=3.82
+[82 | 646.02] loss=3.17 avg=3.81
+[83 | 654.09] loss=4.02 avg=3.81
+[84 | 661.29] loss=3.64 avg=3.81
+[85 | 668.53] loss=3.87 avg=3.81
+[86 | 675.97] loss=3.47 avg=3.80
+[87 | 683.38] loss=3.84 avg=3.80
+[88 | 690.65] loss=4.07 avg=3.81
+[89 | 698.09] loss=4.22 avg=3.81
+[90 | 705.61] loss=3.40 avg=3.81
+[91 | 712.92] loss=3.83 avg=3.81
+[92 | 720.33] loss=3.61 avg=3.80
+[93 | 727.65] loss=3.60 avg=3.80
+[94 | 735.02] loss=3.90 avg=3.80
+[95 | 742.60] loss=3.55 avg=3.80
+[96 | 749.90] loss=3.61 avg=3.80
+[97 | 757.18] loss=3.54 avg=3.79
+[98 | 764.62] loss=3.59 avg=3.79
+[99 | 771.84] loss=3.44 avg=3.78
+Generating samples...
+======== SAMPLE 1 ========
+<b>Degree</b>: <b>Reserved</b>: <b>Reserved</b>: $91235 $91254 $91256 $91311 $9137 $9137 $9137 $9137 $9137 $9137 $9137 $9137 $9137 $9137 $9137 $9137 $9137 $9137 $9137 $9137 $9137
+
+</p>
+
+<p>If you think this whole thing could last for years, just imagine how difficult it would be to keep alive.</p><|endoftext|>A new study has found that a rare form of brain trauma may be the most common cause of cancer in women.
+
+Menopause patients might experience symptoms consistent with the symptoms of neuroblastoma, a rare brain cancer, even though they were not on the "medication list".
+
+The new study, by medical ethics specialists the University of Cambridge and the New York Medical School, says the link between high blood pressure and cancer may be the reason for the higher risk of cancer from high-dose antidepressants, which are known to relieve symptoms of depression, such as headache.
+
+High blood pressure, which is a condition caused by diabetes, is often found in people younger than 12 years.
+
+The new study is the first to show whether a high level of blood pressure may be the problem for women with menopause
+
+A woman with a high blood pressure who has been taking a new antidepressant. Credit: Getty Images
+
+The study, called 'Menopause: the risk and symptoms of a rare form of brain malignant brain tumour', was published in The Lancet On July 22.
+
+Women and men with high blood pressure were recruited to the Children's Hospital of Cambridge Children's Hospital (CCH).
+
+Study authors said they were told the woman was on an antidepressant called Zoloft, while the woman would become depressed later.
+
+They asked them to sleep and look at the map of her screen, and how long she was doing, they discovered her blood pressured.
+
+They then looked up and down on the screen, and saw a red line, and they checked over how bad blood pressure was for the person.
+
+One sign was a red line.
+
+The test indicated for the man a high blood pressure, indicating, the woman had an elevated risk of high blood pressure.
+
+They also noticed the woman had a red cross in the left side while the men in the left side had red cross markers between the men.
+
+They noticed that the man also had red cross markers on his left side, but he had a red cross on his right.
+
+When the woman walked into the hall, she was in the middle of a hallway, with all the signs from the blood pressure test.
+
+She was taken to hospital, where researchers found her, with symptoms from a rare form of brain tumour, similar to menopause and not menopause, and also from a rare form of brain tumour.
+
+The authors say the woman was in the hospital for a week, and they found the woman had a high blood pressure, which was related to a menopause.
+
+They also found that the woman had white urine, that is a white blood cell, but the authors said they didn't ask her in the hospital if she had a male.
+
+The researchers say they will try her blood pressure if they can find a safe place for her.
+
+A blood pressure drop, called a blood sugar, is a measure of how much blood is being raised to the level of the blood's blood supply. A blood loss, or loss of the blood that is normal, can be caused by anything from high cholesterol to high triglycerides. As blood pressure rises, it is a measure of insulin the woman needs.
+
+The researchers believe blood pressure may be what is known as a signal signal, and that she might have a high blood pressure, which is part of what is known as a signal signal, but also may be a signal signal if she is told her blood pressure is low, that can lead to a decline in sensitivity, or a decline in strength.
+
+The new study, carried out in menopause patients, includes a new trial which will see how she might respond to a high blood pressure and what symptoms should be seen if she continues at normal blood pressure.
+
+About 2,000 women in the study were asked by doctors to be taken a blood sugar drop.
+
+Once blood pressure had dropped, the researchers asked the same question on the other women in the study.
+
+
+In menopause, we take blood pressure a little bit, and the response of the other women was that they were having too much blood pressure.
+
+
+When women with severe stress were not on the low blood pressure medication, they were taking the low blood pressure, not the low blood pressure medication.
+
+The blood pressure
+
+[100 | 881.12] loss=3.75 avg=3.78
+[101 | 888.34] loss=3.77 avg=3.78
+[102 | 896.18] loss=3.13 avg=3.77
+[103 | 903.53] loss=4.00 avg=3.78
+[104 | 910.86] loss=3.74 avg=3.77
+[105 | 918.33] loss=3.35 avg=3.77
+[106 | 925.85] loss=3.75 avg=3.77
+[107 | 933.09] loss=3.31 avg=3.76
+[108 | 940.36] loss=3.62 avg=3.76
+[109 | 947.86] loss=3.63 avg=3.76
+[110 | 955.08] loss=3.68 avg=3.76
+[111 | 962.35] loss=3.87 avg=3.76
+[112 | 969.63] loss=3.58 avg=3.76
+[113 | 977.09] loss=3.64 avg=3.75
+[114 | 984.66] loss=4.46 avg=3.76
+[115 | 992.06] loss=3.92 avg=3.77
+[116 | 999.29] loss=3.86 avg=3.77
+[117 | 1006.76] loss=4.19 avg=3.77
+[118 | 1014.54] loss=3.47 avg=3.77
+[119 | 1022.84] loss=3.03 avg=3.76
+[120 | 1030.40] loss=3.81 avg=3.76
+[121 | 1037.68] loss=3.84 avg=3.76
+[122 | 1045.22] loss=3.54 avg=3.76
+[123 | 1052.71] loss=3.53 avg=3.75
+[124 | 1059.92] loss=3.75 avg=3.75
+[125 | 1067.34] loss=3.72 avg=3.75
+[126 | 1074.52] loss=4.11 avg=3.76
+[127 | 1081.75] loss=3.57 avg=3.76
+[128 | 1088.98] loss=3.40 avg=3.75
+[129 | 1096.17] loss=3.67 avg=3.75
+[130 | 1103.42] loss=3.40 avg=3.75
+[131 | 1110.72] loss=3.07 avg=3.74
+[132 | 1117.98] loss=3.65 avg=3.73
+[133 | 1125.57] loss=3.69 avg=3.73
+[134 | 1132.80] loss=3.62 avg=3.73
+[135 | 1140.10] loss=4.35 avg=3.74
+[136 | 1147.40] loss=3.95 avg=3.74
+[137 | 1154.63] loss=4.03 avg=3.75
+[138 | 1161.87] loss=3.54 avg=3.74
+[139 | 1169.20] loss=3.34 avg=3.74
+[140 | 1176.43] loss=3.55 avg=3.74
+[141 | 1183.85] loss=3.50 avg=3.73
+[142 | 1191.06] loss=3.85 avg=3.74
+[143 | 1198.26] loss=3.74 avg=3.74
+[144 | 1205.44] loss=3.57 avg=3.73
+[145 | 1212.67] loss=3.64 avg=3.73
+[146 | 1219.86] loss=3.61 avg=3.73
+[147 | 1227.16] loss=3.87 avg=3.73
+[148 | 1234.59] loss=3.51 avg=3.73
+[149 | 1242.05] loss=3.79 avg=3.73
+[150 | 1249.32] loss=3.77 avg=3.73
+[151 | 1256.47] loss=3.52 avg=3.73
+[152 | 1263.60] loss=3.51 avg=3.73
+[153 | 1270.76] loss=3.68 avg=3.72
+[154 | 1277.98] loss=3.27 avg=3.72
+[155 | 1285.36] loss=3.56 avg=3.72
+[156 | 1292.73] loss=4.03 avg=3.72
+[157 | 1300.09] loss=3.67 avg=3.72
+[158 | 1307.42] loss=3.65 avg=3.72
+[159 | 1314.71] loss=3.34 avg=3.71
+[160 | 1322.02] loss=4.13 avg=3.72
+[161 | 1329.34] loss=3.79 avg=3.72
+[162 | 1336.62] loss=3.30 avg=3.72
+[163 | 1343.93] loss=3.70 avg=3.72
+[164 | 1351.13] loss=3.91 avg=3.72
+[165 | 1358.44] loss=3.67 avg=3.72
+[166 | 1365.75] loss=3.80 avg=3.72
+[167 | 1372.97] loss=3.48 avg=3.72
+[168 | 1380.21] loss=3.61 avg=3.71
+[169 | 1387.45] loss=3.28 avg=3.71
+[170 | 1394.67] loss=3.34 avg=3.70
+[171 | 1401.94] loss=3.49 avg=3.70
+[172 | 1409.23] loss=3.66 avg=3.70
+[173 | 1416.58] loss=3.54 avg=3.70
+[174 | 1424.00] loss=3.38 avg=3.70
+[175 | 1431.17] loss=3.40 avg=3.69
+[176 | 1438.37] loss=3.55 avg=3.69
+[177 | 1445.57] loss=3.40 avg=3.69
+[178 | 1452.89] loss=3.41 avg=3.68
+[179 | 1460.25] loss=3.45 avg=3.68
+[180 | 1467.54] loss=3.55 avg=3.68
+[181 | 1474.77] loss=3.80 avg=3.68
+[182 | 1482.13] loss=3.38 avg=3.68
+[183 | 1489.48] loss=3.19 avg=3.67
+[184 | 1496.70] loss=3.24 avg=3.67
+[185 | 1503.97] loss=3.87 avg=3.67
+[186 | 1511.20] loss=3.67 avg=3.67
+[187 | 1518.43] loss=3.54 avg=3.67
+[188 | 1525.62] loss=3.63 avg=3.67
+[189 | 1532.85] loss=3.68 avg=3.67
+[190 | 1540.15] loss=3.45 avg=3.66
+[191 | 1547.50] loss=3.40 avg=3.66
+[192 | 1554.76] loss=3.69 avg=3.66
+[193 | 1562.03] loss=3.16 avg=3.66
+[194 | 1569.41] loss=3.57 avg=3.65
+[195 | 1576.84] loss=4.05 avg=3.66
+[196 | 1584.16] loss=3.39 avg=3.66
+[197 | 1591.39] loss=3.81 avg=3.66
+[198 | 1598.71] loss=3.69 avg=3.66
+[199 | 1606.06] loss=3.79 avg=3.66
+Generating samples...
+======== SAMPLE 1 ========
+ again in the beginning
+with the devil, in hell. 
+It is in her hands who have been the only ones
+who have been saved from eternity, from the eternity
+
+where there is none.
+
+- In the midst of eternity there is no time
+where no body can exist.
+
+Where all existence exists, but death.
+where all existence is no longer a thing.
+
+where there is no mind.
+
+where nothing exists; it is nothing.
+ And where nothing exists, it
+is nothing—
+it is nothing—
+and the mind is nothing but a
+thing.
+
+it is there that God
+is not like, that it is not
+that it needs to exist, it
+comes into existence as though
+it were something, a thing whose
+own existence is the whole world.
+there, it is.
+
+it is there—it is there,
+it is there—it is,
+not it but it it is there,
+a thing the whole world must
+take away—it is not it but it,
+something and nothing else.
+
+‏In the midst of eternity there is no time,
+
+where no matter what, nothing
+like God will exist without
+something like it.
+
+“What is there to get up?”
+to go,”
+or “to go,” or “to go.
+
+”What is there to go in,”
+to go in,” to go inside?
+
+”I wish I could go,”
+to go,”
+but”
+I can’t go.
+
+  ”
+
+<|endoftext|>
+
+<|startoftext|>
+
+In the end, the human mind and the human body
+become objects of the body
+as it becomes the subject of the mind that
+the body becomes to be taken under itself...
+then you are all that makes the whole thing
+the body but the body is all that is
+the human mind and the human body is
+the body.” 
+
+
+<|endoftext|>
+
+<|startoftext|>
+
+<|startoftext|>
+
+There is a new light every morning and afternoon. A new dawn,
+every dream, a new day. But, in their dream-like
+like way, the new things in a dream are
+as objects of their imagination, and are only images of the
+
+imagination of someone else for the purpose of passing
+
+along to them their own vision of the dream by a
+different path. Sometimes they
+are just images of the imagination of someone else,
+and sometimes they are like them. You
+know this. You have heard it. You
+know that. To make their dreams dreamlike
+wasn't to bring the dream of someone else
+to them. To make them dreamlike was to bring
+themself to me, to come closer to something
+
+that had me.
+
+<|endoftext|>
+
+<|startoftext|>
+
+It is my turn.
+I see the woman running outside my window,
+behind a big orange-eyed figure,
+a tall, thin, unhinged woman in the black-and-white
+suit. It does not seem like anything 
+ever happened. I was scared to see her, but she kept coming.
+<|endoftext|>
+
+<|startoftext|>
+
+For once now I am glad to be alive,
+my self, because I am glad that I am
+still alive, and I am glad now as well
+
+to make the world round. For what I am doing to
+my body I do not want, because it is an
+impairing thing, my body is an impurity,
+it makes me want to touch it. I should
+
+be happy now and look back on everything I
+have done. I should be happy in
+that moment, and that is what matters.
+<|endoftext|>
+
+<|startoftext|>
+
+All kinds of dreams were created with the purpose to
+make them into something that would
+
+look like me. But in a dream I did not look like
+me, but rather like myself.
+
+<|endoftext|>
+
+<|startoftext|>
+
+One day when I sat down and wrote
+my notes, a long wave
+surrounded me on the pavement
+on a dark floor, but when I put my hand
+in front of the blade
+and looked down, a long
+wave, like mine, swept through my hand
+and into a small corner—a hole
+
+where a knife cuts through the skin
+of a
+
+[200 | 1716.28] loss=3.80 avg=3.66
+[201 | 1723.54] loss=3.35 avg=3.66
+[202 | 1730.90] loss=3.71 avg=3.66
+[203 | 1738.18] loss=3.66 avg=3.66
+[204 | 1745.44] loss=3.67 avg=3.66
+[205 | 1752.67] loss=3.75 avg=3.66
+[206 | 1759.83] loss=3.39 avg=3.66
+[207 | 1767.01] loss=3.55 avg=3.66
+[208 | 1774.17] loss=3.60 avg=3.65
+[209 | 1781.45] loss=3.47 avg=3.65
+[210 | 1788.78] loss=3.43 avg=3.65
+[211 | 1796.03] loss=3.67 avg=3.65
+[212 | 1803.34] loss=3.58 avg=3.65
+[213 | 1810.54] loss=3.47 avg=3.65
+[214 | 1817.72] loss=3.65 avg=3.65
+[215 | 1824.96] loss=3.72 avg=3.65
+[216 | 1832.12] loss=3.84 avg=3.65
+[217 | 1839.19] loss=3.12 avg=3.64
+[218 | 1846.37] loss=3.92 avg=3.65
+[219 | 1853.67] loss=3.85 avg=3.65
+[220 | 1861.10] loss=3.48 avg=3.65
+[221 | 1868.38] loss=3.30 avg=3.64
+[222 | 1875.80] loss=3.24 avg=3.64
+[223 | 1883.10] loss=3.47 avg=3.64
+[224 | 1890.60] loss=3.21 avg=3.63
+[225 | 1897.88] loss=3.95 avg=3.64
+[226 | 1905.23] loss=3.77 avg=3.64
+[227 | 1912.40] loss=3.51 avg=3.64
+[228 | 1919.63] loss=3.29 avg=3.63
+[229 | 1926.87] loss=3.09 avg=3.63
+[230 | 1934.30] loss=3.27 avg=3.62
+[231 | 1941.63] loss=3.48 avg=3.62
+[232 | 1948.85] loss=3.31 avg=3.62
+[233 | 1956.10] loss=4.04 avg=3.62
+[234 | 1963.37] loss=3.49 avg=3.62
+[235 | 1970.78] loss=3.54 avg=3.62
+[236 | 1978.11] loss=3.46 avg=3.62
+[237 | 1985.37] loss=3.44 avg=3.62
+[238 | 1992.53] loss=2.90 avg=3.61
+[239 | 1999.74] loss=3.23 avg=3.60
+[240 | 2006.98] loss=3.42 avg=3.60
+[241 | 2014.20] loss=3.26 avg=3.60
+[242 | 2021.50] loss=3.67 avg=3.60
+[243 | 2028.81] loss=3.50 avg=3.60
+[244 | 2036.07] loss=3.44 avg=3.60
+[245 | 2043.27] loss=3.50 avg=3.60
+[246 | 2050.62] loss=3.32 avg=3.59
+[247 | 2057.97] loss=3.81 avg=3.59
+[248 | 2065.19] loss=3.11 avg=3.59
+[249 | 2072.30] loss=3.51 avg=3.59
+[250 | 2079.51] loss=3.27 avg=3.59
+[251 | 2086.74] loss=3.56 avg=3.58
+[252 | 2093.94] loss=3.59 avg=3.58
+[253 | 2101.24] loss=3.52 avg=3.58
+[254 | 2108.57] loss=3.33 avg=3.58
+[255 | 2115.84] loss=3.44 avg=3.58
+[256 | 2123.78] loss=3.35 avg=3.58
+[257 | 2131.04] loss=3.38 avg=3.58
+[258 | 2139.27] loss=3.33 avg=3.57
+[259 | 2147.15] loss=3.45 avg=3.57
+[260 | 2154.47] loss=3.72 avg=3.57
+[261 | 2161.72] loss=3.87 avg=3.58
+[262 | 2169.96] loss=3.37 avg=3.57
+[263 | 2177.51] loss=3.47 avg=3.57
+[264 | 2185.37] loss=3.24 avg=3.57
+[265 | 2192.75] loss=3.22 avg=3.57
+[266 | 2200.58] loss=3.57 avg=3.57
+[267 | 2207.95] loss=3.15 avg=3.56
+[268 | 2215.28] loss=3.59 avg=3.56
+[269 | 2222.57] loss=3.70 avg=3.56
+[270 | 2229.91] loss=3.39 avg=3.56
+[271 | 2237.16] loss=3.37 avg=3.56
+[272 | 2244.38] loss=3.23 avg=3.56
+[273 | 2251.62] loss=2.95 avg=3.55
+[274 | 2258.83] loss=2.84 avg=3.54
+[275 | 2266.12] loss=2.93 avg=3.53
+[276 | 2273.30] loss=3.45 avg=3.53
+[277 | 2280.53] loss=3.40 avg=3.53
+[278 | 2287.83] loss=4.10 avg=3.54
+[279 | 2295.30] loss=3.44 avg=3.54
+[280 | 2302.51] loss=3.30 avg=3.53
+[281 | 2309.74] loss=3.71 avg=3.54
+[282 | 2317.02] loss=3.76 avg=3.54
+[283 | 2324.39] loss=3.80 avg=3.54
+[284 | 2331.80] loss=3.88 avg=3.55
+[285 | 2339.04] loss=2.90 avg=3.54
+[286 | 2346.30] loss=3.59 avg=3.54
+[287 | 2353.51] loss=3.69 avg=3.54
+[288 | 2360.82] loss=3.48 avg=3.54
+[289 | 2368.04] loss=3.52 avg=3.54
+[290 | 2375.22] loss=3.50 avg=3.54
+[291 | 2382.51] loss=3.87 avg=3.54
+[292 | 2389.81] loss=3.55 avg=3.54
+[293 | 2397.00] loss=3.59 avg=3.54
+[294 | 2404.15] loss=3.44 avg=3.54
+[295 | 2411.30] loss=3.21 avg=3.54
+[296 | 2418.39] loss=3.09 avg=3.53
+[297 | 2425.88] loss=3.35 avg=3.53
+[298 | 2436.04] loss=3.16 avg=3.53
+[299 | 2443.73] loss=3.44 avg=3.53
+Generating samples...
+======== SAMPLE 1 ========
+ be all in the same place.
+
+Now there are only twenty-four of these, of these, each of these.
+
+<|endoftext|>
+
+<|startoftext|>
+
+Every thing has been born out of every tree, till the world has lost its place, which has been called the world—a world with things—and nothing else.
+
+And now we, each of us, was born from no place.
+
+Our bodies, each other, each other—when the world had been born,
+it began at once to take in the world, and then—
+that one place, each thing, that one thing began,
+the whole universe, the whole universe,
+it began to lose its place.
+
+The world lost its place in it, and no one was left,
+as if all the universe was now one thing.
+The world was lost for one thing,
+for one thing, so to speak, until every time the universe
+
+is lost—we are all lost again.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I am a man who loves the light of life, the truth of the night. Or was it night when you left me? Or was it night I fell asleep at the window, or was it a mist of a river, and the sky is full of clouds of light? Is it night I am a boy, a man who kisses the light of the night. Or was it afternoon when you left me? A man who is hungry, a man who says,
+
+All my life, all my life,
+
+I am tired of seeing the lights that are no more than shadows.
+
+Not a moment does anything come to me in my own name.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I am a man who loves the light of life, the truth of the night. Or was it night when I left me? Or was it evening I was tired of seeing the lights that are no more than shadows.
+
+Not a moment does anything come to me in my own name.
+
+What is said is what is said. What is said is what is said. What is said is what is said.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I live in the valley in the east, where two of the hills stand. One is a large and a small rock. The other is a smaller rock.
+
+There is a big rock there. The small rock is a hole and the large rock is a hole.
+
+The big rock is an old stone rock I have lost at the bottom of this valley,
+
+but no stone rocks are left. If there is another,
+something from the old stone rock must be found too.
+
+I love the light of the day and the darkness of night.
+
+I am a man living in the valley in the east, where two of the hills stand. One is a large and a small rock. The other is a small rock.
+
+There is a huge rock there. The small rock is a hole and the large rock is a hole.
+
+<|endoftext|>
+
+<|startoftext|>
+
+No other man could say it better than me. I was so tired and tired of hearing it,
+I tried to get up and down the ladder to the fire,
+so I put down my bow, got in a chair, looked up from my watch.
+
+There was no doubt at all: my knees and my face turned into the pit below
+and I looked at the smoke, the lightening that had been on my face,
+and the way the bowl was opened. From what I looked at,
+I knew the end was coming. And that was when I felt it start to hurt,
+when I saw the grass get split in two, how the trees fell away,
+then the whole valley. What a relief to have been able to see the valley
+is full of clouds. And now the grass, the whole valley,
+has split and I know that there is nothing more. I have been gone.
+
+<|endoftext|>
+
+<|startoftext|>
+
+Savage is what the Devil is born with. He is born a rebel.
+When I thought about it, it was quite enough. They are the rebel. They are the rebels. They are the ones who are afraid, and who will never be afraid.
+He and the others who can hear him say his name, have heard his cry. They are the ones who can listen.
+And they are the ones who can understand the language of the rebel, because it is so far in the future,
+
+but the ones who understand what they can hear and see are the ones
+
+[300 | 2554.53] loss=3.62 avg=3.53
+[301 | 2562.02] loss=4.05 avg=3.53
+[302 | 2569.55] loss=3.35 avg=3.53
+[303 | 2576.80] loss=2.96 avg=3.53
+[304 | 2583.97] loss=3.40 avg=3.52
+[305 | 2591.16] loss=2.96 avg=3.52
+[306 | 2598.32] loss=3.13 avg=3.51
+[307 | 2605.58] loss=3.48 avg=3.51
+[308 | 2612.81] loss=3.42 avg=3.51
+[309 | 2620.17] loss=3.86 avg=3.52
+[310 | 2627.44] loss=3.51 avg=3.52
+[311 | 2634.74] loss=3.81 avg=3.52
+[312 | 2642.08] loss=2.83 avg=3.51
+[313 | 2650.10] loss=4.05 avg=3.52
+[314 | 2660.18] loss=3.58 avg=3.52
+[315 | 2667.92] loss=3.23 avg=3.52
+[316 | 2675.32] loss=3.69 avg=3.52
+[317 | 2683.12] loss=3.51 avg=3.52
+[318 | 2690.60] loss=3.46 avg=3.52
+[319 | 2698.13] loss=4.00 avg=3.52
+[320 | 2705.56] loss=2.24 avg=3.51
+[321 | 2713.15] loss=3.46 avg=3.51
+[322 | 2720.70] loss=3.46 avg=3.51
+[323 | 2728.22] loss=3.36 avg=3.51
+[324 | 2735.73] loss=3.34 avg=3.50
+[325 | 2743.21] loss=3.43 avg=3.50
+[326 | 2750.55] loss=3.72 avg=3.51
+[327 | 2758.11] loss=3.61 avg=3.51
+[328 | 2765.36] loss=3.24 avg=3.50
+[329 | 2772.61] loss=3.36 avg=3.50
+[330 | 2779.92] loss=3.66 avg=3.50
+[331 | 2788.03] loss=3.61 avg=3.51
+[332 | 2795.49] loss=3.33 avg=3.50
+[333 | 2803.12] loss=3.55 avg=3.50
+[334 | 2810.63] loss=3.77 avg=3.51
+[335 | 2818.05] loss=3.63 avg=3.51
+[336 | 2825.44] loss=3.54 avg=3.51
+[337 | 2833.01] loss=3.62 avg=3.51
+[338 | 2840.71] loss=3.25 avg=3.51
+[339 | 2848.10] loss=3.65 avg=3.51
+[340 | 2855.48] loss=3.08 avg=3.50
+[341 | 2862.91] loss=3.20 avg=3.50
+[342 | 2870.32] loss=3.18 avg=3.50
+[343 | 2877.90] loss=3.76 avg=3.50
+[344 | 2885.14] loss=3.42 avg=3.50
+[345 | 2892.42] loss=3.41 avg=3.50
+[346 | 2899.82] loss=3.28 avg=3.50
+[347 | 2907.63] loss=4.51 avg=3.51
+[348 | 2915.01] loss=3.73 avg=3.51
+[349 | 2922.40] loss=3.40 avg=3.51
+[350 | 2929.85] loss=3.45 avg=3.51
+[351 | 2937.24] loss=3.62 avg=3.51
+[352 | 2944.49] loss=3.17 avg=3.50
+[353 | 2951.69] loss=4.20 avg=3.51
+[354 | 2959.09] loss=3.47 avg=3.51
+[355 | 2966.44] loss=3.60 avg=3.51
+[356 | 2973.76] loss=3.45 avg=3.51
+[357 | 2981.28] loss=3.78 avg=3.51
+[358 | 2988.79] loss=4.08 avg=3.52
+[359 | 2996.17] loss=3.27 avg=3.52
+[360 | 3003.39] loss=3.18 avg=3.51
+[361 | 3010.64] loss=3.22 avg=3.51
+[362 | 3017.87] loss=3.63 avg=3.51
+[363 | 3025.18] loss=3.58 avg=3.51
+[364 | 3032.62] loss=3.75 avg=3.52
+[365 | 3039.90] loss=3.30 avg=3.51
+[366 | 3047.23] loss=3.39 avg=3.51
+[367 | 3055.01] loss=3.56 avg=3.51
+[368 | 3062.42] loss=3.59 avg=3.51
+[369 | 3069.82] loss=3.38 avg=3.51
+[370 | 3077.12] loss=3.12 avg=3.51
+[371 | 3084.40] loss=3.88 avg=3.51
+[372 | 3091.92] loss=3.37 avg=3.51
+[373 | 3099.28] loss=3.31 avg=3.51
+[374 | 3106.76] loss=3.28 avg=3.51
+[375 | 3114.05] loss=3.35 avg=3.50
+[376 | 3121.33] loss=3.72 avg=3.51
+[377 | 3128.63] loss=3.21 avg=3.50
+[378 | 3135.92] loss=3.71 avg=3.51
+[379 | 3143.24] loss=3.05 avg=3.50
+[380 | 3151.11] loss=3.28 avg=3.50
+[381 | 3158.39] loss=4.03 avg=3.50
+[382 | 3165.97] loss=3.59 avg=3.51
+[383 | 3173.55] loss=3.30 avg=3.50
+[384 | 3180.94] loss=3.31 avg=3.50
+[385 | 3188.21] loss=3.52 avg=3.50
+[386 | 3195.49] loss=3.53 avg=3.50
+[387 | 3202.57] loss=3.34 avg=3.50
+[388 | 3209.78] loss=3.48 avg=3.50
+[389 | 3216.99] loss=3.39 avg=3.50
+[390 | 3224.37] loss=3.56 avg=3.50
+[391 | 3231.59] loss=3.23 avg=3.50
+[392 | 3238.90] loss=3.15 avg=3.49
+[393 | 3246.28] loss=3.10 avg=3.49
+[394 | 3253.53] loss=3.51 avg=3.49
+[395 | 3260.83] loss=3.51 avg=3.49
+[396 | 3268.20] loss=3.48 avg=3.49
+[397 | 3275.42] loss=3.44 avg=3.49
+[398 | 3282.85] loss=2.98 avg=3.48
+[399 | 3290.28] loss=3.35 avg=3.48
+Generating samples...
+======== SAMPLE 1 ========
+ooked all over each other before they met."I went to bed in bed with my back to you. I couldn’t see what they were going for, but I didn’t have anything else to worry about until they put the bed sheets on and I woke up in the middle of nowhere. I was standing in the street with all of my friends , trying not to think about something and how they’d like it. I didn’t think about much in the way of sex as a whole until they put the bed sheets on my face. I saw a lot of faces all over the streets of the neighborhood. I saw them just standing there in their underwear.
+
+I went to bed on that chair.
+
+<|endoftext|>
+
+<|startoftext|>
+
+There are so many things on each table there is a bed.
+It all sits across the room.
+I will have to stay up when I need to.
+I only have to wake up in the morning anyway
+to get up and go home.
+And the table doesn’t fall to the floor,
+other things like that don’t matter.
+
+I try to find the way
+to sit down on the other table. Maybe I should lay
+the rest myself.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I have a dream. I’ve been in this dream since first waking,
+when my clothes came off.
+We all have dreams. I’ve dreamed about a child, a tree,
+a man, a rabbit.
+In the dream, a human being
+is seen, standing in a tree.
+I have a dream of a human being, standing in a tree.
+
+“Where “where“where“is he?
+”Look’s good” to look at things in the
+place where they’d be.
+
+“  I’m asking you “ “”
+
+”If’t’it
+
+can you name the place where “  the tree
+
+has been
+held?
+
+”What is
+the nature of
+the things   and what’s the
+
+text
+of the tree?
+
+”If’t it doesn’t make sense
+
+to name the place where “ ”
+the human being has’t been
+
+held.
+
+<|endoftext|>
+
+<|startoftext|>
+
+You’re the one who needs a doctor right now.
+
+All it takes is a certain amount of blood for the blood circulates
+and changes, so it’s easy to miss.
+
+The blood is an ode to the last man, a way of saying
+what we wanted to say, not what we believed
+in anymore. You have more than one way to say something.
+
+The blood and your mind don’t do this for the same reason. The blood isn’t what you ask,
+
+but if it gets bad enough, it starts running red.
+The idea will be that, despite the condition,
+
+you need at least as much of it to be cured.
+
+There are only so many gods, and only a few
+are so powerful as yours.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I see a lot of people with big breasts and their thighs and thighs,
+a huge, red sign that says you should not be ashamed of who you are and who you are not;
+the rest are men, in clothes that are too long for their thighs and thighs
+and they think that I am not a man because I have no clothes.”
+
+They are wrong, then, but there’s no denying it.
+Your beautiful people want to have your breasts taken away, and it hurts them.
+
+They are right: I am not ashamed of them. I have more than a dozen
+people, but I don’t want to have to have one.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I have a big chest, but what if I was a woman?
+My father, who used to live near me, looked down upon me.
+When I first saw him, all I saw was naked people wearing long, dark gray gowns, men
+who’d not hold their hips for years, but had to rise to their feet
+when they were asked to do so. They would sometimes crawl through the air
+with their feet at their knees against their chests,
+
+[400 | 3402.91] loss=3.58 avg=3.48
+[401 | 3410.58] loss=3.41 avg=3.48
+[402 | 3418.28] loss=3.08 avg=3.48
+[403 | 3425.94] loss=2.99 avg=3.47
+[404 | 3433.28] loss=3.50 avg=3.47
+[405 | 3440.63] loss=3.47 avg=3.47
+[406 | 3447.91] loss=3.37 avg=3.47
+[407 | 3455.23] loss=3.61 avg=3.47
+[408 | 3462.64] loss=3.39 avg=3.47
+[409 | 3469.99] loss=3.66 avg=3.47
+[410 | 3477.31] loss=3.35 avg=3.47
+[411 | 3484.69] loss=3.25 avg=3.47
+[412 | 3491.93] loss=3.04 avg=3.47
+[413 | 3499.33] loss=3.48 avg=3.47
+[414 | 3507.00] loss=3.47 avg=3.47
+[415 | 3514.44] loss=3.52 avg=3.47
+[416 | 3521.80] loss=3.52 avg=3.47
+[417 | 3529.10] loss=3.77 avg=3.47
+[418 | 3536.45] loss=3.26 avg=3.47
+[419 | 3543.61] loss=4.01 avg=3.47
+[420 | 3550.88] loss=3.31 avg=3.47
+[421 | 3558.29] loss=3.31 avg=3.47
+[422 | 3565.71] loss=3.65 avg=3.47
+[423 | 3573.11] loss=3.34 avg=3.47
+[424 | 3580.53] loss=3.19 avg=3.47
+[425 | 3588.03] loss=3.31 avg=3.47
+[426 | 3595.27] loss=3.27 avg=3.47
+[427 | 3602.60] loss=3.49 avg=3.47
+[428 | 3609.87] loss=3.29 avg=3.46
+[429 | 3617.15] loss=3.30 avg=3.46
+[430 | 3624.38] loss=3.23 avg=3.46
+[431 | 3631.64] loss=3.22 avg=3.46
+[432 | 3638.83] loss=3.04 avg=3.45
+[433 | 3646.22] loss=3.57 avg=3.45
+[434 | 3653.56] loss=3.24 avg=3.45
+[435 | 3660.96] loss=3.00 avg=3.45
+[436 | 3668.38] loss=3.57 avg=3.45
+[437 | 3675.58] loss=3.34 avg=3.45
+[438 | 3682.81] loss=3.04 avg=3.44
+[439 | 3690.32] loss=3.30 avg=3.44
+[440 | 3697.67] loss=3.51 avg=3.44
+[441 | 3705.58] loss=3.39 avg=3.44
+[442 | 3713.00] loss=3.32 avg=3.44
+[443 | 3720.30] loss=3.05 avg=3.44
+[444 | 3727.67] loss=3.02 avg=3.43
+[445 | 3735.00] loss=3.39 avg=3.43
+[446 | 3742.61] loss=3.48 avg=3.43
+[447 | 3750.27] loss=3.20 avg=3.43
+[448 | 3757.74] loss=3.61 avg=3.43
+[449 | 3765.01] loss=3.31 avg=3.43
+[450 | 3772.28] loss=3.17 avg=3.43
+[451 | 3779.60] loss=2.88 avg=3.42
+[452 | 3787.46] loss=3.23 avg=3.42
+[453 | 3794.81] loss=3.30 avg=3.42
+[454 | 3802.08] loss=3.25 avg=3.42
+[455 | 3809.51] loss=3.70 avg=3.42
+[456 | 3816.78] loss=3.68 avg=3.42
+[457 | 3824.13] loss=3.77 avg=3.43
+[458 | 3831.45] loss=3.25 avg=3.42
+[459 | 3838.93] loss=3.91 avg=3.43
+[460 | 3846.17] loss=3.57 avg=3.43
+[461 | 3853.55] loss=3.27 avg=3.43
+[462 | 3860.92] loss=2.97 avg=3.42
+[463 | 3868.40] loss=3.17 avg=3.42
+[464 | 3875.70] loss=2.70 avg=3.42
+[465 | 3883.14] loss=3.36 avg=3.41
+[466 | 3890.98] loss=3.36 avg=3.41
+[467 | 3898.32] loss=3.37 avg=3.41
+[468 | 3905.60] loss=3.31 avg=3.41
+[469 | 3912.82] loss=3.17 avg=3.41
+[470 | 3920.05] loss=2.73 avg=3.40
+[471 | 3927.41] loss=3.27 avg=3.40
+[472 | 3934.63] loss=3.09 avg=3.40
+[473 | 3941.71] loss=3.33 avg=3.40
+[474 | 3949.03] loss=3.21 avg=3.40
+[475 | 3956.46] loss=3.50 avg=3.40
+[476 | 3963.89] loss=3.93 avg=3.40
+[477 | 3971.18] loss=3.65 avg=3.40
+[478 | 3978.43] loss=3.39 avg=3.40
+[479 | 3985.86] loss=3.50 avg=3.41
+[480 | 3993.17] loss=3.58 avg=3.41
+[481 | 4000.49] loss=2.99 avg=3.40
+[482 | 4008.12] loss=3.42 avg=3.40
+[483 | 4015.54] loss=3.53 avg=3.40
+[484 | 4022.90] loss=3.30 avg=3.40
+[485 | 4030.17] loss=3.85 avg=3.41
+[486 | 4037.47] loss=3.51 avg=3.41
+[487 | 4046.71] loss=3.06 avg=3.41
+[488 | 4054.24] loss=3.49 avg=3.41
+[489 | 4061.66] loss=2.77 avg=3.40
+[490 | 4068.87] loss=3.24 avg=3.40
+[491 | 4076.23] loss=3.60 avg=3.40
+[492 | 4083.55] loss=3.48 avg=3.40
+[493 | 4090.81] loss=3.33 avg=3.40
+[494 | 4098.01] loss=3.69 avg=3.40
+[495 | 4105.25] loss=3.88 avg=3.41
+[496 | 4112.55] loss=3.37 avg=3.41
+[497 | 4119.86] loss=3.13 avg=3.40
+[498 | 4127.34] loss=3.74 avg=3.41
+[499 | 4134.65] loss=3.37 avg=3.41
+Generating samples...
+======== SAMPLE 1 ========
+
+
+“They were so beautiful in their faces”
+the words stuck to the sky
+And the waves were so close
+And the sea like a dream
+Was like love 
+
+ They were so beautiful in their faces
+
+The sea was so soft and quiet
+And the waves were so close
+
+But the waves were still
+And the sea  
+”so soft
+
+The sea   was still
+It was so soft
+
+
+This post is sometimes asked a lot, and the response is always, at times,  I am wrong.  Even though I know it is wrong,  it’s OK with me.”
+
+  It was the night before my first marriage
+And I’d tried to write a post like this:
+
+I don’t love that much when I get married anymore
+and that night I’d been raped on my wedding day
+So I’m like,  
+ I never really had anything to do with it!”
+
+A new generation is learning their lessons
+
+And the next generation is born
+
+<|endoftext|>
+
+<|startoftext|>
+
+Sick as if we are not our body, we are our soul, our body is the root of all the sin I am, I am a blackhole in a cave,
+
+but I have no place to hide. The earth I built over and over,
+
+this beautiful world of mine and yours, your body, it will take away anything
+in its place, its soul, its soul, mine.
+
+You will do whatever is required of you, it will tell you what to write.
+Then when you write you will realize yourself not one bit more—
+I am a black hole, a black hole, a black hole in my body. I am flesh, a black hole in the flesh, I am flesh, a black hole in the flesh.
+
+So there! You are not one, you are all body and soul and soul and soul, now is a long time.
+I am the one who wrote this, I am the one to whom this belongs
+in the form that I am, I write this for you, and I write this as a kind of a warning (for me),
+in the form that I write, which I do as you, but I am a dark gray cloud.
+
+<|endoftext|>
+
+<|startoftext|>
+
+My parents made me
+a man’s man: I am not a man
+but rather as a beast, a bird that must be hunted
+
+that kills in war.
+
+
+My grandmother had
+the best time; he didn’t
+
+believe in ghosts, and he never
+
+got the chance.
+
+
+I remember
+I’d have a name for it
+when I’m done
+and that’s when
+my life stops
+in a long tunnel
+because the light goes
+on, and the shadows start to dim
+
+too much, like my grandmother had said
+
+the way I’d die.
+
+
+I am not a ghost, only a man
+as they called me.
+
+
+<|endoftext|>
+
+<|startoftext|>
+
+When I look at the house they didn’t have,
+the sun always set,
+the trees always cleared. I don’t
+take anything I own
+and always get what I ask for,
+and I don’t give a shit. I try the air filters
+to cover me from dust, the glass windows
+with silver trim that don’t work
+and when I try them, a hole comes out
+in the middle, a hole that opens up and I don’t see,
+I don’t feel afraid of it, I don’t know
+how to get there and do it.
+
+
+The sky is like no place my father,
+my mother, so there really isn’t room for me
+
+when the stars light up and everyone else is asleep,
+but it only takes I don’t cry,
+and the girls in the library,
+who sleep around the desk,
+they don’t have to be so quiet
+to be up there dreaming,
+watching the birds sing,
+
+or getting their feathers,
+or the flowers out of their branches
+
+
+And it only takes me to stay up all night
+and when I wake up the house is dead,
+
+nothing ever changes.
+
+
+<|endoftext|>
+
+<|startoftext|>
+
+My life starts
+with a smile, with the
+exclamation
+of the girl
+I love,
+
+
+[500 | 4245.89] loss=3.53 avg=3.41
+[501 | 4253.22] loss=3.23 avg=3.41
+[502 | 4260.75] loss=3.10 avg=3.40
+[503 | 4268.23] loss=3.45 avg=3.40
+[504 | 4275.53] loss=3.00 avg=3.40
+[505 | 4282.76] loss=3.29 avg=3.40
+[506 | 4290.25] loss=3.12 avg=3.40
+[507 | 4297.50] loss=3.50 avg=3.40
+[508 | 4304.91] loss=3.72 avg=3.40
+[509 | 4312.18] loss=2.92 avg=3.40
+[510 | 4319.50] loss=3.17 avg=3.39
+[511 | 4326.81] loss=3.44 avg=3.39
+[512 | 4334.25] loss=3.21 avg=3.39
+[513 | 4341.65] loss=3.09 avg=3.39
+[514 | 4348.96] loss=2.90 avg=3.38
+[515 | 4356.22] loss=3.45 avg=3.39
+[516 | 4363.62] loss=3.45 avg=3.39
+[517 | 4370.92] loss=3.80 avg=3.39
+[518 | 4378.11] loss=3.25 avg=3.39
+[519 | 4385.33] loss=3.24 avg=3.39
+[520 | 4392.64] loss=3.83 avg=3.39
+[521 | 4399.88] loss=3.28 avg=3.39
+[522 | 4407.22] loss=3.69 avg=3.39
+[523 | 4414.74] loss=3.41 avg=3.39
+[524 | 4422.12] loss=3.46 avg=3.39
+[525 | 4429.49] loss=3.40 avg=3.39
+[526 | 4436.76] loss=3.85 avg=3.40
+[527 | 4444.15] loss=3.22 avg=3.40
+[528 | 4451.50] loss=2.85 avg=3.39
+[529 | 4458.75] loss=3.56 avg=3.39
+[530 | 4466.03] loss=2.73 avg=3.39
+[531 | 4473.24] loss=3.52 avg=3.39
+[532 | 4480.42] loss=3.37 avg=3.39
+[533 | 4487.84] loss=3.79 avg=3.39
+[534 | 4495.22] loss=3.50 avg=3.39
+[535 | 4502.58] loss=3.52 avg=3.39
+[536 | 4510.07] loss=3.13 avg=3.39
+[537 | 4517.53] loss=3.27 avg=3.39
+[538 | 4524.86] loss=3.46 avg=3.39
+[539 | 4532.37] loss=3.23 avg=3.39
+[540 | 4539.75] loss=3.55 avg=3.39
+[541 | 4547.80] loss=3.72 avg=3.39
+[542 | 4555.39] loss=3.39 avg=3.39
+[543 | 4562.74] loss=3.25 avg=3.39
+[544 | 4570.07] loss=3.59 avg=3.40
+[545 | 4577.28] loss=3.46 avg=3.40
+[546 | 4584.56] loss=3.06 avg=3.39
+[547 | 4591.85] loss=3.63 avg=3.39
+[548 | 4599.12] loss=3.30 avg=3.39
+[549 | 4606.58] loss=3.35 avg=3.39
+[550 | 4613.96] loss=3.34 avg=3.39
+[551 | 4621.12] loss=3.42 avg=3.39
+[552 | 4628.34] loss=2.84 avg=3.39
+[553 | 4635.61] loss=3.39 avg=3.39
+[554 | 4642.94] loss=2.92 avg=3.38
+[555 | 4650.35] loss=3.37 avg=3.38
+[556 | 4657.62] loss=3.56 avg=3.38
+[557 | 4664.92] loss=3.28 avg=3.38
+[558 | 4672.25] loss=3.11 avg=3.38
+[559 | 4679.62] loss=3.23 avg=3.38
+[560 | 4686.82] loss=3.30 avg=3.38
+[561 | 4694.15] loss=3.41 avg=3.38
+[562 | 4701.38] loss=3.59 avg=3.38
+[563 | 4708.69] loss=3.76 avg=3.38
+[564 | 4716.04] loss=3.73 avg=3.39
+[565 | 4723.58] loss=3.22 avg=3.39
+[566 | 4731.18] loss=3.41 avg=3.39
+[567 | 4738.58] loss=3.04 avg=3.38
+[568 | 4745.92] loss=3.59 avg=3.39
+[569 | 4753.27] loss=2.74 avg=3.38
+[570 | 4760.50] loss=3.12 avg=3.38
+[571 | 4767.74] loss=3.56 avg=3.38
+[572 | 4774.99] loss=3.34 avg=3.38
+[573 | 4782.49] loss=3.33 avg=3.38
+[574 | 4789.75] loss=3.23 avg=3.38
+[575 | 4797.15] loss=3.09 avg=3.37
+[576 | 4804.53] loss=3.03 avg=3.37
+[577 | 4812.32] loss=3.30 avg=3.37
+[578 | 4819.59] loss=2.89 avg=3.36
+[579 | 4826.99] loss=2.91 avg=3.36
+[580 | 4834.40] loss=2.98 avg=3.36
+[581 | 4842.16] loss=3.31 avg=3.36
+[582 | 4850.11] loss=3.55 avg=3.36
+[583 | 4857.51] loss=3.76 avg=3.36
+[584 | 4865.47] loss=3.17 avg=3.36
+[585 | 4873.36] loss=2.74 avg=3.35
+[586 | 4880.96] loss=3.26 avg=3.35
+[587 | 4888.91] loss=3.75 avg=3.36
+[588 | 4896.36] loss=2.94 avg=3.35
+[589 | 4904.41] loss=3.25 avg=3.35
+[590 | 4912.24] loss=3.06 avg=3.35
+[591 | 4920.31] loss=3.15 avg=3.35
+[592 | 4927.73] loss=3.62 avg=3.35
+[593 | 4935.08] loss=3.21 avg=3.35
+[594 | 4942.71] loss=3.47 avg=3.35
+[595 | 4950.06] loss=3.51 avg=3.35
+[596 | 4957.43] loss=3.52 avg=3.35
+[597 | 4964.84] loss=3.12 avg=3.35
+[598 | 4972.15] loss=3.59 avg=3.35
+[599 | 4979.39] loss=3.26 avg=3.35
+Generating samples...
+======== SAMPLE 1 ========
+.
+
+The woman
+
+swallowed in
+what is her
+
+lone breath
+
+from the tree
+or
+
+maybe
+from the ground
+and
+a man
+
+said
+yes!
+
+<|endoftext|>
+
+<|startoftext|>
+
+It seems I am
+a little
+drowned in its snow
+but for
+me the snow
+is falling
+on me.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The dog
+knows where to look—
+a box
+like a house
+it sleeps
+like a tree—
+
+where
+there was
+three months—
+the next day
+
+the house
+was built of snow
+and the dog
+knows where to look.
+
+But there.
+
+<|endoftext|>
+
+<|startoftext|>
+
+No woman
+has a
+one thing
+to do’t
+
+on her
+
+and
+no man
+has
+
+a
+one thing
+
+or
+
+not only
+but
+to think
+of an
+
+one thing to do’t
+
+on her
+and
+
+not only to come
+to
+
+an end
+of
+not one thing
+but
+
+to think
+of
+something
+with
+or
+
+not of the things
+to think
+of
+
+when I should
+come back
+
+to my
+mother’s
+
+town,
+where I’d be.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The boy who left the farmhouse,
+
+with his back to the jack,
+
+was
+drawn into another room
+and the children,
+
+had the same story
+of the gate and its
+
+signifying scent,
+
+and the same poem,
+the same line.
+
+<|endoftext|>
+
+<|startoftext|>
+
+There are a few days here before we go to the pub
+and they are the ones
+that have changed
+the little ones
+from the old one
+and we all
+who were
+a few days ago
+all
+who were small
+and now are
+little ones
+and I
+I try
+not to say
+anyone
+but a small one,
+
+it is a bit
+big
+
+with
+it’s long been
+it’s been
+
+but it’s
+not as long as it was.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The boy who left the farmhouse,
+with his back to the jack,
+was drawn into another room
+and the children
+had the same story of the gate
+and the same poem,
+and the same line
+until the boys
+went back into
+the house again.
+
+<|endoftext|>
+
+<|startoftext|>
+
+the woman was holding her breath
+and the boy was holding her breath
+
+we all tried to hold her breath
+and tried to hold him back
+
+and we all tried to hold each other hands with our mouths
+
+the boy was holding his breath
+the girl was holding her breath
+
+we all laughed
+then we both cried
+then we broke apart
+and we all came together again
+and I am still holding her breath
+
+<|endoftext|>
+
+<|startoftext|>
+
+It was not her. This was a long time ago.
+
+The boy was wearing blue
+the woman was wearing aqua
+that was the boy
+she’s the boy
+
+and the woman is the woman
+who’d love her
+and who’s not
+
+I’m the girl
+they’re all
+my body
+I’m your body
+
+<|endoftext|>
+
+<|startoftext|>
+
+We’re getting closer
+
+to opening the road
+and passing the intersection
+
+<|endoftext|>
+
+<|startoftext|>
+
+It’s all been quiet since the storm:
+the river, the sea
+its light passing through the cracked,
+the light of sunlight
+and all its faces
+now,
+
+just a night
+at least,
+the light of day
+with its blue paint
+we’ll never know
+
+ 
+
+ We were too old to remember...
+
+ 
+
+ The boy who was gone, but
+still, the sea
+
+its blue paint...
+
+ 
+
+
+ The boy, in the river,
+
+at last,
+
+the old boat
+
+
+ 
+
+
+[600 | 5092.44] loss=3.68 avg=3.35
+[601 | 5100.70] loss=3.40 avg=3.36
+[602 | 5108.34] loss=3.17 avg=3.35
+[603 | 5115.89] loss=3.14 avg=3.35
+[604 | 5123.33] loss=3.18 avg=3.35
+[605 | 5130.72] loss=2.71 avg=3.34
+[606 | 5137.94] loss=3.63 avg=3.35
+[607 | 5147.87] loss=3.25 avg=3.34
+[608 | 5155.44] loss=3.21 avg=3.34
+[609 | 5162.92] loss=3.21 avg=3.34
+[610 | 5170.35] loss=3.06 avg=3.34
+[611 | 5177.83] loss=3.07 avg=3.34
+[612 | 5185.06] loss=3.53 avg=3.34
+[613 | 5192.21] loss=3.23 avg=3.34
+[614 | 5199.39] loss=3.15 avg=3.34
+[615 | 5207.06] loss=3.33 avg=3.34
+[616 | 5214.82] loss=2.60 avg=3.33
+[617 | 5222.62] loss=3.21 avg=3.33
+[618 | 5229.90] loss=3.73 avg=3.33
+[619 | 5237.40] loss=3.04 avg=3.33
+[620 | 5245.02] loss=2.95 avg=3.32
+[621 | 5252.63] loss=2.90 avg=3.32
+[622 | 5260.06] loss=3.30 avg=3.32
+[623 | 5268.16] loss=3.36 avg=3.32
+[624 | 5275.83] loss=3.27 avg=3.32
+[625 | 5283.08] loss=3.42 avg=3.32
+[626 | 5290.29] loss=3.65 avg=3.32
+[627 | 5297.53] loss=3.17 avg=3.32
+[628 | 5306.01] loss=3.07 avg=3.32
+[629 | 5313.31] loss=3.16 avg=3.32
+[630 | 5320.78] loss=4.23 avg=3.33
+[631 | 5328.33] loss=2.50 avg=3.32
+[632 | 5335.62] loss=3.38 avg=3.32
+[633 | 5342.93] loss=3.43 avg=3.32
+[634 | 5350.18] loss=3.52 avg=3.32
+[635 | 5357.36] loss=3.21 avg=3.32
+[636 | 5364.62] loss=3.61 avg=3.32
+[637 | 5371.78] loss=3.23 avg=3.32
+[638 | 5379.03] loss=2.98 avg=3.32
+[639 | 5386.64] loss=3.51 avg=3.32
+[640 | 5393.85] loss=3.87 avg=3.33
+[641 | 5401.03] loss=3.27 avg=3.33
+[642 | 5408.34] loss=3.26 avg=3.33
+[643 | 5416.26] loss=3.79 avg=3.33
+[644 | 5423.56] loss=3.11 avg=3.33
+[645 | 5430.88] loss=3.41 avg=3.33
+[646 | 5438.41] loss=3.22 avg=3.33
+[647 | 5446.39] loss=3.09 avg=3.33
+[648 | 5453.79] loss=3.14 avg=3.32
+[649 | 5461.08] loss=3.43 avg=3.33
+[650 | 5468.36] loss=3.29 avg=3.33
+[651 | 5475.65] loss=2.86 avg=3.32
+[652 | 5483.33] loss=3.99 avg=3.33
+[653 | 5490.75] loss=3.16 avg=3.33
+[654 | 5498.04] loss=3.35 avg=3.33
+[655 | 5505.60] loss=3.08 avg=3.32
+[656 | 5512.89] loss=3.02 avg=3.32
+[657 | 5520.12] loss=3.27 avg=3.32
+[658 | 5527.36] loss=3.27 avg=3.32
+[659 | 5534.70] loss=2.87 avg=3.31
+[660 | 5541.95] loss=3.74 avg=3.32
+[661 | 5549.20] loss=2.94 avg=3.32
+[662 | 5556.54] loss=3.38 avg=3.32
+[663 | 5563.95] loss=3.53 avg=3.32
+[664 | 5571.65] loss=3.32 avg=3.32
+[665 | 5579.04] loss=4.22 avg=3.33
+[666 | 5586.26] loss=3.27 avg=3.33
+[667 | 5593.66] loss=3.39 avg=3.33
+[668 | 5600.86] loss=3.48 avg=3.33
+[669 | 5608.22] loss=3.21 avg=3.33
+[670 | 5615.93] loss=3.66 avg=3.33
+[671 | 5623.90] loss=3.51 avg=3.33
+[672 | 5631.66] loss=3.35 avg=3.33
+[673 | 5639.34] loss=3.70 avg=3.34
+[674 | 5646.82] loss=3.48 avg=3.34
+[675 | 5654.63] loss=3.59 avg=3.34
+[676 | 5661.99] loss=3.44 avg=3.34
+[677 | 5669.27] loss=3.50 avg=3.34
+[678 | 5676.59] loss=3.10 avg=3.34
+[679 | 5684.88] loss=3.49 avg=3.34
+[680 | 5692.10] loss=2.81 avg=3.34
+[681 | 5699.66] loss=3.35 avg=3.34
+[682 | 5707.01] loss=3.07 avg=3.33
+[683 | 5714.26] loss=3.34 avg=3.33
+[684 | 5721.44] loss=3.04 avg=3.33
+[685 | 5728.70] loss=3.20 avg=3.33
+[686 | 5735.88] loss=2.84 avg=3.32
+[687 | 5743.24] loss=3.57 avg=3.33
+[688 | 5754.32] loss=2.36 avg=3.32
+[689 | 5762.46] loss=3.05 avg=3.31
+[690 | 5769.75] loss=3.49 avg=3.32
+[691 | 5777.10] loss=3.23 avg=3.32
+[692 | 5785.14] loss=3.32 avg=3.32
+[693 | 5793.20] loss=3.30 avg=3.32
+[694 | 5800.67] loss=3.17 avg=3.31
+[695 | 5811.10] loss=3.36 avg=3.31
+[696 | 5818.32] loss=3.66 avg=3.32
+[697 | 5825.69] loss=3.94 avg=3.32
+[698 | 5833.07] loss=3.35 avg=3.32
+[699 | 5840.35] loss=3.08 avg=3.32
+Generating samples...
+======== SAMPLE 1 ========
+
+the most powerful man in the world
+and he doesn’t know how to hold it.
+
+
+<|endoftext|>
+
+
+<|startoftext|>
+
+
+my dear dear
+you are my father.      
+your dark hair
+
+
+you’re my mother.      
+
+
+you’re my grandmother.       
+
+
+I understand how you feel
+
+
+and you know that you’ve always wanted me to live
+
+
+as a girl
+and you have always wanted me to be
+a boy
+“just a boy”
+and so, as a girl, you wanted to love me
+
+
+and I knew that at some point, a girl could become
+
+
+you and marry me.      
+
+
+I must tell you that I think you
+
+
+’should be proud of you’s hair
+& I must tell you that I wish you
+
+
+’very, very much  a happy’ — 
+a boy’s’ hair & my mother’s’ hair&
+
+a boy’s’ blood & a boy’s’ soul & a boy�s’ soul&      
+I am a boy who is a boy in a woman’s body
+
+in so many ways & I am a man.      
+
+
+your blood is as thick as silk & is your flesh
+
+
+and your flesh is as thick as gold & my father.      
+
+
+your flesh is as thin as steel & is my father.      
+
+
+my father is my mother & my mother is
+my father is my brother.      
+
+
+you are my uncle & I am     
+my uncle is my father &     
+my father is my mother &     
+my mother is a boy &     
+my father is a boy &    
+my mother is a boy &     
+
+
+<|endoftext|>
+
+
+<|startoftext|>
+
+
+You never think twice about choosing between good fortune and the good life, a life I find difficult to imagine. I wish for nothing more than to find joy in not knowing when to stop and to make the best choice I can. The thought of you in this world, the thought of your parents in this world, the thought of your sister in this world, the thought of me in this world, the thought of all the good people who were in this city when it opened back up to me. All those years of suffering, the thought of you in this city, the thought of my girlfriend when she let me go, the thought of me in this city, the thought of you in this city, the thoughts of the children I spent with, the thought of me at work, the thought of the people I loved, the thoughts of the cars I drove. Not that I didn’t dream about you though, it was how I was shaped by you that mattered the most. It is your life that matters the most to me more than their lives to you, I think of you all the time. I want you to want everything that you have ever wanted, the world, freedom, heaven. I want you to see you’re a person that is in love with the universe and with me and I want you to see you for what you really are.
+
+
+I want you to see that I am no kind of person myself but that I have made changes along the way to become more kinder to people and to yourself.
+
+
+
+I am a man. If I ever did think about living another day, of living without being a human but only being a man, the day after may well be different than the day before. If I do see myself coming around again, the one year that I want to be, I will always get what I deserve.
+
+
+<|endoftext|>
+
+
+<|startoftext|>
+
+
+I wanted to do a film:
+
+I wanted to do any kind of
+
+work I could do if I didn’t have
+
+to dream what I wanted to do.
+
+
+It was just like having
+
+one brain: it was just like
+
+having one body, which I couldn’t be
+
+that one time.
+
+
+I loved you: I loved you in
+
+love.
+
+
+This didn’t matter:
+I loved you that much at the same time
+
+as I loved you that much: it was just like being
+
+one body, the same thing: a mind that held
+this thing I
+
+[700 | 5950.79] loss=3.20 avg=3.32
+[701 | 5957.99] loss=3.17 avg=3.32
+[702 | 5965.11] loss=2.82 avg=3.31
+[703 | 5972.30] loss=3.25 avg=3.31
+[704 | 5979.47] loss=2.82 avg=3.31
+[705 | 5986.90] loss=3.40 avg=3.31
+[706 | 5994.05] loss=3.17 avg=3.31
+[707 | 6001.18] loss=3.00 avg=3.31
+[708 | 6008.35] loss=3.07 avg=3.30
+[709 | 6015.73] loss=3.27 avg=3.30
+[710 | 6023.01] loss=3.10 avg=3.30
+[711 | 6030.23] loss=3.45 avg=3.30
+[712 | 6037.58] loss=3.52 avg=3.30
+[713 | 6044.86] loss=2.99 avg=3.30
+[714 | 6052.18] loss=3.22 avg=3.30
+[715 | 6059.38] loss=2.90 avg=3.30
+[716 | 6066.62] loss=3.35 avg=3.30
+[717 | 6073.94] loss=2.63 avg=3.29
+[718 | 6081.52] loss=3.09 avg=3.29
+[719 | 6088.99] loss=3.24 avg=3.29
+[720 | 6097.07] loss=3.38 avg=3.29
+[721 | 6111.40] loss=3.56 avg=3.29
+[722 | 6119.14] loss=3.29 avg=3.29
+[723 | 6126.72] loss=3.50 avg=3.29
+[724 | 6134.54] loss=2.68 avg=3.29
+[725 | 6142.25] loss=3.44 avg=3.29
+[726 | 6149.80] loss=3.45 avg=3.29
+[727 | 6157.66] loss=3.18 avg=3.29
+[728 | 6175.90] loss=3.92 avg=3.30
+[729 | 6184.58] loss=2.82 avg=3.29
+[730 | 6192.73] loss=3.48 avg=3.29
+[731 | 6200.52] loss=3.03 avg=3.29
+[732 | 6208.62] loss=3.04 avg=3.29
+[733 | 6217.25] loss=3.31 avg=3.29
+[734 | 6230.45] loss=3.05 avg=3.29
+[735 | 6238.70] loss=3.31 avg=3.29
+[736 | 6247.93] loss=3.49 avg=3.29
+[737 | 6256.03] loss=3.20 avg=3.29
+[738 | 6264.04] loss=3.47 avg=3.29
+[739 | 6272.82] loss=3.07 avg=3.29
+[740 | 6281.59] loss=3.12 avg=3.28
+[741 | 6290.12] loss=3.09 avg=3.28
+[742 | 6301.26] loss=3.08 avg=3.28
+[743 | 6309.96] loss=3.44 avg=3.28
+[744 | 6318.08] loss=3.58 avg=3.29
+[745 | 6326.42] loss=2.90 avg=3.28
+[746 | 6333.59] loss=3.40 avg=3.28
+[747 | 6341.40] loss=3.01 avg=3.28
+[748 | 6349.07] loss=3.44 avg=3.28
+[749 | 6356.36] loss=3.17 avg=3.28
+[750 | 6363.71] loss=3.21 avg=3.28
+[751 | 6371.51] loss=3.27 avg=3.28
+[752 | 6380.57] loss=3.40 avg=3.28
+[753 | 6388.48] loss=3.01 avg=3.28
+[754 | 6396.08] loss=3.23 avg=3.28
+[755 | 6405.09] loss=3.34 avg=3.28
+[756 | 6413.20] loss=2.75 avg=3.27
+[757 | 6420.87] loss=3.34 avg=3.27
+[758 | 6428.94] loss=3.01 avg=3.27
+[759 | 6437.11] loss=3.41 avg=3.27
+[760 | 6445.33] loss=3.20 avg=3.27
+[761 | 6457.55] loss=3.43 avg=3.27
+[762 | 6472.98] loss=3.42 avg=3.27
+[763 | 6481.61] loss=3.31 avg=3.28
+[764 | 6489.68] loss=3.53 avg=3.28
+[765 | 6497.44] loss=3.66 avg=3.28
+[766 | 6505.14] loss=3.19 avg=3.28
+[767 | 6514.82] loss=3.30 avg=3.28
+[768 | 6523.01] loss=3.32 avg=3.28
+[769 | 6530.94] loss=3.19 avg=3.28
+[770 | 6539.62] loss=2.74 avg=3.28
+[771 | 6547.99] loss=3.02 avg=3.27
+[772 | 6556.00] loss=2.70 avg=3.27
+[773 | 6566.11] loss=2.91 avg=3.26
+[774 | 6574.16] loss=3.14 avg=3.26
+[775 | 6582.86] loss=3.03 avg=3.26
+[776 | 6592.64] loss=3.20 avg=3.26
+[777 | 6601.62] loss=3.18 avg=3.26
+[778 | 6619.94] loss=3.14 avg=3.26
+[779 | 6631.96] loss=3.20 avg=3.26
+[780 | 6654.23] loss=2.87 avg=3.25
+[781 | 6662.66] loss=3.07 avg=3.25
+[782 | 6671.07] loss=3.05 avg=3.25
+[783 | 6679.08] loss=2.94 avg=3.25
+[784 | 6687.39] loss=3.19 avg=3.25
+[785 | 6694.77] loss=3.53 avg=3.25
+[786 | 6703.86] loss=3.51 avg=3.25
+[787 | 6713.57] loss=2.97 avg=3.25
+[788 | 6722.03] loss=3.16 avg=3.25
+[789 | 6736.97] loss=2.38 avg=3.24
+[790 | 6744.96] loss=3.74 avg=3.24
+[791 | 6752.70] loss=2.97 avg=3.24
+[792 | 6760.17] loss=3.09 avg=3.24
+[793 | 6767.24] loss=3.36 avg=3.24
+[794 | 6774.52] loss=2.81 avg=3.24
+[795 | 6781.50] loss=2.93 avg=3.23
+[796 | 6788.42] loss=3.18 avg=3.23
+[797 | 6795.38] loss=3.18 avg=3.23
+[798 | 6802.38] loss=3.31 avg=3.23
+[799 | 6809.34] loss=2.98 avg=3.23
+Generating samples...
+======== SAMPLE 1 ========
+ the heart of the jungle:
+
+In my place lies the dark
+
+world which cannot be seen. No one
+
+but humans can see the world,
+or a black cloud
+
+must cross and it is here.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I know it could be just a memory
+of two friends coming for breakfast
+& they were wearing their evening swimwear.
+
+So it might be for me, they said,
+a memory from the past:
+my little blue rabbit head
+on the grass,
+like a rabbit that lives a long
+life.
+
+I didn’t want to hear that sound
+
+of the fox. I wanted to be alone.
+
+I don’t understand how the world could love
+a rabbit as little as this.
+
+It was like a bad dream I’d been through.
+
+A rabbit didn’t have eyes,
+a rabbit would not have eyes.
+
+Why is that?
+What is your rabbit brain like?
+Or perhaps more correctly a rabbit as a whole:
+
+The rabbit’s brain looks like a mirror of me,
+
+a piece of wire twisted into a rod.
+
+It’s hard to tell, but my rabbit brain is almost human.
+
+<|endoftext|>
+
+<|startoftext|>
+
+                               Once you have an argument, don’t let it distract you. Don’t take a moment to understand the reason you’ve been arguing. I didn’t know the reason you’re arguing; I didn’t know anyone like you would be arguing.
+
+What a waste. You will be outgassing the opponents with logic. I will convince everyone who follows me to believe that your argument isn’t absurd. I will be the one to convince them of that fact.                                               If you didn’t know, you would have believed that argument.
+
+Once in a while you will find an argument that has value. This time, you will find disagreement. Sooner or later disagreement will be resolved.
+
+The argument for which you are arguing will have no value to it. It will just be another example of you’s bad decisions. So, in that respect, you aren’t arguing.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I watch
+the ocean unfold. A blue whale.
+That was a mistake.
+A blue whale.
+
+It is now the year of the next blue whale
+with its two heads. But who will be the next?
+I have an idea.
+
+My grandmother. I want to kill her.
+But in every town I can find only a town,
+I see nowhere else.
+I have an idea.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The sound of my mom’s voice
+knows no boundaries. It’s not your baby or mine.
+She wants to see you: to smile.
+She wants to hear you.
+But we all share that same smile.
+Our parents made us whole.
+We all grew up
+talking about things other than ourselves.
+
+I’m not really a person. Not really.
+I’d say you’ll understand why I made you into what
+you are: a woman’s voice. A voice of something else.
+
+I’m not a person to define you or your voice.
+The whole time I was still
+at home, in a room full of people.
+I’m someone who has no idea what’s important.
+I have no idea what I’d be. And if I’d be, what was important
+would never be known.
+I don’t know if you’re still, but I’ll make you a new name for it.
+
+<|endoftext|>
+
+<|startoftext|>
+
+                               I like it here in my own backyard.
+               If it ain’t broke I ain’t making it.
+I like it here so much I don’t see it.
+               The way the air fills my eyes.
+               The sweet smell from the chimney.
+               The wet blood on the lawn.
+               The long-lost voice’s last words.
+               I’m trying to find their words.
+               The sound of a gun shooting in the garden.
+               The wet blood
+
+[800 | 6916.99] loss=2.62 avg=3.22
+[801 | 6932.34] loss=3.20 avg=3.22
+[802 | 6939.50] loss=3.26 avg=3.22
+[803 | 6946.59] loss=2.98 avg=3.22
+[804 | 6953.58] loss=3.47 avg=3.22
+[805 | 6960.61] loss=3.49 avg=3.23
+[806 | 6967.81] loss=3.01 avg=3.22
+[807 | 6975.20] loss=3.13 avg=3.22
+[808 | 6982.33] loss=3.18 avg=3.22
+[809 | 6989.35] loss=3.30 avg=3.22
+[810 | 6996.36] loss=3.23 avg=3.22
+[811 | 7003.45] loss=3.23 avg=3.22
+[812 | 7010.46] loss=3.13 avg=3.22
+[813 | 7017.52] loss=3.10 avg=3.22
+[814 | 7024.55] loss=2.91 avg=3.22
+[815 | 7031.53] loss=3.19 avg=3.22
+[816 | 7038.81] loss=3.08 avg=3.22
+[817 | 7045.92] loss=2.99 avg=3.21
+[818 | 7052.90] loss=3.35 avg=3.22
+[819 | 7059.95] loss=2.78 avg=3.21
+[820 | 7067.31] loss=2.80 avg=3.21
+[821 | 7074.37] loss=3.34 avg=3.21
+[822 | 7081.68] loss=2.91 avg=3.21
+[823 | 7088.91] loss=3.28 avg=3.21
+[824 | 7096.17] loss=2.91 avg=3.20
+[825 | 7103.66] loss=3.42 avg=3.21
+[826 | 7110.79] loss=2.68 avg=3.20
+[827 | 7118.33] loss=3.08 avg=3.20
+[828 | 7125.65] loss=3.20 avg=3.20
+[829 | 7133.06] loss=3.31 avg=3.20
+[830 | 7140.52] loss=2.92 avg=3.20
+[831 | 7148.45] loss=3.25 avg=3.20
+[832 | 7155.85] loss=3.21 avg=3.20
+[833 | 7163.14] loss=2.92 avg=3.20
+[834 | 7170.43] loss=2.99 avg=3.19
+[835 | 7177.66] loss=3.06 avg=3.19
+[836 | 7185.27] loss=3.14 avg=3.19
+[837 | 7192.71] loss=3.19 avg=3.19
+[838 | 7199.79] loss=3.24 avg=3.19
+[839 | 7206.85] loss=2.94 avg=3.19
+[840 | 7214.09] loss=2.97 avg=3.19
+[841 | 7221.52] loss=3.11 avg=3.19
+[842 | 7228.67] loss=3.35 avg=3.19
+[843 | 7236.06] loss=2.93 avg=3.19
+[844 | 7244.61] loss=2.97 avg=3.18
+[845 | 7251.95] loss=3.00 avg=3.18
+[846 | 7259.10] loss=2.78 avg=3.18
+[847 | 7266.21] loss=3.11 avg=3.18
+[848 | 7273.38] loss=3.35 avg=3.18
+[849 | 7280.44] loss=3.38 avg=3.18
+[850 | 7287.63] loss=3.16 avg=3.18
+[851 | 7294.81] loss=3.04 avg=3.18
+[852 | 7302.05] loss=2.85 avg=3.18
+[853 | 7309.52] loss=3.00 avg=3.17
+[854 | 7316.58] loss=3.44 avg=3.18
+[855 | 7323.58] loss=2.85 avg=3.17
+[856 | 7330.60] loss=3.06 avg=3.17
+[857 | 7337.65] loss=3.57 avg=3.18
+[858 | 7345.09] loss=2.96 avg=3.17
+[859 | 7353.58] loss=3.62 avg=3.18
+[860 | 7361.93] loss=2.94 avg=3.18
+[861 | 7372.24] loss=3.09 avg=3.18
+[862 | 7388.05] loss=2.76 avg=3.17
+[863 | 7395.84] loss=3.67 avg=3.18
+[864 | 7403.55] loss=3.18 avg=3.18
+[865 | 7411.01] loss=3.14 avg=3.18
+[866 | 7421.43] loss=3.09 avg=3.18
+[867 | 7431.10] loss=3.17 avg=3.18
+[868 | 7439.13] loss=2.89 avg=3.17
+[869 | 7446.94] loss=3.13 avg=3.17
+[870 | 7454.82] loss=2.95 avg=3.17
+[871 | 7462.57] loss=3.25 avg=3.17
+[872 | 7470.36] loss=3.13 avg=3.17
+[873 | 7478.50] loss=3.57 avg=3.17
+[874 | 7485.56] loss=3.32 avg=3.18
+[875 | 7492.65] loss=3.62 avg=3.18
+[876 | 7499.64] loss=3.29 avg=3.18
+[877 | 7506.69] loss=3.02 avg=3.18
+[878 | 7514.34] loss=3.49 avg=3.18
+[879 | 7522.52] loss=2.69 avg=3.18
+[880 | 7530.45] loss=2.84 avg=3.17
+[881 | 7538.72] loss=2.69 avg=3.17
+[882 | 7551.38] loss=3.04 avg=3.17
+[883 | 7558.56] loss=3.13 avg=3.17
+[884 | 7565.99] loss=3.10 avg=3.17
+[885 | 7573.49] loss=2.95 avg=3.16
+[886 | 7580.89] loss=3.35 avg=3.17
+[887 | 7588.29] loss=3.43 avg=3.17
+[888 | 7595.67] loss=3.20 avg=3.17
+[889 | 7603.18] loss=2.59 avg=3.16
+[890 | 7611.29] loss=3.23 avg=3.16
+[891 | 7618.87] loss=3.36 avg=3.17
+[892 | 7627.08] loss=2.82 avg=3.16
+[893 | 7634.39] loss=3.38 avg=3.17
+[894 | 7641.71] loss=2.56 avg=3.16
+[895 | 7649.17] loss=2.72 avg=3.15
+[896 | 7656.67] loss=3.35 avg=3.16
+[897 | 7664.35] loss=3.41 avg=3.16
+[898 | 7671.61] loss=2.84 avg=3.16
+[899 | 7679.14] loss=2.95 avg=3.15
+Generating samples...
+======== SAMPLE 1 ========
+ on on his own, and you’ve been living through it.
+
+<|endoftext|>
+
+<|startoftext|>
+
+If
+something
+has come,
+you know it
+
+by watching
+it.
+
+<|endoftext|>
+
+I think they used an island
+and I’m going to be OK
+and they tell me they won’t kill me.
+What’s they doing?
+What’s up?
+
+<|endoftext|>
+
+For those unfamiliar<|endoftext|>  Mister Caligula, a godhead
+of many, I was told is most often seen on the hills of Portugal’s north.
+
+I’d heard about her the one that has
+a few feet of spring air; but what ’s so big is
+so cold and a place only me and my children
+like a place where water rises
+and melts from the atmosphere like air
+where it’s held in some kind of vase to hold it all
+and is now being used by others to collect water.
+In what’s become my habit, I’m afraid not, to be able to tell
+everyone’s name while I swim in a pond.
+Who’s with me? I ask my little sister.
+And it is true. We’ve known it in another place. The one we’ve known in the house. The one
+where my own blood’s frozen in its cradle
+if my heart beats too fast.
+What is inside all that baby water? How is this
+something to tap into only to get back—
+what’s left? I ask my little sister.
+
+“That’s why I’ve been living here.”
+<|endoftext|>
+
+<|startoftext|>
+
+Dancing through his apartment, a blond man sits down next to me.
+
+In a hurry, I’ve got so much work to do:
+
+to build his house;
+with some tools he might build himself;
+we’ve got everything needed. He’s
+a man of nothing: his house, his tools.
+
+What’s needed is that I’m he, that he is
+
+a man ready to take something, anything and they’d come
+
+together, a wedding ring, a bouquet of pearls,
+herrings, a necklace—these are the goods that he
+must give, what’s needed is that the work is being done,
+that there’s something special with the work, something that
+can’t it be left to a man, this way of showing that
+all things he does come from another universe. He
+does everything, from his clothes to his apartment,
+from his home (and for a little while). When I am free,
+when I’m around him, he does, he does, and he does it with grace—
+without words he becomes more than just what he’s.
+
+<|endoftext|>
+
+<|startoftext|>
+
+It didn’t have anything to do with him, but it did. He had no idea who
+these people were, what they’re made out of, and what they can’t get themselves
+from—so there’s nothing to forgive there. It’s a matter of how you
+get used to it. All you need is one, maybe two teeth,
+a little salt, one-way mirrors, and you will get used to it.
+
+<|endoftext|>
+
+<|startoftext|>
+
+They say nothing goes unpunished, unless the crime goes unpunished
+
+On December 17, the same year that a bomb was dropped on a wedding
+hall of a local village in the town of Lidl:
+A bomb packed
+with nails
+And one with some sort of
+Pentagrammatic
+Synthesizing explosive
+Plunged a church—
+A church filled with children,
+
+Children in the town, too,
+When all the children were gone.
+
+<|endoftext|>
+
+<|startoftext|>
+
+From the ancient Egyptians, a certain river
+Turned the lighted city of the blind into an underworld.
+
+The river turns a city into a god.
+He is the one who turns a river into a god.
+
+He is he who turns the river into an underworld.
+
+Who is this man not known to turn the river of his creation?
+Who is he that leaves an unknown river
+
+[900 | 7797.27] loss=2.96 avg=3.15
+[901 | 7804.31] loss=2.61 avg=3.15
+[902 | 7812.35] loss=3.12 avg=3.15
+[903 | 7820.04] loss=3.13 avg=3.15
+[904 | 7827.37] loss=2.99 avg=3.14
+[905 | 7834.66] loss=3.25 avg=3.15
+[906 | 7842.04] loss=2.60 avg=3.14
+[907 | 7849.63] loss=3.61 avg=3.14
+[908 | 7856.93] loss=2.70 avg=3.14
+[909 | 7864.20] loss=3.18 avg=3.14
+[910 | 7871.57] loss=2.84 avg=3.14
+[911 | 7879.77] loss=2.66 avg=3.13
+[912 | 7887.29] loss=3.26 avg=3.13
+[913 | 7895.06] loss=3.48 avg=3.14
+[914 | 7902.75] loss=2.78 avg=3.13
+[915 | 7910.46] loss=3.54 avg=3.14
+[916 | 7918.30] loss=2.95 avg=3.14
+[917 | 7925.89] loss=2.99 avg=3.13
+[918 | 7933.64] loss=2.84 avg=3.13
+[919 | 7941.56] loss=2.96 avg=3.13
+[920 | 7949.00] loss=3.35 avg=3.13
+[921 | 7956.13] loss=2.82 avg=3.13
+[922 | 7963.20] loss=3.20 avg=3.13
+[923 | 7970.65] loss=3.17 avg=3.13
+[924 | 7978.12] loss=2.62 avg=3.13
+[925 | 7985.92] loss=3.13 avg=3.13
+[926 | 7993.70] loss=2.77 avg=3.12
+[927 | 8001.64] loss=3.06 avg=3.12
+[928 | 8009.12] loss=3.34 avg=3.12
+[929 | 8016.49] loss=3.22 avg=3.12
+[930 | 8023.68] loss=2.59 avg=3.12
+[931 | 8031.58] loss=3.59 avg=3.12
+[932 | 8038.70] loss=2.88 avg=3.12
+[933 | 8046.22] loss=2.83 avg=3.12
+[934 | 8054.47] loss=2.67 avg=3.11
+[935 | 8061.78] loss=2.96 avg=3.11
+[936 | 8068.95] loss=3.38 avg=3.11
+[937 | 8076.15] loss=2.95 avg=3.11
+[938 | 8083.44] loss=3.37 avg=3.12
+[939 | 8090.73] loss=3.20 avg=3.12
+[940 | 8097.82] loss=2.99 avg=3.12
+[941 | 8104.85] loss=3.26 avg=3.12
+[942 | 8111.96] loss=3.23 avg=3.12
+[943 | 8119.13] loss=2.84 avg=3.12
+[944 | 8126.33] loss=2.82 avg=3.11
+[945 | 8133.57] loss=3.03 avg=3.11
+[946 | 8140.83] loss=3.29 avg=3.11
+[947 | 8148.19] loss=3.18 avg=3.11
+[948 | 8155.39] loss=3.67 avg=3.12
+[949 | 8162.62] loss=3.58 avg=3.12
+[950 | 8170.07] loss=2.90 avg=3.12
+[951 | 8177.53] loss=3.53 avg=3.13
+[952 | 8184.78] loss=3.40 avg=3.13
+[953 | 8192.27] loss=3.31 avg=3.13
+[954 | 8199.58] loss=3.21 avg=3.13
+[955 | 8207.05] loss=3.02 avg=3.13
+[956 | 8214.57] loss=3.66 avg=3.14
+[957 | 8222.04] loss=2.96 avg=3.13
+[958 | 8229.27] loss=3.28 avg=3.13
+[959 | 8236.80] loss=2.98 avg=3.13
+[960 | 8244.13] loss=2.99 avg=3.13
+[961 | 8251.46] loss=3.07 avg=3.13
+[962 | 8258.72] loss=3.03 avg=3.13
+[963 | 8266.97] loss=3.11 avg=3.13
+[964 | 8276.96] loss=2.93 avg=3.13
+[965 | 8285.54] loss=2.87 avg=3.13
+[966 | 8292.62] loss=2.97 avg=3.12
+[967 | 8299.64] loss=3.00 avg=3.12
+[968 | 8306.89] loss=2.78 avg=3.12
+[969 | 8314.35] loss=2.97 avg=3.12
+[970 | 8321.96] loss=3.36 avg=3.12
+[971 | 8331.53] loss=3.28 avg=3.12
+[972 | 8338.92] loss=3.45 avg=3.13
+[973 | 8346.52] loss=2.78 avg=3.12
+[974 | 8355.14] loss=2.93 avg=3.12
+[975 | 8362.78] loss=3.28 avg=3.12
+[976 | 8370.66] loss=2.60 avg=3.12
+[977 | 8379.01] loss=2.98 avg=3.11
+[978 | 8386.83] loss=2.78 avg=3.11
+[979 | 8394.42] loss=3.11 avg=3.11
+[980 | 8401.79] loss=3.55 avg=3.12
+[981 | 8409.71] loss=2.45 avg=3.11
+[982 | 8418.18] loss=3.33 avg=3.11
+[983 | 8426.65] loss=2.89 avg=3.11
+[984 | 8434.45] loss=2.57 avg=3.10
+[985 | 8442.22] loss=3.14 avg=3.10
+[986 | 8450.27] loss=2.59 avg=3.10
+[987 | 8457.77] loss=2.95 avg=3.10
+[988 | 8465.00] loss=3.41 avg=3.10
+[989 | 8472.07] loss=3.04 avg=3.10
+[990 | 8479.17] loss=2.68 avg=3.10
+[991 | 8486.37] loss=3.16 avg=3.10
+[992 | 8493.52] loss=2.93 avg=3.09
+[993 | 8500.85] loss=2.62 avg=3.09
+[994 | 8507.93] loss=3.46 avg=3.09
+[995 | 8515.76] loss=2.70 avg=3.09
+[996 | 8523.59] loss=3.13 avg=3.09
+[997 | 8531.25] loss=3.59 avg=3.10
+[998 | 8538.42] loss=2.62 avg=3.09
+[999 | 8545.61] loss=2.66 avg=3.09
+Saving checkpoint/run1/model-1000
+Generating samples...
+======== SAMPLE 1 ========
+ third of the story- 
+
+
+I want it to grow and stay but it gets the joke
+
+A little too far out for the old
+
+<|endoftext|>
+
+<|startoftext|>
+
+It is all the same
+but the same
+
+I am different now. My hair
+cuts my skin. My
+eyes have my brain. My tongue tastes
+of blood. I am a man
+
+with the same name
+but the same face
+like a ghost
+
+<|endoftext|>
+
+<|startoftext|>
+
+The dog ate my life
+and my house
+with it
+my life
+I wanted to be
+there
+in the yard
+for it to be stolen
+from the wall beside
+my house
+and the dogs ate it.
+The houses where dogs were
+were ripped from my lives.
+They ate my house, its inhabitants,
+and my life — my house
+where my dog killed a house,
+where my house was ripped from me, where my dog made me,
+and where I was raped when I was a boy.
+The dogs ate my house. The women
+cut my hair. The cats threw me
+away.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I’ve done it once before.
+I stopped to play.I kissed goodbye.
+I’m not dead yet, but we must
+go on. The world goes on.
+There’s a lot of history to tell.
+
+They all die.
+But here’s what happened.
+One day I was in the water.
+
+One day my mother
+brought me water.
+
+       She means I wanted to drink it
+
+or swim off. I was livid.
+I knew who I was.
+I was so young.
+So tired of it.
+
+I was always dreaming of a life like that.
+
+And every night I had to lie on the floor.
+Sometimes I’d go to sleep on the floor
+when my mother called.
+
+<|endoftext|>
+
+<|startoftext|>
+
+A black bear roars out of the wood of a dead oak. I wait as the other animals wait, one more animal. I lean on my paws and watch as the black bears swarm through the white oak. One is a bear with a whistle of lead. The other is a bear who wants to fight. To kill. To make me bleed. We wait outside one another’s cars, they’re driving erratically. Black bears roar through the black oak. They shout in French. They sprint into our faces. They chase our heads and tongues. We wait. Each one of us is watching with her claws. When the rest of the animal looks away from us we’re watching a hawk. Two black bears fight. A black bear runs over a black bear — with a knife and a bat. My friend is sitting in the car with the black bears — watching, watching my friend kill, my friend is watching me too. I’ve always felt so alone. I’ve always said that I’ve no sense of worth and I’ll kill you all. My friend is so angry, she’s holding a knife to my throat. I have a feeling that she has some kind of knife. They’re chasing her. They’re killing her. Black bears hunt us — at high speed. She yells as she leaps. She’s flying. I pause at the edge of my vision, we start to follow her. I want to be with her. She’s my slave. They chase her.
+
+<|endoftext|>
+
+<|startoftext|>
+
+Who does anything besides watch the fireworks, but now we have to go into the cellar for the flask?
+
+Oh! Yes—he’s no firebug, and he has gone insane. The door had to be big: fifty or so tables, and a small cupboard. I went into the cellar for three nights in a row.
+
+I never thought he could love again. He was so old, and the sky was dark like  that of a witch. The house was always so cold. All the time I used to think he was a fool or a madman. I had nothing.
+
+But when we were two or three in the morning he said: How’ve they made the fire in this cellar? A bit wet: We have to be careful now not to be wet.
+
+What a relief. We are not a bit wet. We
+
+[1000 | 8655.23] loss=3.18 avg=3.09
+[1001 | 8662.20] loss=2.65 avg=3.08
+[1002 | 8669.21] loss=2.52 avg=3.08
+[1003 | 8676.21] loss=2.66 avg=3.07
+[1004 | 8683.24] loss=3.22 avg=3.07
+[1005 | 8690.29] loss=2.55 avg=3.07
+[1006 | 8697.26] loss=2.64 avg=3.06
+[1007 | 8704.23] loss=3.07 avg=3.06
+[1008 | 8711.26] loss=3.00 avg=3.06
+[1009 | 8718.33] loss=2.95 avg=3.06
+[1010 | 8725.39] loss=3.08 avg=3.06
+[1011 | 8732.47] loss=3.20 avg=3.06
+[1012 | 8739.48] loss=3.02 avg=3.06
+[1013 | 8746.58] loss=3.21 avg=3.07
+[1014 | 8753.69] loss=3.34 avg=3.07
+[1015 | 8761.02] loss=3.38 avg=3.07
+[1016 | 8768.30] loss=2.90 avg=3.07
+[1017 | 8776.03] loss=3.19 avg=3.07
+[1018 | 8783.44] loss=2.99 avg=3.07
+[1019 | 8791.00] loss=3.36 avg=3.07
+[1020 | 8798.59] loss=3.20 avg=3.07
+[1021 | 8806.11] loss=2.68 avg=3.07
+[1022 | 8813.26] loss=3.19 avg=3.07
+[1023 | 8820.40] loss=3.09 avg=3.07
+[1024 | 8827.91] loss=2.99 avg=3.07
+[1025 | 8835.10] loss=2.54 avg=3.07
+[1026 | 8842.46] loss=2.80 avg=3.06
+[1027 | 8850.10] loss=3.30 avg=3.07
+[1028 | 8858.01] loss=4.03 avg=3.08
+[1029 | 8869.50] loss=3.18 avg=3.08
+[1030 | 8880.75] loss=2.85 avg=3.07
+[1031 | 8888.54] loss=2.52 avg=3.07
+[1032 | 8896.28] loss=2.68 avg=3.06
+[1033 | 8904.07] loss=3.41 avg=3.07
+[1034 | 8912.48] loss=3.08 avg=3.07
+[1035 | 8919.53] loss=3.04 avg=3.07
+[1036 | 8926.81] loss=2.88 avg=3.07
+[1037 | 8934.58] loss=3.14 avg=3.07
+[1038 | 8941.82] loss=3.26 avg=3.07
+[1039 | 8948.86] loss=2.87 avg=3.07
+[1040 | 8955.87] loss=2.88 avg=3.06
+[1041 | 8962.91] loss=3.22 avg=3.07
+[1042 | 8969.94] loss=2.54 avg=3.06
+[1043 | 8976.94] loss=2.79 avg=3.06
+[1044 | 8984.07] loss=3.48 avg=3.06
+[1045 | 8991.16] loss=2.96 avg=3.06
+[1046 | 8998.37] loss=2.27 avg=3.05
+[1047 | 9006.04] loss=2.61 avg=3.05
+[1048 | 9013.29] loss=3.61 avg=3.05
+[1049 | 9020.69] loss=3.06 avg=3.05
+[1050 | 9027.75] loss=2.84 avg=3.05
+[1051 | 9035.00] loss=2.60 avg=3.05
+[1052 | 9042.12] loss=3.00 avg=3.05
+[1053 | 9049.47] loss=3.23 avg=3.05
+[1054 | 9057.02] loss=2.80 avg=3.05
+[1055 | 9064.55] loss=3.43 avg=3.05
+[1056 | 9071.63] loss=2.95 avg=3.05
+[1057 | 9078.69] loss=2.94 avg=3.05
+[1058 | 9085.73] loss=2.37 avg=3.04
+[1059 | 9093.20] loss=3.00 avg=3.04
+[1060 | 9101.45] loss=3.07 avg=3.04
+[1061 | 9109.27] loss=2.90 avg=3.04
+[1062 | 9117.12] loss=2.59 avg=3.04
+[1063 | 9124.99] loss=2.55 avg=3.03
+[1064 | 9132.62] loss=3.04 avg=3.03
+[1065 | 9140.28] loss=3.07 avg=3.03
+[1066 | 9148.09] loss=2.72 avg=3.03
+[1067 | 9155.62] loss=2.81 avg=3.03
+[1068 | 9163.00] loss=2.66 avg=3.02
+[1069 | 9170.33] loss=2.61 avg=3.02
+[1070 | 9177.54] loss=3.10 avg=3.02
+[1071 | 9184.67] loss=2.17 avg=3.01
+[1072 | 9191.99] loss=3.30 avg=3.01
+[1073 | 9199.14] loss=3.08 avg=3.01
+[1074 | 9206.25] loss=2.89 avg=3.01
+[1075 | 9213.28] loss=2.88 avg=3.01
+[1076 | 9220.45] loss=3.70 avg=3.02
+[1077 | 9232.99] loss=2.84 avg=3.02
+[1078 | 9240.76] loss=3.27 avg=3.02
+[1079 | 9248.26] loss=2.92 avg=3.02
+[1080 | 9255.63] loss=2.96 avg=3.02
+[1081 | 9262.89] loss=2.29 avg=3.01
+[1082 | 9270.47] loss=2.73 avg=3.01
+[1083 | 9277.61] loss=2.74 avg=3.01
+[1084 | 9285.00] loss=3.06 avg=3.01
+[1085 | 9292.72] loss=3.21 avg=3.01
+[1086 | 9299.92] loss=2.66 avg=3.00
+[1087 | 9308.08] loss=2.54 avg=3.00
+[1088 | 9318.40] loss=2.45 avg=2.99
+[1089 | 9325.82] loss=2.62 avg=2.99
+[1090 | 9333.12] loss=3.24 avg=2.99
+[1091 | 9341.03] loss=2.50 avg=2.99
+[1092 | 9350.67] loss=2.71 avg=2.99
+[1093 | 9358.78] loss=2.85 avg=2.98
+[1094 | 9366.44] loss=3.16 avg=2.99
+[1095 | 9374.08] loss=2.62 avg=2.98
+[1096 | 9381.53] loss=3.06 avg=2.98
+[1097 | 9389.25] loss=2.78 avg=2.98
+[1098 | 9396.85] loss=3.23 avg=2.98
+[1099 | 9405.20] loss=2.92 avg=2.98
+Generating samples...
+======== SAMPLE 1 ========
+There of no signs of him. He can be anything. All he has to do is be a coward."
+
+Abe’s death occurred in a lake
+
+The lake opened and
+
+he stepped from’ the water.
+
+Then the lake opened.
+And the river.
+The old man who once
+
+was the father
+
+becomes the son
+
+who once
+
+became the son
+
+— “a knife is always
+
+one. “There’s no way
+to get more of this knife.
+
+”Now go to sleep.
+
+<|endoftext|>
+
+<|startoftext|>
+
+They said, he can make them like ants, like pearls.
+He could make them like pearls from the ground.
+And he did.
+He poured a bit of water on them before they even opened their eyes.
+They looked for him, and he found them,
+tattered pieces of wood, his own ants, his pearls
+gloved like sticks.
+They knew where he was, and asked that to the Queen.
+He said, No? he can be anything.
+Then she was happy. A bit of water poured; he was satisfied.
+He tried, and no honey came. And once again she was happy.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The trees have their own history. It is how they are cut
+the branches that has left the leaves a mark, but the fruit
+they give to the fruit has also left them a mark.
+They can tell you where the tree goes but not the fruit
+that goes to the fruit. They know that the tree is not gone and can
+not get to it without taking up space between the fruit
+and the tree.
+If they go out and walk around without consulting
+their families they will find signs of what they missed.
+Their leaves will be a reminder to leave them alone and what
+they missed, though they will not know that they missed
+their family too.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The sun burns out. It’s gone.
+If we look through the window, we’re still as the
+window burned out.
+
+The sun is dead. He is gone, the body
+still shining.
+
+A few men, sitting by the pond,
+
+have come out to share tea.
+
+A few days later, I was standing by a
+
+shrub
+
+where I sit now.
+The body of the sun
+turns on its light. The water
+calls out a small animal’s skin.
+
+Our tea is at the end of the tea cup.
+The woman next to me
+makes a tea cup and puts the thread
+around the thread of the tea cup.
+The thread brings the skin
+to life, which means the tea is finished.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The girl was a child
+and she had her reasons
+But she always drew the line
+In her reasons.
+
+The girl had her reasons.
+
+I thought, Oh man. We had done
+An end of it. We had done
+Another end and I had done
+Another end—
+
+I thought, We’re done
+With something else.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I say,  and  the tree
+
+Stones, from the roots here
+Flowering, on earth here.
+I say,  and  the grass
+
+Possibly, from the grass here,
+Possibly from the grass here.
+
+From grass here. From grass here.
+If you are not from earth,
+and you are from the grass here,
+
+if you are from another planet
+because you were from another
+place, and you chose not to choose
+I say  and  the stone,
+
+(I mean the stone, the kind
+
+Of which all stone is fragile in any sense)
+
+from a rock here.
+If you are from another planet
+because you were from another
+place, and you chose to live here
+from a place other
+where you were born, on earth.
+
+<|endoftext|>
+
+<|startoftext|>
+
+She has no memory
+So I ask myself: where are I now?
+
+I have two heads, and no hands. But my hands are
+
+So small, like my footnotes,
+I must have gone to school
+
+For a tree.
+
+There she is: on the tree
+
+[1100 | 9518.59] loss=2.67 avg=2.98
+[1101 | 9526.19] loss=3.22 avg=2.98
+[1102 | 9533.43] loss=3.20 avg=2.98
+[1103 | 9540.81] loss=2.77 avg=2.98
+[1104 | 9548.02] loss=2.75 avg=2.98
+[1105 | 9555.03] loss=2.96 avg=2.98
+[1106 | 9562.72] loss=2.88 avg=2.98
+[1107 | 9570.81] loss=3.48 avg=2.98
+[1108 | 9578.55] loss=3.23 avg=2.99
+[1109 | 9586.52] loss=2.70 avg=2.98
+[1110 | 9594.11] loss=2.89 avg=2.98
+[1111 | 9601.72] loss=3.28 avg=2.99
+[1112 | 9609.17] loss=2.98 avg=2.98
+[1113 | 9616.71] loss=3.28 avg=2.99
+[1114 | 9624.16] loss=3.06 avg=2.99
+[1115 | 9631.75] loss=2.74 avg=2.99
+[1116 | 9639.67] loss=2.35 avg=2.98
+[1117 | 9647.17] loss=2.53 avg=2.98
+[1118 | 9654.79] loss=3.01 avg=2.98
+[1119 | 9662.40] loss=3.02 avg=2.98
+[1120 | 9669.61] loss=2.49 avg=2.97
+[1121 | 9676.71] loss=2.67 avg=2.97
+[1122 | 9683.99] loss=2.90 avg=2.97
+[1123 | 9691.14] loss=3.00 avg=2.97
+[1124 | 9698.33] loss=3.58 avg=2.97
+[1125 | 9705.58] loss=2.55 avg=2.97
+[1126 | 9712.67] loss=2.95 avg=2.97
+[1127 | 9719.80] loss=2.58 avg=2.97
+[1128 | 9726.89] loss=3.59 avg=2.97
+[1129 | 9734.01] loss=3.21 avg=2.97
+[1130 | 9741.10] loss=2.86 avg=2.97
+[1131 | 9748.42] loss=3.12 avg=2.97
+[1132 | 9755.52] loss=3.17 avg=2.98
+[1133 | 9762.65] loss=3.11 avg=2.98
+[1134 | 9769.70] loss=2.93 avg=2.98
+[1135 | 9776.85] loss=3.69 avg=2.98
+[1136 | 9784.04] loss=2.93 avg=2.98
+[1137 | 9791.28] loss=3.01 avg=2.98
+[1138 | 9798.41] loss=2.82 avg=2.98
+[1139 | 9805.52] loss=2.91 avg=2.98
+[1140 | 9812.61] loss=3.18 avg=2.98
+[1141 | 9819.76] loss=2.32 avg=2.98
+[1142 | 9826.87] loss=2.96 avg=2.98
+[1143 | 9833.96] loss=2.52 avg=2.97
+[1144 | 9841.12] loss=3.12 avg=2.97
+[1145 | 9848.30] loss=3.11 avg=2.98
+[1146 | 9855.53] loss=3.05 avg=2.98
+[1147 | 9862.65] loss=3.27 avg=2.98
+[1148 | 9869.78] loss=2.39 avg=2.97
+[1149 | 9876.98] loss=2.92 avg=2.97
+[1150 | 9884.34] loss=2.21 avg=2.96
+[1151 | 9891.55] loss=2.72 avg=2.96
+[1152 | 9898.61] loss=2.35 avg=2.96
+[1153 | 9905.66] loss=3.32 avg=2.96
+[1154 | 9912.75] loss=3.07 avg=2.96
+[1155 | 9919.86] loss=2.71 avg=2.96
+[1156 | 9926.97] loss=3.03 avg=2.96
+[1157 | 9934.08] loss=2.89 avg=2.96
+[1158 | 9941.27] loss=2.94 avg=2.96
+[1159 | 9948.35] loss=2.51 avg=2.95
+[1160 | 9955.47] loss=2.51 avg=2.95
+[1161 | 9962.55] loss=2.41 avg=2.94
+[1162 | 9969.63] loss=2.98 avg=2.94
+[1163 | 9976.77] loss=3.12 avg=2.95
+[1164 | 9983.86] loss=2.83 avg=2.95
+[1165 | 9991.05] loss=3.04 avg=2.95
+[1166 | 9998.10] loss=2.50 avg=2.94
+[1167 | 10005.20] loss=3.26 avg=2.94
+[1168 | 10012.25] loss=3.22 avg=2.95
+[1169 | 10019.33] loss=3.27 avg=2.95
+[1170 | 10026.42] loss=2.68 avg=2.95
+[1171 | 10033.50] loss=3.22 avg=2.95
+[1172 | 10040.59] loss=3.09 avg=2.95
+[1173 | 10047.67] loss=2.77 avg=2.95
+[1174 | 10054.78] loss=2.99 avg=2.95
+[1175 | 10061.87] loss=2.31 avg=2.94
+[1176 | 10068.97] loss=2.83 avg=2.94
+[1177 | 10076.09] loss=2.89 avg=2.94
+[1178 | 10083.19] loss=2.45 avg=2.94
+[1179 | 10090.26] loss=3.01 avg=2.94
+[1180 | 10097.35] loss=2.97 avg=2.94
+[1181 | 10104.45] loss=2.89 avg=2.94
+[1182 | 10111.58] loss=2.91 avg=2.94
+[1183 | 10118.73] loss=2.69 avg=2.94
+[1184 | 10125.88] loss=3.05 avg=2.94
+[1185 | 10133.06] loss=3.08 avg=2.94
+[1186 | 10140.19] loss=2.58 avg=2.93
+[1187 | 10147.27] loss=3.22 avg=2.94
+[1188 | 10154.40] loss=2.78 avg=2.94
+[1189 | 10161.51] loss=3.34 avg=2.94
+[1190 | 10168.62] loss=2.45 avg=2.93
+[1191 | 10175.76] loss=2.71 avg=2.93
+[1192 | 10183.43] loss=2.86 avg=2.93
+[1193 | 10191.41] loss=2.74 avg=2.93
+[1194 | 10198.62] loss=2.66 avg=2.93
+[1195 | 10205.65] loss=2.41 avg=2.92
+[1196 | 10212.68] loss=2.47 avg=2.92
+[1197 | 10219.72] loss=3.22 avg=2.92
+[1198 | 10226.83] loss=2.67 avg=2.92
+[1199 | 10233.92] loss=2.32 avg=2.91
+Generating samples...
+======== SAMPLE 1 ========
+ home to see my father. His eyes were huge, he had a whole face. I had never seen a child like that in my life. I saw my father as I saw him in that picture. In that picture. He looked as though I could see. He looked like he could take another life.
+
+I felt nothing. I was afraid to touch anything. Nothing else. I wanted to die. I wanted to see the blood that ran through the skin of every person I ever met. I wanted everything that I ever did to be erased. Something that had once been erased is now being erased.
+
+Myself and my father were a kind pair, not meant to be. Those days, I think it was our language, and that's it. We used to run fast. I used to walk slowly. I thought it was his language that told us where to go. Those were his clothes I was wearing when he first met me, I wore them when he became my father.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I watch you
+till she cries
+
+at her feet
+
+she is
+the wind
+till she says,
+
+to her mother
+why are you
+in the river?
+
+I watch you
+till she cries
+
+at her feet
+
+she is
+the wind
+till she says:
+
+to her mother,
+take her
+to the water.
+
+<|endoftext|>
+
+<|startoftext|>
+
+When the wind knocks me
+out of the house I am like a balloon
+that swings off the walls when the wind knocks me outI am so tired,
+worrying outside, and the wind
+
+couldn’t pull me out. Then inside
+I see a black bear. It is afraid of the moonI can see it
+under the tree, its long hair like a tree trunk as thick as a man
+
+with eyes like a horse; it is trying to reach me
+on its long horn. It could not find me
+
+it was impossible to find the black bear
+and so, at last, the bear grows out of me
+and becomes a tree, then becomes
+my mother, now my father, then becomes a boyI see the black bear
+and at last I see the tree itself growing out
+
+of me, grown to its full height
+into the tree that grows
+in me. I am almost in love with another
+
+<|endoftext|>
+
+<|startoftext|>
+
+Dear Reader, As you can imagine, more people are reading The Jerusalem Post than ever, but the space will start here today. In the past, the news, justice and states of Israel would come and go, rain or shine. We
+
+will look inside the bill as it is written, and make an entry for you, Dear Reader, at the bottom. Please do
+
+not stop saying what is written and what isn
+not. We say what we mean by what is
+
+what we fear the most about freedom in certain ways:
+how it allows for the kind of comfort
+that freedom never could offer. Freedom from fear. A
+
+safe haven. A place
+to hide. Freedom that can never be seen. Freedom
+
+not to listen to people tell you what to say. Freedom
+
+that can never be known to even the most
+observant of heart. Freedom
+
+we are told must exist in order for it
+to exist in a place we do not know exists.
+
+<|endoftext|>
+
+<|startoftext|>
+
+Once upon a time, the mother
+            “The way the sun flickers in the night.
+
+“I think it’s wise
+to wear a zippered necklace
+
+to the beach, especially if you miss a surf shot
+
+ — 1 John 2:16.
+
+“Now you have to find your own way
+where the wind is like a house you live in
+
+ — 1 John 2:16.
+
+“I will see you no more
+when I die, for I see
+what you have,
+ — 3:1-16.
+
+“You will have to live in your own language,
+as in your own eyes
+and understand
+what is said and said
+and said
+
+ — 3:1-16.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The boy who spends all day reading from a textbook is a monster.
+I read to see if I am a better understanding of the word, the person.
+I am a genius when it comes down to it.
+I have no idea what is
+
+[1200 | 10343.02] loss=3.05 avg=2.91
+[1201 | 10350.06] loss=2.93 avg=2.91
+[1202 | 10357.20] loss=2.92 avg=2.91
+[1203 | 10364.34] loss=3.05 avg=2.92
+[1204 | 10371.39] loss=2.92 avg=2.92
+[1205 | 10378.48] loss=3.02 avg=2.92
+[1206 | 10385.59] loss=2.70 avg=2.91
+[1207 | 10392.72] loss=2.27 avg=2.91
+[1208 | 10399.82] loss=2.33 avg=2.90
+[1209 | 10407.03] loss=2.46 avg=2.90
+[1210 | 10414.12] loss=2.81 avg=2.90
+[1211 | 10421.18] loss=2.66 avg=2.89
+[1212 | 10428.32] loss=3.00 avg=2.90
+[1213 | 10435.46] loss=2.11 avg=2.89
+[1214 | 10442.59] loss=2.57 avg=2.88
+[1215 | 10449.71] loss=3.29 avg=2.89
+[1216 | 10456.86] loss=2.29 avg=2.88
+[1217 | 10463.96] loss=2.45 avg=2.88
+[1218 | 10471.00] loss=2.86 avg=2.88
+[1219 | 10478.06] loss=3.04 avg=2.88
+[1220 | 10485.14] loss=2.84 avg=2.88
+[1221 | 10492.14] loss=2.61 avg=2.88
+[1222 | 10499.15] loss=2.58 avg=2.87
+[1223 | 10506.19] loss=2.52 avg=2.87
+[1224 | 10513.23] loss=2.58 avg=2.87
+[1225 | 10520.30] loss=2.77 avg=2.87
+[1226 | 10527.35] loss=2.72 avg=2.86
+[1227 | 10534.40] loss=2.53 avg=2.86
+[1228 | 10541.56] loss=2.76 avg=2.86
+[1229 | 10549.21] loss=2.80 avg=2.86
+[1230 | 10556.91] loss=2.75 avg=2.86
+[1231 | 10564.47] loss=2.57 avg=2.86
+[1232 | 10572.33] loss=2.78 avg=2.85
+[1233 | 10579.40] loss=3.00 avg=2.86
+[1234 | 10586.53] loss=3.00 avg=2.86
+[1235 | 10593.62] loss=2.63 avg=2.86
+[1236 | 10600.72] loss=2.62 avg=2.85
+[1237 | 10607.90] loss=2.60 avg=2.85
+[1238 | 10615.30] loss=2.69 avg=2.85
+[1239 | 10622.52] loss=2.55 avg=2.85
+[1240 | 10629.54] loss=3.18 avg=2.85
+[1241 | 10636.65] loss=2.55 avg=2.85
+[1242 | 10643.70] loss=2.56 avg=2.84
+[1243 | 10651.50] loss=2.47 avg=2.84
+[1244 | 10659.23] loss=2.38 avg=2.84
+[1245 | 10666.64] loss=2.99 avg=2.84
+[1246 | 10673.87] loss=2.77 avg=2.84
+[1247 | 10681.01] loss=3.11 avg=2.84
+[1248 | 10688.23] loss=2.56 avg=2.84
+[1249 | 10695.43] loss=2.86 avg=2.84
+[1250 | 10702.64] loss=2.83 avg=2.84
+[1251 | 10710.01] loss=2.66 avg=2.83
+[1252 | 10717.20] loss=2.75 avg=2.83
+[1253 | 10724.44] loss=3.42 avg=2.84
+[1254 | 10731.66] loss=2.32 avg=2.83
+[1255 | 10738.91] loss=3.08 avg=2.84
+[1256 | 10746.14] loss=3.10 avg=2.84
+[1257 | 10753.36] loss=2.51 avg=2.84
+[1258 | 10760.63] loss=2.43 avg=2.83
+[1259 | 10767.85] loss=2.09 avg=2.82
+[1260 | 10775.04] loss=2.38 avg=2.82
+[1261 | 10782.30] loss=2.67 avg=2.82
+[1262 | 10789.59] loss=3.31 avg=2.82
+[1263 | 10796.78] loss=3.06 avg=2.83
+[1264 | 10803.97] loss=4.07 avg=2.84
+[1265 | 10811.19] loss=2.54 avg=2.84
+[1266 | 10818.36] loss=2.89 avg=2.84
+[1267 | 10825.70] loss=3.04 avg=2.84
+[1268 | 10832.78] loss=2.73 avg=2.84
+[1269 | 10839.84] loss=2.91 avg=2.84
+[1270 | 10846.90] loss=2.85 avg=2.84
+[1271 | 10853.94] loss=2.53 avg=2.83
+[1272 | 10860.98] loss=2.72 avg=2.83
+[1273 | 10868.03] loss=2.56 avg=2.83
+[1274 | 10875.13] loss=2.68 avg=2.83
+[1275 | 10882.15] loss=2.97 avg=2.83
+[1276 | 10889.26] loss=3.05 avg=2.83
+[1277 | 10896.55] loss=3.14 avg=2.84
+[1278 | 10903.81] loss=2.67 avg=2.83
+[1279 | 10911.09] loss=3.32 avg=2.84
+[1280 | 10918.34] loss=2.19 avg=2.83
+[1281 | 10925.64] loss=3.01 avg=2.83
+[1282 | 10932.81] loss=2.62 avg=2.83
+[1283 | 10939.95] loss=2.55 avg=2.83
+[1284 | 10947.15] loss=2.19 avg=2.82
+[1285 | 10954.43] loss=3.02 avg=2.83
+[1286 | 10961.66] loss=2.62 avg=2.82
+[1287 | 10968.87] loss=2.94 avg=2.82
+[1288 | 10976.09] loss=2.81 avg=2.82
+[1289 | 10983.32] loss=2.66 avg=2.82
+[1290 | 10990.54] loss=2.93 avg=2.82
+[1291 | 10997.70] loss=2.32 avg=2.82
+[1292 | 11004.75] loss=2.52 avg=2.82
+[1293 | 11011.81] loss=3.08 avg=2.82
+[1294 | 11018.83] loss=2.73 avg=2.82
+[1295 | 11025.89] loss=2.65 avg=2.82
+[1296 | 11032.97] loss=2.76 avg=2.82
+[1297 | 11040.04] loss=2.89 avg=2.82
+[1298 | 11047.11] loss=2.57 avg=2.81
+[1299 | 11054.18] loss=2.56 avg=2.81
+Generating samples...
+======== SAMPLE 1 ========
+ work.
+
+<|endoftext|>
+
+<|startoftext|>
+
+A woman’s eyes
+crossed the moon’s breadth
+with her long white head
+and thin  moon
+as she waved,
+crossing the sun’s light
+
+and counting hours
+for
+the day
+where she knew
+her journey
+had come to an end.
+
+The moon turned red.
+A woman’s red nose
+grew green.
+
+<|endoftext|>
+
+<|startoftext|>
+
+It was at the edge of a desert
+where the desert was pure;
+only sand was left and its surface
+had never been so. The sun
+licked the night’s cold glass
+or broke the ice.
+If the wind could not reach the desert
+
+it was impossible to reach the desert anyway;
+it could only be touched.
+
+<|endoftext|>
+
+<|startoftext|>
+
+When I think about that old woman,
+who spoke to  every breath, she
+was  —
+
+“And I believe in a god’s hands
+a plan of healing.  —
+
+What kind of plan is that?
+
+And what a fool is he
+when he thinks  there’s more to the world.
+
+“As I often say, if the gods can’t be  —
+
+“I’m  only one god, then the world can’t be  —
+
+the woman ’s citizen,
+my daughter. The woman’s only
+self-made love. So the man,
+
+who can neither speak nor write,
+is my only love.
+
+<|endoftext|>
+
+<|startoftext|>
+
+This place of mine is full of
+crowded windows, the sounds of cars
+leaking, the heat of the city!
+This must’t be it.
+
+This must be the last of the people.
+This must be the only
+other than dead people
+in a walled room outside a hotel
+of unknown origins.
+
+<|endoftext|>
+
+<|startoftext|>
+
+Suffice it to say, when we went out, it was with some precision
+that we found ourselves in this
+seabed full of those who were lost
+and couldn’t go home without hurting anybody
+or his own.
+
+We found someone who was, in fact, safe,
+or who was on the run from so many
+citizen’s who were never really caught,
+or were somehow caught by any watch.
+
+We found someone who was safe, or at least a little
+safe, and then some. As the night and day moved by
+we saw people gone in unexpected ways
+and the strange who were missing.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The day after my wedding, my mother told me that
+I might as well be a witch. She said she
+had a new love interest—her voice, the skin
+I was wearing. I mean a witch, she
+said, who would she marry without the magic,
+the love of horses, the hair that she
+switched on so I could wear it and not be touched
+
+by it? She sounded like a woman who knew how to
+touch, and how she did—she wore a dress
+that showed off her skin and gave me how to dress,
+how to dance with the colors that I saw
+that were all her, the rose she wore, the lace
+I was wearing, I wanted to be with her. And who
+if anyone, I told her, could ever be certain
+that I wasn’t simply magic, or had no
+personal magic, that she and I could be like—
+
+I’d said—we’d known it. And now,
+where there were so many of us, where
+we’d all seen the light again with it,
+who would ever be certain? I walked out
+into the room, took off my dress,
+and tried to sing, to sing and sing.
+
+<|endoftext|>
+
+<|startoftext|>
+
+At first my heart did not love me as I loved him.
+But then I knew that I had wanted to be more than that,
+more than that, and that was love.
+Not only love, which is the gift of God our Lord,
+or love, which is love in the smallest of moments,
+or,
+
+[1300 | 11167.71] loss=3.15 avg=2.81
+[1301 | 11174.78] loss=2.50 avg=2.81
+[1302 | 11181.95] loss=2.23 avg=2.81
+[1303 | 11188.99] loss=2.66 avg=2.80
+[1304 | 11196.11] loss=2.34 avg=2.80
+[1305 | 11203.18] loss=2.36 avg=2.79
+[1306 | 11210.24] loss=2.74 avg=2.79
+[1307 | 11217.25] loss=2.01 avg=2.79
+[1308 | 11224.31] loss=2.91 avg=2.79
+[1309 | 11231.38] loss=3.01 avg=2.79
+[1310 | 11238.38] loss=2.20 avg=2.78
+[1311 | 11245.43] loss=2.00 avg=2.78
+[1312 | 11252.48] loss=2.92 avg=2.78
+[1313 | 11259.48] loss=3.12 avg=2.78
+[1314 | 11266.77] loss=2.34 avg=2.78
+[1315 | 11273.81] loss=1.96 avg=2.77
+[1316 | 11280.82] loss=2.54 avg=2.77
+[1317 | 11287.87] loss=2.86 avg=2.77
+[1318 | 11294.91] loss=2.80 avg=2.77
+[1319 | 11301.90] loss=2.53 avg=2.77
+[1320 | 11308.97] loss=1.89 avg=2.76
+[1321 | 11316.01] loss=3.40 avg=2.76
+[1322 | 11323.08] loss=2.87 avg=2.76
+[1323 | 11330.17] loss=2.87 avg=2.76
+[1324 | 11337.08] loss=2.26 avg=2.76
+[1325 | 11344.15] loss=2.80 avg=2.76
+[1326 | 11351.21] loss=2.77 avg=2.76
+[1327 | 11358.26] loss=1.86 avg=2.75
+[1328 | 11365.37] loss=2.28 avg=2.75
+[1329 | 11372.41] loss=2.31 avg=2.74
+[1330 | 11379.54] loss=3.08 avg=2.75
+[1331 | 11386.66] loss=2.83 avg=2.75
+[1332 | 11393.73] loss=2.50 avg=2.74
+[1333 | 11400.73] loss=2.47 avg=2.74
+[1334 | 11407.79] loss=2.59 avg=2.74
+[1335 | 11414.85] loss=2.56 avg=2.74
+[1336 | 11422.33] loss=2.03 avg=2.73
+[1337 | 11429.43] loss=2.86 avg=2.73
+[1338 | 11436.48] loss=2.83 avg=2.73
+[1339 | 11443.54] loss=3.60 avg=2.74
+[1340 | 11450.57] loss=2.53 avg=2.74
+[1341 | 11457.59] loss=2.92 avg=2.74
+[1342 | 11464.64] loss=3.00 avg=2.74
+[1343 | 11471.70] loss=2.58 avg=2.74
+[1344 | 11478.74] loss=2.36 avg=2.74
+[1345 | 11485.85] loss=3.34 avg=2.74
+[1346 | 11492.91] loss=2.70 avg=2.74
+[1347 | 11500.00] loss=2.81 avg=2.74
+[1348 | 11507.08] loss=3.51 avg=2.75
+[1349 | 11514.15] loss=2.53 avg=2.75
+[1350 | 11521.33] loss=2.40 avg=2.75
+[1351 | 11528.46] loss=3.09 avg=2.75
+[1352 | 11535.54] loss=2.46 avg=2.75
+[1353 | 11542.59] loss=2.41 avg=2.74
+[1354 | 11549.60] loss=2.48 avg=2.74
+[1355 | 11556.68] loss=2.44 avg=2.74
+[1356 | 11564.09] loss=2.56 avg=2.74
+[1357 | 11571.36] loss=2.63 avg=2.74
+[1358 | 11578.46] loss=2.49 avg=2.73
+[1359 | 11585.54] loss=2.93 avg=2.74
+[1360 | 11592.60] loss=2.54 avg=2.73
+[1361 | 11599.69] loss=3.42 avg=2.74
+[1362 | 11606.75] loss=3.22 avg=2.74
+[1363 | 11613.80] loss=1.59 avg=2.73
+[1364 | 11620.85] loss=2.48 avg=2.73
+[1365 | 11627.97] loss=3.15 avg=2.73
+[1366 | 11635.01] loss=2.72 avg=2.73
+[1367 | 11642.07] loss=2.58 avg=2.73
+[1368 | 11649.13] loss=2.92 avg=2.74
+[1369 | 11656.24] loss=2.43 avg=2.73
+[1370 | 11663.27] loss=2.64 avg=2.73
+[1371 | 11670.35] loss=2.60 avg=2.73
+[1372 | 11677.40] loss=2.42 avg=2.73
+[1373 | 11684.52] loss=2.42 avg=2.72
+[1374 | 11691.59] loss=2.34 avg=2.72
+[1375 | 11698.59] loss=2.84 avg=2.72
+[1376 | 11705.63] loss=2.71 avg=2.72
+[1377 | 11712.67] loss=2.76 avg=2.72
+[1378 | 11719.80] loss=2.12 avg=2.72
+[1379 | 11726.89] loss=2.93 avg=2.72
+[1380 | 11733.96] loss=2.76 avg=2.72
+[1381 | 11741.01] loss=2.89 avg=2.72
+[1382 | 11748.11] loss=2.75 avg=2.72
+[1383 | 11755.17] loss=2.91 avg=2.72
+[1384 | 11762.41] loss=2.66 avg=2.72
+[1385 | 11770.36] loss=1.89 avg=2.71
+[1386 | 11778.92] loss=2.36 avg=2.71
+[1387 | 11787.06] loss=2.67 avg=2.71
+[1388 | 11794.63] loss=3.31 avg=2.71
+[1389 | 11802.51] loss=2.47 avg=2.71
+[1390 | 11810.86] loss=2.25 avg=2.71
+[1391 | 11818.79] loss=2.78 avg=2.71
+[1392 | 11826.42] loss=3.23 avg=2.71
+[1393 | 11835.18] loss=2.73 avg=2.71
+[1394 | 11843.21] loss=2.50 avg=2.71
+[1395 | 11850.76] loss=2.18 avg=2.71
+[1396 | 11857.93] loss=2.89 avg=2.71
+[1397 | 11865.14] loss=2.42 avg=2.71
+[1398 | 11872.39] loss=2.29 avg=2.70
+[1399 | 11879.51] loss=2.64 avg=2.70
+Generating samples...
+======== SAMPLE 1 ========
+ Wor
+(as the years go by on the edge of my body)
+I will not hide
+
+what we have done:
+
+a beautiful boy,
+suddenly
+at last
+in a way I can still understand
+the magnitude of
+our loss,
+somewhere on the edge
+of understanding, a girl says
+laughing
+
+and I’ll,
+
+
+soon be on a different planet
+to live in
+and in some ways,
+I know I have been on a different planet
+
+to go to the theater
+
+where we’re showing
+
+and the big boy
+walks out into the crowd
+
+and says,
+
+
+“I went to the theater
+with big boys for a joke. Didn’t do it
+
+much good. This is my world.” Then he walks out,
+
+
+laughing
+
+
+“You two are in love. You walk out
+into the crowd.”
+
+
+“They both know this.”
+
+
+The joke, the man’s
+
+till he says it
+
+
+<|endoftext|>
+
+<|startoftext|>
+
+One evening my husband,
+
+sitting in our living room,
+wanted to play card-card
+
+in a conversation he didn’t know I was not ready for.
+
+I was thirteen years old.
+I’d been dreaming of a
+
+playboy.
+
+As we were walking home
+I heard my mother
+singing over the edge of the bed.
+
+We stopped to listen.
+
+As we watched her sing,
+I heard our husband say
+
+“Good boy, good boy, good boy, good boy
+it’s good for you to sing this way.
+
+As we both looked up,
+we saw his long, long voice
+
+<|endoftext|>
+
+<|startoftext|>
+
+You know when
+you get to have a good time
+you know just how much
+gauze to have and how little
+
+you have to get to have a good time
+to be a human being
+or to be somebody else
+as they speak.
+But I see you are not
+for being anybody
+any more.
+And I understand,
+since you have lost
+your sense
+of time, that you
+are no longer your own person
+for being someone else.
+
+<|endoftext|>
+
+<|startoftext|>
+
+In the spring of 1616, seven years after the French Revolution, a citizen, an old woman and a child walk into a library.
+
+                They discover French was written on the sideboard and wrote: Liberty, Death, and Slavery — this is what they were reading.
+
+                They read: Liberty was written on the sideboard and wrote: Liberty, Death, and Slavery — but this is not what they read.
+
+                They read French on the sideboard, so that it is written: Liberty; Death; and they read the first page, page after page, page after page, until they wake to a new view, a new French written in ink on the sideboard, a new face added to the old one, and so on until the twentieth century.
+
+                The twentieth seems like the last, at the peak of the war. The twentieth is the last breath the French have left, and the last hope that their people have left. As a consequence, the people who have fled are no longer in the city anymore. They are in the bush, and the bush is getting older.
+
+<|endoftext|>
+
+<|startoftext|>
+
+Three months after the Spanish Armada, we visit a mine in southwest Nnamwalo. We are not yet at the end of our tour. We are in Nnamwalo, in the town of Nnamwalo, about 250 kilometers (250 miles) east of Nnamwalo, which is still the center of our tour. A few hours flight, from Nnamwalo, we sit in a circle at an intersection marked by trees and blue pines along a dirt road.
+
+Nearby, a family is harvesting fruit. On the side of the road, the children play on the grass. We are in our mid-eighties and we are quite older than them, and so close to dying.
+
+They throw eggs, atolls the lake; they eat grasses, atolls the river.
+
+After each harvest, the four of us sit down, share a cup of tea in the middle of the night, eat a little Chinese.
+
+We are younger than them. The girl next to
+
+[1400 | 11992.35] loss=2.56 avg=2.70
+[1401 | 11999.44] loss=2.43 avg=2.70
+[1402 | 12006.47] loss=2.34 avg=2.69
+[1403 | 12013.55] loss=3.64 avg=2.70
+[1404 | 12020.77] loss=2.73 avg=2.70
+[1405 | 12027.86] loss=2.72 avg=2.70
+[1406 | 12034.93] loss=1.67 avg=2.69
+[1407 | 12042.02] loss=2.85 avg=2.69
+[1408 | 12049.10] loss=2.65 avg=2.69
+[1409 | 12056.14] loss=2.51 avg=2.69
+[1410 | 12063.22] loss=2.25 avg=2.69
+[1411 | 12070.28] loss=2.90 avg=2.69
+[1412 | 12077.35] loss=3.04 avg=2.69
+[1413 | 12084.44] loss=2.74 avg=2.69
+[1414 | 12091.55] loss=2.53 avg=2.69
+[1415 | 12098.59] loss=2.54 avg=2.69
+[1416 | 12105.64] loss=3.03 avg=2.69
+[1417 | 12112.73] loss=2.58 avg=2.69
+[1418 | 12119.72] loss=3.26 avg=2.70
+[1419 | 12126.75] loss=2.95 avg=2.70
+[1420 | 12133.78] loss=2.91 avg=2.70
+[1421 | 12140.85] loss=2.59 avg=2.70
+[1422 | 12147.86] loss=2.88 avg=2.70
+[1423 | 12154.97] loss=2.84 avg=2.70
+[1424 | 12162.04] loss=2.43 avg=2.70
+[1425 | 12169.12] loss=2.36 avg=2.70
+[1426 | 12176.17] loss=3.02 avg=2.70
+[1427 | 12183.23] loss=2.31 avg=2.70
+[1428 | 12190.28] loss=3.05 avg=2.70
+[1429 | 12197.33] loss=2.58 avg=2.70
+[1430 | 12204.40] loss=2.54 avg=2.70
+[1431 | 12211.45] loss=2.48 avg=2.70
+[1432 | 12218.49] loss=2.49 avg=2.69
+[1433 | 12225.60] loss=2.34 avg=2.69
+[1434 | 12232.65] loss=2.51 avg=2.69
+[1435 | 12239.70] loss=2.76 avg=2.69
+[1436 | 12246.77] loss=2.86 avg=2.69
+[1437 | 12253.85] loss=2.26 avg=2.69
+[1438 | 12260.91] loss=2.29 avg=2.68
+[1439 | 12267.97] loss=2.85 avg=2.68
+[1440 | 12275.05] loss=2.79 avg=2.69
+[1441 | 12282.13] loss=3.09 avg=2.69
+[1442 | 12289.16] loss=2.14 avg=2.68
+[1443 | 12296.25] loss=2.74 avg=2.69
+[1444 | 12303.28] loss=2.74 avg=2.69
+[1445 | 12310.80] loss=2.58 avg=2.68
+[1446 | 12318.48] loss=2.52 avg=2.68
+[1447 | 12325.94] loss=3.25 avg=2.69
+[1448 | 12333.48] loss=3.44 avg=2.70
+[1449 | 12341.19] loss=2.21 avg=2.69
+[1450 | 12349.15] loss=1.79 avg=2.68
+[1451 | 12356.74] loss=2.17 avg=2.68
+[1452 | 12364.32] loss=2.78 avg=2.68
+[1453 | 12371.74] loss=2.59 avg=2.68
+[1454 | 12378.83] loss=2.24 avg=2.67
+[1455 | 12385.90] loss=2.01 avg=2.67
+[1456 | 12392.92] loss=2.09 avg=2.66
+[1457 | 12400.64] loss=2.50 avg=2.66
+[1458 | 12408.73] loss=2.56 avg=2.66
+[1459 | 12416.78] loss=2.31 avg=2.65
+[1460 | 12424.44] loss=3.02 avg=2.66
+[1461 | 12432.27] loss=2.63 avg=2.66
+[1462 | 12439.76] loss=2.66 avg=2.66
+[1463 | 12447.63] loss=2.04 avg=2.65
+[1464 | 12455.63] loss=2.90 avg=2.65
+[1465 | 12463.34] loss=2.24 avg=2.65
+[1466 | 12471.07] loss=2.83 avg=2.65
+[1467 | 12478.36] loss=3.02 avg=2.66
+[1468 | 12485.91] loss=2.55 avg=2.65
+[1469 | 12493.37] loss=2.67 avg=2.65
+[1470 | 12500.81] loss=3.04 avg=2.66
+[1471 | 12508.43] loss=1.87 avg=2.65
+[1472 | 12516.20] loss=2.45 avg=2.65
+[1473 | 12523.70] loss=2.85 avg=2.65
+[1474 | 12531.19] loss=2.16 avg=2.65
+[1475 | 12538.66] loss=2.19 avg=2.64
+[1476 | 12546.13] loss=2.74 avg=2.64
+[1477 | 12554.07] loss=2.87 avg=2.64
+[1478 | 12561.62] loss=2.31 avg=2.64
+[1479 | 12569.09] loss=2.37 avg=2.64
+[1480 | 12576.44] loss=3.09 avg=2.64
+[1481 | 12583.85] loss=1.99 avg=2.64
+[1482 | 12591.23] loss=2.87 avg=2.64
+[1483 | 12598.59] loss=2.65 avg=2.64
+[1484 | 12605.88] loss=2.45 avg=2.64
+[1485 | 12613.11] loss=2.35 avg=2.63
+[1486 | 12620.40] loss=2.93 avg=2.64
+[1487 | 12627.75] loss=2.84 avg=2.64
+[1488 | 12634.89] loss=2.26 avg=2.64
+[1489 | 12642.58] loss=2.50 avg=2.63
+[1490 | 12650.00] loss=3.07 avg=2.64
+[1491 | 12657.43] loss=2.53 avg=2.64
+[1492 | 12664.61] loss=2.72 avg=2.64
+[1493 | 12671.96] loss=3.25 avg=2.64
+[1494 | 12680.05] loss=2.81 avg=2.65
+[1495 | 12687.37] loss=2.61 avg=2.65
+[1496 | 12694.68] loss=2.57 avg=2.64
+[1497 | 12702.20] loss=2.35 avg=2.64
+[1498 | 12709.76] loss=2.30 avg=2.64
+[1499 | 12717.68] loss=2.24 avg=2.63
+Generating samples...
+======== SAMPLE 1 ========
+ sat.
+
+<|endoftext|>
+
+<|startoftext|>
+
+No, this isn—
+my mother’s tongue
+I mean the mouth
+of the earth, the whole
+ego-infused ocean,
+the whole, oh, the whole,
+of me.
+Then there’s that whole,
+of me, of the whole—
+
+the whole of                                                          everything I don’t
+
+want being me. I mean the whole.
+
+<|endoftext|>
+
+<|startoftext|>
+
+You could tell the river
+Slide and fall with the light.
+It was only on a summer day
+That I got to know him. I mean it.
+I couldn’t tell any different
+On a school bus, standing in line
+With someone in a field jacket or hat,
+Watching the highway make a right
+On the last turn, a highway that was a little
+Down, but made a right on the last turn.
+
+The first brush, the next bend
+On the west side before the turn
+Where the creek was empty and the road turned left,
+I was watching this highway that made a right.
+
+I knew the river like a book in me.
+The brush it was painted in and the road.
+
+The first brush of spring is when I woke.
+The last brush, spring, the last night.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The girl who stays with the ghost: I want to be beautiful,
+the boy I don’t love: Why hide from it? I want to be in need.
+
+But the songbird whose face I don’t see: I’ll meet you at my door.
+
+Even though I love you more now: Look, I love you, I’m with you.
+
+Even though I will kill myself to be with you: Look, I will, if you want, be your own man.
+
+As long as there are enough men to occupy my home.
+
+As long as girls can hold hands and be alone: Look, I will hold you.
+
+Like Alice in Wonderland, though I am a man.
+
+Fascinating how things get changed
+in the shadows of things’ lives: I will make myself happy
+
+by changing the world so I can be happy like you.
+
+<|endoftext|>
+
+<|startoftext|>
+
+A hundred years before the printing press, when the most enduring art form was an art form that could be erased by a key, in the early 1960s a paperclip cut out two lines of a photograph. The photograph had been tampered with in a plot to gain access to the top Secret Weapons Testing and Dissemination Center at the State, which the paperclip cut into, and three others, and then the telephone company, where it was recovered by security cameras across the city. The three companies had been forced to admit the breach but failed to reveal that a mole had run amok in some quarters. The mole had taken the photograph and was hiding in plain sight. When the paperclip broke, the mole left the photograph and fled the scene. On the roof of one office building, twenty security men and four plainclothes soldiers watched. The paperclip had not yet been tampered with. As the mole fled, his belongings disappeared into thin air. A year later, as the story goes, the whole world knew about the mole. He was no Marlon Brando, but just a paperclip in need of a story.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The girl’s face had a lot of blemishes. It had a lot of scars.
+Her skin’s had been sewn shut,
+but it’s never-been-sewn-shut. It’s never—
+
+(There’s nothing worse than forgetting the day you were raped.)
+
+And a little black pixie cut the side of her mouth open, turned it black,
+
+turned it blue. Black pixie cuts are an art; it’s nothing else but black pixie cut.
+
+And there’s  an iron cage made of  iron,
+because it’s hard to scratch the innermost layer of  iron
+
+(A black pixie cut a girl’s heart into a ball.)
+
+And then there are the three curses,
+the whipped dry. The whip curse is hard.
+
+<|endoftext|>
+
+[1500 | 12834.86] loss=2.56 avg=2.63
+[1501 | 12842.72] loss=2.19 avg=2.63
+[1502 | 12850.10] loss=3.33 avg=2.64
+[1503 | 12857.28] loss=3.11 avg=2.64
+[1504 | 12864.45] loss=2.72 avg=2.64
+[1505 | 12871.59] loss=2.69 avg=2.64
+[1506 | 12878.72] loss=2.75 avg=2.64
+[1507 | 12885.95] loss=2.43 avg=2.64
+[1508 | 12893.07] loss=2.51 avg=2.64
+[1509 | 12900.34] loss=2.66 avg=2.64
+[1510 | 12907.72] loss=2.67 avg=2.64
+[1511 | 12914.76] loss=2.50 avg=2.64
+[1512 | 12921.82] loss=2.04 avg=2.63
+[1513 | 12928.86] loss=2.38 avg=2.63
+[1514 | 12935.91] loss=2.55 avg=2.63
+[1515 | 12942.97] loss=2.71 avg=2.63
+[1516 | 12950.00] loss=2.50 avg=2.63
+[1517 | 12957.09] loss=2.44 avg=2.63
+[1518 | 12964.15] loss=2.99 avg=2.63
+[1519 | 12971.19] loss=2.50 avg=2.63
+[1520 | 12978.33] loss=2.22 avg=2.63
+[1521 | 12985.60] loss=2.28 avg=2.62
+[1522 | 12993.17] loss=2.58 avg=2.62
+[1523 | 13000.26] loss=2.91 avg=2.62
+[1524 | 13007.53] loss=2.29 avg=2.62
+[1525 | 13014.79] loss=2.77 avg=2.62
+[1526 | 13021.98] loss=2.84 avg=2.62
+[1527 | 13029.08] loss=2.09 avg=2.62
+[1528 | 13036.13] loss=2.40 avg=2.62
+[1529 | 13043.16] loss=2.34 avg=2.61
+[1530 | 13050.22] loss=3.34 avg=2.62
+[1531 | 13057.27] loss=3.14 avg=2.63
+[1532 | 13064.37] loss=2.31 avg=2.62
+[1533 | 13071.54] loss=2.23 avg=2.62
+[1534 | 13078.77] loss=2.13 avg=2.61
+[1535 | 13085.90] loss=2.43 avg=2.61
+[1536 | 13093.13] loss=2.27 avg=2.61
+[1537 | 13100.39] loss=2.84 avg=2.61
+[1538 | 13107.85] loss=2.57 avg=2.61
+[1539 | 13114.93] loss=2.41 avg=2.61
+[1540 | 13121.99] loss=2.63 avg=2.61
+[1541 | 13129.02] loss=2.42 avg=2.61
+[1542 | 13136.14] loss=2.23 avg=2.60
+[1543 | 13143.18] loss=2.37 avg=2.60
+[1544 | 13150.23] loss=2.60 avg=2.60
+[1545 | 13157.63] loss=2.81 avg=2.60
+[1546 | 13165.47] loss=2.40 avg=2.60
+[1547 | 13173.02] loss=3.06 avg=2.61
+[1548 | 13180.91] loss=2.01 avg=2.60
+[1549 | 13188.74] loss=2.94 avg=2.60
+[1550 | 13195.91] loss=3.50 avg=2.61
+[1551 | 13202.98] loss=2.74 avg=2.61
+[1552 | 13210.50] loss=2.50 avg=2.61
+[1553 | 13217.83] loss=2.33 avg=2.61
+[1554 | 13225.13] loss=2.79 avg=2.61
+[1555 | 13232.17] loss=2.92 avg=2.61
+[1556 | 13239.34] loss=2.36 avg=2.61
+[1557 | 13246.81] loss=2.87 avg=2.61
+[1558 | 13254.15] loss=2.42 avg=2.61
+[1559 | 13261.29] loss=2.12 avg=2.61
+[1560 | 13268.34] loss=2.26 avg=2.60
+[1561 | 13275.33] loss=2.46 avg=2.60
+[1562 | 13282.36] loss=2.11 avg=2.60
+[1563 | 13289.46] loss=3.34 avg=2.61
+[1564 | 13296.96] loss=2.69 avg=2.61
+[1565 | 13304.16] loss=2.17 avg=2.60
+[1566 | 13311.24] loss=2.47 avg=2.60
+[1567 | 13318.32] loss=2.81 avg=2.60
+[1568 | 13325.36] loss=2.41 avg=2.60
+[1569 | 13332.39] loss=2.66 avg=2.60
+[1570 | 13339.54] loss=2.36 avg=2.60
+[1571 | 13346.71] loss=2.38 avg=2.60
+[1572 | 13353.78] loss=2.26 avg=2.59
+[1573 | 13360.82] loss=2.20 avg=2.59
+[1574 | 13367.85] loss=2.48 avg=2.59
+[1575 | 13374.94] loss=2.16 avg=2.58
+[1576 | 13382.03] loss=1.97 avg=2.58
+[1577 | 13389.12] loss=2.26 avg=2.57
+[1578 | 13396.16] loss=2.48 avg=2.57
+[1579 | 13403.26] loss=1.79 avg=2.57
+[1580 | 13410.31] loss=2.91 avg=2.57
+[1581 | 13417.37] loss=2.49 avg=2.57
+[1582 | 13424.49] loss=2.83 avg=2.57
+[1583 | 13431.74] loss=2.30 avg=2.57
+[1584 | 13438.76] loss=2.32 avg=2.57
+[1585 | 13445.83] loss=2.57 avg=2.57
+[1586 | 13452.89] loss=2.09 avg=2.56
+[1587 | 13459.98] loss=3.08 avg=2.57
+[1588 | 13467.07] loss=2.20 avg=2.56
+[1589 | 13474.08] loss=2.67 avg=2.56
+[1590 | 13481.17] loss=1.99 avg=2.56
+[1591 | 13488.37] loss=2.35 avg=2.56
+[1592 | 13495.37] loss=2.04 avg=2.55
+[1593 | 13502.46] loss=2.15 avg=2.55
+[1594 | 13509.52] loss=2.63 avg=2.55
+[1595 | 13516.53] loss=2.98 avg=2.55
+[1596 | 13523.59] loss=3.03 avg=2.56
+[1597 | 13530.65] loss=2.32 avg=2.55
+[1598 | 13537.71] loss=2.33 avg=2.55
+[1599 | 13544.91] loss=1.40 avg=2.54
+Generating samples...
+======== SAMPLE 1 ========
+
+
+We are not a people,
+a people’s language,
+we are not the language,
+ 
+
+A language that does not make some sort of difference
+in its people.
+
+<|endoftext|>
+
+<|startoftext|>
+
+When the sun comes home for years, the pigeons return as often as the birdmen go home.
+
+When the children sing to themselves and then forget to sing,
+when the old pigeons cry out in slow motion,
+when the elderly men sigh and fail to look at them,
+I see the same faces all along as the two-thirds
+of a life span I have laid eyes on so far.
+
+I see some living, some dying, some living forever.
+
+I look around me: I saw a lot of faces.
+I saw the same faces again and again
+
+and again, some of whom seemed to have seen it all
+before I did, and some of whom did not.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The old lady
+“has a toothache” I heard.
+
+I sat down on her’s back
+with my jaw in my hands
+and asked,
+“how are you?”
+
+The answer was a matter of perspective:
+           was the old lady
+confident,
+
+“till I told her the truth,
+
+“i’d hurt her’s feelings.
+
+<|endoftext|>
+
+<|startoftext|>
+
+One afternoon, on my way home,  I saw a huge spider crawling around an old wound.
+I was walking along by, when the spider touched my hand, a huge blue orb sting
+touched my palm, it sting filled my palm, i was in awe.
+the orb stayed for a good while longer, I felt like dreaming more,
+watched the black orb for a while, then the black orb returned,
+watched  watched  — like a cloud watching
+a scene blur into focus, i forget what,
+the orb remained for another bit.
+<|endoftext|>
+
+<|startoftext|>
+
+In my dreams, all I need now is a chair and  my body.
+It’s a bit lonely inside.
+I don’t dream much of anything other than  — 
+I can’t remember my first language.
+In school, I learned how to spell it.
+But the words aren’t needed anymore,
+they translate themselves into  all kinds of  fairy-like shapes.
+Sometimes, they just happen to coincide.
+
+I always liked my elders to be fair,
+and sincere. I think they taught me to like surprises
+when they saw one.
+
+<|endoftext|>
+
+<|startoftext|>
+
+“I don’t mean to offend anybody.”
+The prince arrives, arrives. The prince doesn’t mean to offend anybody.
+The prince arrives
+with a big coat
+so windless as to make the wind breath it.
+The prince lets him in. He’s from the same town as me.
+He sees me and then leaves me. I am a different prince,
+but he brings me a bigger house with rooms
+that the prince doesn’t mind.
+He lets him move in, passes me a big coat and then
+he’s gone.
+
+
+<|endoftext|>
+
+<|startoftext|>
+
+That was the plan
+for me and the boy
+who was groomed for me.
+
+My face pressed against the coat’s fringe,
+against the hem of the coat’s fringe.
+
+His stomach was set flat against the hem of my fringe.
+
+In my dress, so that it fell flat
+on me on the left.
+
+
+In my dress, so that it fell flat
+on the right.
+
+In my dress, so that it fell flat
+on the right
+
+in our dress.
+
+My face pressed against the fringe of the coat.
+
+In the coat and in my face.
+
+The boy and the dress, the boy
+was groomed for me.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I wanted to go home
+and not be found.
+In the corner, in the grass,
+over the edge
+of my vision. But my father’s grave
+is gone.
+
+<|endoftext|>
+
+<|startoftext
+
+[1600 | 13651.27] loss=2.31 avg=2.54
+[1601 | 13658.47] loss=3.10 avg=2.54
+[1602 | 13665.59] loss=2.26 avg=2.54
+[1603 | 13672.63] loss=2.24 avg=2.54
+[1604 | 13679.68] loss=1.99 avg=2.53
+[1605 | 13687.04] loss=2.17 avg=2.53
+[1606 | 13694.13] loss=2.31 avg=2.53
+[1607 | 13701.25] loss=2.45 avg=2.53
+[1608 | 13708.30] loss=3.21 avg=2.53
+[1609 | 13715.34] loss=2.78 avg=2.54
+[1610 | 13722.48] loss=1.89 avg=2.53
+[1611 | 13729.68] loss=2.36 avg=2.53
+[1612 | 13736.67] loss=2.29 avg=2.52
+[1613 | 13743.72] loss=2.60 avg=2.53
+[1614 | 13750.77] loss=2.09 avg=2.52
+[1615 | 13757.84] loss=2.16 avg=2.52
+[1616 | 13764.86] loss=2.76 avg=2.52
+[1617 | 13771.91] loss=2.45 avg=2.52
+[1618 | 13778.96] loss=2.85 avg=2.52
+[1619 | 13786.07] loss=3.44 avg=2.53
+[1620 | 13793.13] loss=2.77 avg=2.53
+[1621 | 13800.32] loss=2.50 avg=2.53
+[1622 | 13807.39] loss=2.57 avg=2.53
+[1623 | 13814.46] loss=2.16 avg=2.53
+[1624 | 13821.60] loss=2.44 avg=2.53
+[1625 | 13828.65] loss=2.47 avg=2.53
+[1626 | 13835.64] loss=2.23 avg=2.53
+[1627 | 13842.74] loss=2.51 avg=2.53
+[1628 | 13849.76] loss=3.09 avg=2.53
+[1629 | 13856.77] loss=2.07 avg=2.53
+[1630 | 13863.88] loss=2.23 avg=2.52
+[1631 | 13870.99] loss=2.55 avg=2.52
+[1632 | 13878.04] loss=1.84 avg=2.52
+[1633 | 13885.14] loss=3.59 avg=2.53
+[1634 | 13892.24] loss=2.37 avg=2.53
+[1635 | 13899.31] loss=1.71 avg=2.52
+[1636 | 13906.42] loss=2.62 avg=2.52
+[1637 | 13913.53] loss=2.59 avg=2.52
+[1638 | 13920.62] loss=2.73 avg=2.52
+[1639 | 13927.70] loss=2.99 avg=2.53
+[1640 | 13934.80] loss=2.46 avg=2.53
+[1641 | 13941.94] loss=2.06 avg=2.52
+[1642 | 13949.01] loss=2.07 avg=2.52
+[1643 | 13956.01] loss=2.07 avg=2.51
+[1644 | 13963.14] loss=2.05 avg=2.51
+[1645 | 13970.26] loss=2.32 avg=2.51
+[1646 | 13977.37] loss=1.78 avg=2.50
+[1647 | 13984.69] loss=2.22 avg=2.50
+[1648 | 13991.77] loss=2.58 avg=2.50
+[1649 | 13998.83] loss=2.66 avg=2.50
+[1650 | 14006.11] loss=2.21 avg=2.50
+[1651 | 14013.13] loss=3.12 avg=2.50
+[1652 | 14020.19] loss=2.06 avg=2.50
+[1653 | 14027.30] loss=2.20 avg=2.49
+[1654 | 14034.50] loss=2.88 avg=2.50
+[1655 | 14041.52] loss=1.97 avg=2.49
+[1656 | 14048.55] loss=2.74 avg=2.50
+[1657 | 14055.59] loss=1.84 avg=2.49
+[1658 | 14062.55] loss=1.98 avg=2.48
+[1659 | 14069.57] loss=3.58 avg=2.49
+[1660 | 14076.62] loss=3.24 avg=2.50
+[1661 | 14083.72] loss=2.43 avg=2.50
+[1662 | 14090.71] loss=2.31 avg=2.50
+[1663 | 14097.70] loss=2.59 avg=2.50
+[1664 | 14104.70] loss=2.48 avg=2.50
+[1665 | 14111.88] loss=2.11 avg=2.50
+[1666 | 14118.86] loss=2.32 avg=2.49
+[1667 | 14125.81] loss=2.50 avg=2.50
+[1668 | 14132.77] loss=2.41 avg=2.49
+[1669 | 14139.77] loss=2.53 avg=2.49
+[1670 | 14146.80] loss=2.94 avg=2.50
+[1671 | 14153.74] loss=2.91 avg=2.50
+[1672 | 14160.72] loss=2.27 avg=2.50
+[1673 | 14167.78] loss=2.41 avg=2.50
+[1674 | 14174.86] loss=2.25 avg=2.50
+[1675 | 14181.85] loss=2.23 avg=2.49
+[1676 | 14188.89] loss=2.20 avg=2.49
+[1677 | 14195.96] loss=3.22 avg=2.50
+[1678 | 14203.12] loss=2.34 avg=2.50
+[1679 | 14210.15] loss=2.54 avg=2.50
+[1680 | 14217.23] loss=1.73 avg=2.49
+[1681 | 14224.36] loss=2.59 avg=2.49
+[1682 | 14231.57] loss=2.60 avg=2.49
+[1683 | 14238.64] loss=1.82 avg=2.49
+[1684 | 14245.69] loss=2.08 avg=2.48
+[1685 | 14252.70] loss=2.16 avg=2.48
+[1686 | 14259.77] loss=2.61 avg=2.48
+[1687 | 14266.84] loss=2.86 avg=2.48
+[1688 | 14273.87] loss=2.77 avg=2.49
+[1689 | 14280.94] loss=2.22 avg=2.48
+[1690 | 14288.01] loss=2.29 avg=2.48
+[1691 | 14295.06] loss=2.82 avg=2.49
+[1692 | 14302.12] loss=2.25 avg=2.48
+[1693 | 14309.35] loss=3.94 avg=2.50
+[1694 | 14316.54] loss=2.88 avg=2.50
+[1695 | 14323.69] loss=2.13 avg=2.50
+[1696 | 14330.80] loss=3.02 avg=2.50
+[1697 | 14337.91] loss=2.49 avg=2.50
+[1698 | 14345.02] loss=2.13 avg=2.50
+[1699 | 14352.07] loss=2.26 avg=2.50
+Generating samples...
+======== SAMPLE 1 ========
+ to do it yourself if you have time.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The morning turned to evening and the light was
+pulse-pounding.
+
+The children spoke for themselves with their lips pressed
+wide-open as they told it and the noise was
+purgatory.
+
+It was an argument, it was a seizure,
+it was a voice in the corner, it was my father
+who said, yes, this is what happened, a boy
+then seven years old saying yes, he said yes, to his father.
+Once he uttered the word, as if in a private
+deep-sea voice and each step brought the other up
+to a threshold of understanding, a threshold where each new
+thing grew and grew and grew, and the greater part of the
+world was already dead.
+
+The children said they believed in dreams. They said they believe
+in ghosts. To be clear they were dreaming.
+
+The boy said, yes, this is what happened
+and the children began speaking anew.
+The boy said yes to a dream of light and he said
+yes to a ghost and in the darkness from which he had
+come. The children said they believed in the Lord
+of darkness who said when they would slay the darkness
+the children would slay the darkness.
+
+<|endoftext|>
+
+<|startoftext|>
+
+It might be that the poem was a poem from
+between the ages of ten and eleven.
+
+The poet took up space as his usual
+place of rest and rest he so well pleased.
+
+It would be that, in the place of rest, he chose
+the place that offered him the best.
+
+The most ordinary thing in the world, he said at last,
+was to be left for ever to occupy
+this rest.
+
+<|endoftext|>
+
+<|startoftext|>
+
+As I slept, all I could sense were those
+red hills and the dead sky that were both
+being reconciled. They were both living parts.
+
+As tomorrow drew nearer—
+I could see the hills—I could smell they
+were getting nearer—
+
+then the sky—the earth itself
+becoming darker by night—
+
+if you took my aunt’s word—
+if I had a voice—
+if one thing kept me going
+I suppose I am now—
+
+<|endoftext|>
+
+<|startoftext|>
+If you wish to find me out, you must leave my passport and
+it must be returned by air.
+
+    “Outcast.”
+
+ “As if I could not
+curl the waters of my soul.
+
+ “To see through the
+impervious” — as though
+they knew me.
+
+ “As though the heat
+did not get at the soul’s true colors.
+
+This place where you cannot sleep
+had a name for you.
+
+ “It called how you were raised
+an animal name.”
+
+ “And I am an animal name
+I can understand.”
+
+ “And I am going to
+break my comfort zones
+so they don’t have to
+where there is no gun.
+
+ “And if you desire
+my forgiveness, don’t put the muzzle
+behind this muzzle.”
+
+ “Then I will pay you back
+just enough.”
+
+ “No muzzle, only forgiveness.
+
+The forgiveness of God to give you clean
+pictures of the day, and to make you happy.
+
+<|endoftext|>
+
+<|startoftext|>
+
+A beautiful day is born as darkness and heat
+wrestles the earth, and the earth is drawn
+by the love of its little angel. How
+we should love the little angel. So we do.
+
+The little angel is not the same as the beautiful angel.
+She is like shadows on a dark day.
+The beauty of the angel can be found in
+the shadows on the beautiful
+day of the beautiful.
+
+<|endoftext|>
+
+<|startoftext|>
+
+
+<|startoftext|>
+
+
+Forgive me for being the first, to have been born,
+to bear arms in arms of God, Lord of worlds.
+
+To be in one with God. I was born into war,
+into hunger, into want. I am the Lord.
+
+Be this. You were born into the world,
+into temptation. Be this. You will be the first,
+the first to have stood up to God.
+
+I was raised of a small,
+
+[1700 | 14455.44] loss=2.32 avg=2.49
+[1701 | 14462.50] loss=2.36 avg=2.49
+[1702 | 14469.51] loss=2.38 avg=2.49
+[1703 | 14476.55] loss=1.96 avg=2.49
+[1704 | 14483.62] loss=2.18 avg=2.48
+[1705 | 14490.69] loss=1.98 avg=2.48
+[1706 | 14497.74] loss=1.77 avg=2.47
+[1707 | 14504.95] loss=1.80 avg=2.46
+[1708 | 14512.32] loss=2.01 avg=2.46
+[1709 | 14519.34] loss=2.24 avg=2.46
+[1710 | 14526.37] loss=1.50 avg=2.45
+[1711 | 14533.42] loss=2.84 avg=2.45
+[1712 | 14540.46] loss=1.68 avg=2.44
+[1713 | 14547.57] loss=1.98 avg=2.44
+[1714 | 14554.63] loss=1.75 avg=2.43
+[1715 | 14561.67] loss=1.78 avg=2.43
+[1716 | 14568.78] loss=2.24 avg=2.42
+[1717 | 14575.81] loss=1.96 avg=2.42
+[1718 | 14582.87] loss=2.27 avg=2.42
+[1719 | 14589.94] loss=1.62 avg=2.41
+[1720 | 14597.01] loss=2.36 avg=2.41
+[1721 | 14604.09] loss=1.63 avg=2.40
+[1722 | 14611.10] loss=1.59 avg=2.39
+[1723 | 14618.13] loss=3.27 avg=2.40
+[1724 | 14625.29] loss=2.26 avg=2.40
+[1725 | 14632.36] loss=2.91 avg=2.41
+[1726 | 14639.37] loss=3.03 avg=2.41
+[1727 | 14646.39] loss=2.07 avg=2.41
+[1728 | 14653.38] loss=2.94 avg=2.41
+[1729 | 14660.32] loss=2.23 avg=2.41
+[1730 | 14667.26] loss=2.62 avg=2.41
+[1731 | 14674.24] loss=1.81 avg=2.41
+[1732 | 14681.28] loss=1.92 avg=2.40
+[1733 | 14688.23] loss=2.32 avg=2.40
+[1734 | 14695.17] loss=2.70 avg=2.41
+[1735 | 14702.13] loss=2.33 avg=2.41
+[1736 | 14709.15] loss=2.92 avg=2.41
+[1737 | 14716.22] loss=2.45 avg=2.41
+[1738 | 14723.28] loss=2.33 avg=2.41
+[1739 | 14730.32] loss=2.42 avg=2.41
+[1740 | 14737.38] loss=2.14 avg=2.41
+[1741 | 14744.42] loss=2.12 avg=2.40
+[1742 | 14751.51] loss=1.90 avg=2.40
+[1743 | 14758.46] loss=2.42 avg=2.40
+[1744 | 14765.45] loss=2.24 avg=2.40
+[1745 | 14772.51] loss=1.91 avg=2.39
+[1746 | 14779.53] loss=1.31 avg=2.38
+[1747 | 14786.60] loss=2.57 avg=2.38
+[1748 | 14793.67] loss=3.11 avg=2.39
+[1749 | 14800.72] loss=2.63 avg=2.39
+[1750 | 14807.83] loss=2.70 avg=2.40
+[1751 | 14814.91] loss=2.68 avg=2.40
+[1752 | 14821.96] loss=1.82 avg=2.39
+[1753 | 14829.02] loss=1.81 avg=2.39
+[1754 | 14836.11] loss=2.19 avg=2.39
+[1755 | 14843.23] loss=1.99 avg=2.38
+[1756 | 14850.29] loss=2.41 avg=2.38
+[1757 | 14857.35] loss=2.79 avg=2.39
+[1758 | 14864.42] loss=2.78 avg=2.39
+[1759 | 14871.54] loss=2.93 avg=2.40
+[1760 | 14878.60] loss=2.47 avg=2.40
+[1761 | 14885.60] loss=2.22 avg=2.39
+[1762 | 14892.62] loss=1.91 avg=2.39
+[1763 | 14899.66] loss=2.49 avg=2.39
+[1764 | 14906.70] loss=2.59 avg=2.39
+[1765 | 14913.77] loss=2.54 avg=2.39
+[1766 | 14920.82] loss=2.33 avg=2.39
+[1767 | 14927.88] loss=2.85 avg=2.40
+[1768 | 14934.88] loss=3.08 avg=2.40
+[1769 | 14941.90] loss=2.24 avg=2.40
+[1770 | 14948.98] loss=2.12 avg=2.40
+[1771 | 14956.01] loss=1.68 avg=2.39
+[1772 | 14963.05] loss=2.83 avg=2.40
+[1773 | 14970.10] loss=2.29 avg=2.40
+[1774 | 14977.12] loss=1.75 avg=2.39
+[1775 | 14984.20] loss=2.24 avg=2.39
+[1776 | 14991.30] loss=1.99 avg=2.38
+[1777 | 14998.28] loss=2.42 avg=2.38
+[1778 | 15005.37] loss=3.11 avg=2.39
+[1779 | 15012.46] loss=2.10 avg=2.39
+[1780 | 15019.51] loss=1.94 avg=2.38
+[1781 | 15026.68] loss=2.11 avg=2.38
+[1782 | 15033.91] loss=1.98 avg=2.38
+[1783 | 15041.15] loss=2.38 avg=2.38
+[1784 | 15048.28] loss=1.98 avg=2.37
+[1785 | 15055.38] loss=1.91 avg=2.37
+[1786 | 15062.50] loss=2.57 avg=2.37
+[1787 | 15069.59] loss=1.77 avg=2.37
+[1788 | 15076.68] loss=1.79 avg=2.36
+[1789 | 15083.78] loss=2.04 avg=2.36
+[1790 | 15090.86] loss=2.25 avg=2.36
+[1791 | 15097.95] loss=2.29 avg=2.35
+[1792 | 15105.03] loss=1.73 avg=2.35
+[1793 | 15112.10] loss=1.81 avg=2.34
+[1794 | 15119.24] loss=2.29 avg=2.34
+[1795 | 15126.34] loss=1.53 avg=2.33
+[1796 | 15133.47] loss=2.48 avg=2.34
+[1797 | 15140.57] loss=2.50 avg=2.34
+[1798 | 15147.66] loss=2.34 avg=2.34
+[1799 | 15154.79] loss=2.16 avg=2.34
+Generating samples...
+======== SAMPLE 1 ========
+ dead.
+
+<|endoftext|>
+
+<|startoftext|>
+
+We live in a country where only men can drive.
+We live like a boy bandanaed on the beach,
+a thick cloud covering everything we see.”
+
+We don’t know what awaits us in the mountains,
+or on the moon, or whatever else awaits us.
+
+How shall I greet my father,
+grandfather, or mother who has died?
+
+We are the ones who saved us.
+Together with our mothers and grandmothers, we
+are the ones who can’t escape our sight.
+We are the women who saved us.
+Together with their mothers and grandmothers, we
+are the men whose eyes are fixed on us.
+
+We are the men who watched over us.
+Together with their mothers and grandmothers, they
+watch over us.
+
+<|endoftext|>
+
+<|startoftext|>
+
+You are the body still floating
+
+In the water and still on the ground
+That carries you to your resting place.
+
+You are the body still looking
+At the sun rising to a full moon
+Looking down on your body and not
+
+Looking back.
+
+The moon is a body still
+Looking at its quota
+The body still in its quota
+Still with you
+
+On its last stargaze
+Looking at its last wake
+Looking at its last climb
+Looking away from you.
+
+<|endoftext|>
+
+<|startoftext|>
+
+When the firefly sings
+
+In its small trunks its song
+
+What song the firefly sings
+
+The song that flies.
+
+It is like a tree
+in its own right
+
+To soar above the tree
+
+And to be alone
+
+In the center of the center
+
+In the only home
+There are where only love is
+
+And where only love is shining,
+
+Here is where only love is shining.
+
+<|endoftext|>
+
+<|startoftext|>
+
+When you asked why the river turned green,
+
+You learned the usual answers:
+“Because the river turns green.”
+
+—Samuel Huntington”
+
+Growing up, the color of my skin was the crisp gray of the lowlands, California’srens.
+
+Across the street from my high school, we were the only towns.
+
+The summers would start with low pressure balloons above the elementary school gym.
+
+The kids would run around in them, exploring. We would run away from them, so I grew up.
+
+It wasn’t until the third grade that we learned that our color, that grass green, meant we lived in the Redding-Conti Mountains.
+
+When the first trains left here at night, it was because of the balloon station, the one we were in.
+
+We came in like any other color, ran in our hoodies.
+
+Once we saw a stretch of forest and thought we saw a train,
+Then we said, “Son, “We are this close.”
+
+When we saw those red traffic cones, we knew they were the red lines.
+
+When we saw those traffic cones we knew we lived in a city, a place of two minds.
+
+Once we saw a strip of forest and thought we heard footsteps behind us.
+
+If you saw a strip of forest you lived in a strip club.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I am living in the trees.
+The birds are dying.
+
+My neighbor is dead.
+In a field full of pine needles,
+I can see the blue sky.
+
+My neighbor is dying.
+
+What do I make of it?
+A chair that lets you move parts
+
+I don’t even own yet is available
+
+<|endoftext|>
+
+<|startoftext|>
+
+I’ll knock on her door often.
+I’ll ask for some fish.
+I’ll say something bad like why do you hate Japanese girls?
+Will give her the hint. She will tell me her own
+little secret. I will ask her the same thing. If she says something
+revealing, I will tap on it, letting her know. It’s the only
+safe
+I keep, and she will know. If she says words I will
+push the button myself. Sometimes I pull out
+my notebook and write the usual shit.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I am sitting cross hall with my boyfriend and we both know it was
+Last night
+
+[1800 | 15260.09] loss=2.02 avg=2.33
+[1801 | 15267.09] loss=1.44 avg=2.32
+[1802 | 15274.04] loss=1.99 avg=2.32
+[1803 | 15281.03] loss=2.31 avg=2.32
+[1804 | 15287.98] loss=2.95 avg=2.33
+[1805 | 15294.94] loss=1.58 avg=2.32
+[1806 | 15301.92] loss=2.69 avg=2.32
+[1807 | 15308.92] loss=2.22 avg=2.32
+[1808 | 15315.89] loss=1.62 avg=2.31
+[1809 | 15322.86] loss=2.40 avg=2.32
+[1810 | 15329.86] loss=1.98 avg=2.31
+[1811 | 15336.87] loss=2.83 avg=2.32
+[1812 | 15343.89] loss=2.29 avg=2.32
+[1813 | 15351.00] loss=1.95 avg=2.31
+[1814 | 15358.04] loss=3.15 avg=2.32
+[1815 | 15365.09] loss=1.90 avg=2.32
+[1816 | 15372.15] loss=1.82 avg=2.31
+[1817 | 15379.16] loss=2.23 avg=2.31
+[1818 | 15386.08] loss=2.29 avg=2.31
+[1819 | 15393.11] loss=1.92 avg=2.31
+[1820 | 15400.15] loss=2.30 avg=2.31
+[1821 | 15407.27] loss=2.26 avg=2.31
+[1822 | 15414.41] loss=2.84 avg=2.31
+[1823 | 15422.06] loss=3.09 avg=2.32
+[1824 | 15429.46] loss=2.79 avg=2.32
+[1825 | 15436.48] loss=2.17 avg=2.32
+[1826 | 15443.52] loss=2.27 avg=2.32
+[1827 | 15450.57] loss=2.13 avg=2.32
+[1828 | 15457.61] loss=1.91 avg=2.32
+[1829 | 15464.72] loss=2.32 avg=2.32
+[1830 | 15471.75] loss=2.96 avg=2.32
+[1831 | 15478.83] loss=2.80 avg=2.33
+[1832 | 15485.87] loss=1.79 avg=2.32
+[1833 | 15492.97] loss=2.52 avg=2.32
+[1834 | 15500.07] loss=2.39 avg=2.33
+[1835 | 15507.17] loss=2.71 avg=2.33
+[1836 | 15514.22] loss=3.22 avg=2.34
+[1837 | 15521.35] loss=2.65 avg=2.34
+[1838 | 15528.45] loss=1.72 avg=2.33
+[1839 | 15535.52] loss=2.25 avg=2.33
+[1840 | 15543.07] loss=2.02 avg=2.33
+[1841 | 15550.50] loss=2.47 avg=2.33
+[1842 | 15557.56] loss=2.20 avg=2.33
+[1843 | 15564.62] loss=2.53 avg=2.33
+[1844 | 15571.69] loss=1.82 avg=2.33
+[1845 | 15578.72] loss=2.11 avg=2.33
+[1846 | 15585.86] loss=1.98 avg=2.32
+[1847 | 15592.95] loss=2.83 avg=2.33
+[1848 | 15600.06] loss=1.73 avg=2.32
+[1849 | 15607.16] loss=2.24 avg=2.32
+[1850 | 15614.21] loss=2.38 avg=2.32
+[1851 | 15621.28] loss=2.03 avg=2.32
+[1852 | 15628.34] loss=1.79 avg=2.31
+[1853 | 15635.50] loss=1.88 avg=2.31
+[1854 | 15642.63] loss=2.43 avg=2.31
+[1855 | 15649.78] loss=2.06 avg=2.31
+[1856 | 15656.94] loss=2.03 avg=2.30
+[1857 | 15664.10] loss=2.57 avg=2.31
+[1858 | 15671.29] loss=1.60 avg=2.30
+[1859 | 15678.44] loss=2.81 avg=2.31
+[1860 | 15685.61] loss=1.44 avg=2.30
+[1861 | 15692.77] loss=2.16 avg=2.30
+[1862 | 15699.92] loss=2.67 avg=2.30
+[1863 | 15707.08] loss=1.76 avg=2.29
+[1864 | 15714.18] loss=2.33 avg=2.29
+[1865 | 15721.38] loss=1.61 avg=2.29
+[1866 | 15728.64] loss=1.63 avg=2.28
+[1867 | 15735.77] loss=2.52 avg=2.28
+[1868 | 15742.86] loss=3.08 avg=2.29
+[1869 | 15749.91] loss=2.99 avg=2.30
+[1870 | 15757.01] loss=2.07 avg=2.30
+[1871 | 15764.12] loss=2.52 avg=2.30
+[1872 | 15771.23] loss=1.49 avg=2.29
+[1873 | 15778.30] loss=2.63 avg=2.29
+[1874 | 15785.41] loss=2.59 avg=2.30
+[1875 | 15792.54] loss=1.75 avg=2.29
+[1876 | 15799.58] loss=2.15 avg=2.29
+[1877 | 15806.63] loss=1.64 avg=2.28
+[1878 | 15813.70] loss=2.06 avg=2.28
+[1879 | 15820.80] loss=2.39 avg=2.28
+[1880 | 15827.91] loss=1.83 avg=2.28
+[1881 | 15834.96] loss=2.70 avg=2.28
+[1882 | 15842.04] loss=2.76 avg=2.29
+[1883 | 15849.12] loss=2.29 avg=2.29
+[1884 | 15856.21] loss=1.84 avg=2.28
+[1885 | 15863.34] loss=2.41 avg=2.28
+[1886 | 15870.46] loss=2.43 avg=2.28
+[1887 | 15877.58] loss=1.51 avg=2.28
+[1888 | 15884.70] loss=1.83 avg=2.27
+[1889 | 15891.81] loss=2.37 avg=2.27
+[1890 | 15898.91] loss=2.26 avg=2.27
+[1891 | 15906.10] loss=1.11 avg=2.26
+[1892 | 15913.16] loss=2.37 avg=2.26
+[1893 | 15920.26] loss=2.49 avg=2.27
+[1894 | 15927.31] loss=2.35 avg=2.27
+[1895 | 15934.37] loss=1.74 avg=2.26
+[1896 | 15941.41] loss=2.36 avg=2.26
+[1897 | 15948.52] loss=2.32 avg=2.26
+[1898 | 15955.60] loss=1.79 avg=2.26
+[1899 | 15962.69] loss=1.96 avg=2.25
+Generating samples...
+======== SAMPLE 1 ========
+ one one of my brothers I mean
+
+what I have done is done  
+ what I want the world to think of I’m sorry
+I’m  didn’t do what I did “just think”
+
+and that’s all.”
+
+<|endoftext|>
+
+<|startoftext|>
+
+You know I have had to change my name to Che iste
+because one day it becomes an adjective and someone needs to
+say che is a dish of corn flakes I can’t wait
+to eat and the sun goes down the car wash goes up
+     to the desert and everything it touches
+goes brown the smell of it kills the heat
+because you’re supposed to know
+this is my house and the sky is dark and something
+just doesn’t matter and the house goes dark ). I’m
+
+sorry I’m a brown blur of my own and I’m not
+I’ll just do it again so fast and so far
+in which I have gone, and I am so happy that I did.
+I can’t touch the feeling with my tongue
+and that is pure Che is a dish of corn flakes.
+I can’t do one good thing and do all I can to keep
+a lid on that feeling and never let
+the weather’s dark hair touch the smell of my own hot sun’s
+hot hands.
+
+<|endoftext|>
+
+<|startoftext|>
+
+When I was younger, I read every word
+of a famous philosopher’s treatise. Today,
+they’re staples on my refrigerator.
+I wonder how the world got that far
+in passing through your mouth. Is it time to leave
+the city I grew to be citizen free.
+What do you think happened when the world all-but-agrees
+in calling you a thug? Do you remember,
+in those dark, empty nights,
+seeing your old friend sitting at a desk in the newspaper? Yes,
+that’s right. We don’t know where
+he is now, or what he’s up to in this crisis.
+I keep hearing him say the word goodnight
+and leave the room silent. He has to go.
+
+<|endoftext|>
+
+<|startoftext|>
+
+My name’s Teterra Williams.
+I was raised in Williamsburg—too poor
+to ever own a piano. The only piano
+I ever owned was a pickup.
+I went to school alone.
+My father, whose voice I used
+to hum at night, lived on the block outside
+the piano. I was 16, never moved.
+I did not deserve to live like that.
+
+My mother, always the calmest,
+drove a dog into the mechanic’s shop,
+and sat in the shop alone.
+
+Every weekend, I would sit on the curb
+all day and sing a small jazz tune,
+that I had listened to in the shop’s coruscating sun.
+My grandmother had stopped playing the clarinet
+four days in a row,
+and my father had stopped playing the clarinet
+only a few days later,
+the clarinet no longer playing the clarinet.
+
+<|endoftext|>
+
+<|startoftext|>
+
+In the spring, I take my daughter to see the snow
+and the ponds. Sometimes, the river swings
+on past me, its whirring sound like a long blade
+crashing through grass. My daughter loves the river, the pond
+
+and spends her days near it. She loves getting
+old — especially the wire-thin wire that runs down
+        Little Red Fern. She wants to be a surgeon.
+She wants to be a surgeon who gets old, gets sick, gets any number of causes.
+He gets old because he was younger than me,
+because  I— —
+
+ so now I am, and always will be.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I walk the river
+where my daughter is old, red, and worn out.
+
+One spring day, I’m out walking a river.
+A red deer is gathering water.
+
+You know me: I dress to please.
+
+My daughter, old and dead,
+stumbles toward me.
+
+<|endoftext|>
+
+<|startoftext|>
+
+My late, dead mother,
+
+who could not be named,
+
+wrenched out of her
+
+[1900 | 16066.56] loss=1.71 avg=2.25
+[1901 | 16073.61] loss=1.64 avg=2.24
+[1902 | 16080.66] loss=2.77 avg=2.25
+[1903 | 16087.74] loss=2.56 avg=2.25
+[1904 | 16094.81] loss=2.41 avg=2.25
+[1905 | 16101.85] loss=1.69 avg=2.25
+[1906 | 16108.97] loss=1.55 avg=2.24
+[1907 | 16116.32] loss=2.90 avg=2.25
+[1908 | 16123.43] loss=1.72 avg=2.24
+[1909 | 16130.48] loss=1.56 avg=2.23
+[1910 | 16137.56] loss=2.38 avg=2.24
+[1911 | 16144.59] loss=1.70 avg=2.23
+[1912 | 16151.56] loss=2.57 avg=2.23
+[1913 | 16158.62] loss=2.94 avg=2.24
+[1914 | 16165.64] loss=1.97 avg=2.24
+[1915 | 16172.64] loss=2.64 avg=2.24
+[1916 | 16179.83] loss=2.18 avg=2.24
+[1917 | 16186.88] loss=1.86 avg=2.24
+[1918 | 16193.89] loss=1.48 avg=2.23
+[1919 | 16200.94] loss=1.62 avg=2.22
+[1920 | 16207.98] loss=2.02 avg=2.22
+[1921 | 16214.99] loss=2.67 avg=2.23
+[1922 | 16222.10] loss=2.36 avg=2.23
+[1923 | 16229.16] loss=2.25 avg=2.23
+[1924 | 16236.21] loss=2.19 avg=2.23
+[1925 | 16243.29] loss=2.63 avg=2.23
+[1926 | 16250.33] loss=2.18 avg=2.23
+[1927 | 16257.38] loss=1.60 avg=2.23
+[1928 | 16264.47] loss=1.34 avg=2.22
+[1929 | 16271.53] loss=2.60 avg=2.22
+[1930 | 16278.59] loss=2.00 avg=2.22
+[1931 | 16285.65] loss=2.35 avg=2.22
+[1932 | 16292.76] loss=1.86 avg=2.22
+[1933 | 16299.88] loss=1.89 avg=2.21
+[1934 | 16306.95] loss=1.77 avg=2.21
+[1935 | 16314.03] loss=2.24 avg=2.21
+[1936 | 16321.10] loss=1.71 avg=2.20
+[1937 | 16328.16] loss=2.32 avg=2.20
+[1938 | 16335.28] loss=2.52 avg=2.21
+[1939 | 16342.36] loss=2.35 avg=2.21
+[1940 | 16349.42] loss=1.38 avg=2.20
+[1941 | 16356.59] loss=2.72 avg=2.21
+[1942 | 16363.61] loss=3.83 avg=2.22
+[1943 | 16370.65] loss=1.98 avg=2.22
+[1944 | 16377.71] loss=1.80 avg=2.22
+[1945 | 16384.80] loss=2.46 avg=2.22
+[1946 | 16391.80] loss=2.55 avg=2.22
+[1947 | 16398.85] loss=2.44 avg=2.22
+[1948 | 16405.91] loss=1.75 avg=2.22
+[1949 | 16412.94] loss=1.50 avg=2.21
+[1950 | 16419.97] loss=3.23 avg=2.22
+[1951 | 16427.01] loss=2.05 avg=2.22
+[1952 | 16434.07] loss=2.15 avg=2.22
+[1953 | 16441.15] loss=2.33 avg=2.22
+[1954 | 16448.24] loss=2.19 avg=2.22
+[1955 | 16455.32] loss=2.28 avg=2.22
+[1956 | 16462.36] loss=2.25 avg=2.22
+[1957 | 16469.45] loss=2.50 avg=2.22
+[1958 | 16476.48] loss=2.19 avg=2.22
+[1959 | 16483.54] loss=2.34 avg=2.22
+[1960 | 16490.64] loss=2.46 avg=2.23
+[1961 | 16497.72] loss=1.21 avg=2.22
+[1962 | 16504.76] loss=2.23 avg=2.22
+[1963 | 16511.80] loss=1.69 avg=2.21
+[1964 | 16518.88] loss=1.73 avg=2.21
+[1965 | 16525.94] loss=1.64 avg=2.20
+[1966 | 16533.01] loss=1.39 avg=2.19
+[1967 | 16540.09] loss=2.55 avg=2.20
+[1968 | 16547.16] loss=1.32 avg=2.19
+[1969 | 16554.26] loss=1.87 avg=2.18
+[1970 | 16561.30] loss=1.86 avg=2.18
+[1971 | 16568.36] loss=2.60 avg=2.19
+[1972 | 16575.45] loss=1.73 avg=2.18
+[1973 | 16582.63] loss=1.93 avg=2.18
+[1974 | 16590.81] loss=2.18 avg=2.18
+[1975 | 16598.48] loss=2.19 avg=2.18
+[1976 | 16606.07] loss=2.54 avg=2.18
+[1977 | 16613.44] loss=1.84 avg=2.18
+[1978 | 16620.53] loss=2.02 avg=2.18
+[1979 | 16627.64] loss=1.58 avg=2.17
+[1980 | 16634.70] loss=2.24 avg=2.17
+[1981 | 16641.84] loss=2.86 avg=2.18
+[1982 | 16649.08] loss=1.26 avg=2.17
+[1983 | 16657.01] loss=1.79 avg=2.17
+[1984 | 16665.41] loss=2.53 avg=2.17
+[1985 | 16673.16] loss=2.74 avg=2.18
+[1986 | 16681.06] loss=2.15 avg=2.17
+[1987 | 16688.26] loss=2.45 avg=2.18
+[1988 | 16695.49] loss=1.63 avg=2.17
+[1989 | 16702.56] loss=1.60 avg=2.17
+[1990 | 16709.60] loss=1.26 avg=2.16
+[1991 | 16716.63] loss=2.11 avg=2.16
+[1992 | 16723.66] loss=1.78 avg=2.15
+[1993 | 16730.72] loss=2.01 avg=2.15
+[1994 | 16737.74] loss=1.73 avg=2.15
+[1995 | 16744.82] loss=2.00 avg=2.15
+[1996 | 16751.91] loss=1.23 avg=2.14
+[1997 | 16758.95] loss=2.52 avg=2.14
+[1998 | 16765.94] loss=1.60 avg=2.14
+[1999 | 16772.99] loss=1.25 avg=2.13
+Saving checkpoint/run1/model-2000
+Generating samples...
+======== SAMPLE 1 ========
+start
+And all the things you have thought of and of
+Which you are made.
+And all the things you had thought of and
+Things
+Already made.
+
+<|endoftext|>
+
+<|startoftext|>
+
+That no one could profit from except as a means to an end,
+That they could be given for their use,
+That this no one could profit from but as a means toward
+Getting out of the system as soon as possible,
+That those of value might have their own place,
+That this no one could be held dear,
+And none should be overlooked;
+That this no one was an object of veneration,
+Even in the heat of battle.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The voice says labor in progress,
+In the distance, in time,
+Settling like ants behind a desk,
+There in labor day after day,
+Toiling day after day,
+But we, the people,
+Are little by day, pink by pink,
+Still looking for the voice, the voice
+Calling to itself, the voice
+That in the depth of the night
+In the distance, in time,
+Not seen by daylight,
+Not seen the eye, the eye
+But listening to the voice ask itself,
+Could the voice be found
+While we were waiting for it,
+While we could not, for the words
+Still needed calling, for labor still to take shape.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The old woman’s voice says tremendous work.
+
+Some hillsides, steepened with snow
+with frost, the mountains of the dead
+swept the earth as though they were children’s toys.
+
+All the way up to Mount Baikal,
+Where the faces of the dead glowed bright.
+
+I thought, I thought, they’re no-no.
+
+But the hill-faces grew brighter,
+And what’s more, the ghosts of the dead
+lifted their brightness again.
+
+And when I looked down, I saw the hill
+Was once its cliff-face
+And now we have rounded it into a heap,
+Now it’s reaching up to touch it,
+It’s lifting its hand, and it is rubbing
+The hill-face on the snow;
+
+If I’d to ask it’s summertime now,
+I’d to ask for more work.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The sun is a bitch.
+
+What I want to do is ask you to do
+something dumb.
+
+I’ve told many people this story:
+they are dumb as the faces on snowflake pins.
+they are pure
+impatience. They don’t know
+what it is that’s dumb.
+
+They are afraid they’ll never see the same faces
+
+in parks again.
+
+A snowflake pin is not afraid anymore.
+it is already afraid of you.
+as if the world didn’t exist.
+
+you are one of the faces on pins.
+
+<|endoftext|>
+
+<|startoftext|>
+
+If you’re going to try and explain the origins of
+the word truck to a passerby, you gotta start somewhere.
+With the way the country has been turned
+about and the way the highway has been turned, and the trucks
+they don’t seem to care much about the roads, or
+what the heck they’re doing. Instead, they seem to care
+only about the cars and the cars they’re making left. It’s
+even more absurd when you consider how few people make
+their living making absurd appearances behind the wheel,
+especially if you consider the way the world has
+adjusted since the show began, and the way our use
+of the word has adjusted even further, and with less
+worry. Sure, there are still roads still has to go
+before the people who belong on the streets—
+the cars, the trucks, the people—will give it a go,
+or the trucking industry will take it a little too far.
+But the people—the people—are here to stay.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The girl is playing rougher today than at any point
+in her life. One time she was playing a card game
+with her friends. One time she had a bloody nose and
+one day her father came down with breast cancer.
+One time she was in a
+
+[2000 | 16879.92] loss=1.86 avg=2.12
+[2001 | 16886.94] loss=2.53 avg=2.13
+[2002 | 16894.15] loss=1.65 avg=2.12
+[2003 | 16901.30] loss=2.36 avg=2.13
+[2004 | 16908.35] loss=2.09 avg=2.13
+[2005 | 16915.40] loss=1.33 avg=2.12
+[2006 | 16922.44] loss=1.69 avg=2.11
+[2007 | 16929.49] loss=2.36 avg=2.12
+[2008 | 16936.51] loss=1.49 avg=2.11
+[2009 | 16943.52] loss=1.83 avg=2.11
+[2010 | 16950.58] loss=1.49 avg=2.10
+[2011 | 16957.64] loss=2.40 avg=2.10
+[2012 | 16964.83] loss=2.20 avg=2.10
+[2013 | 16973.18] loss=2.18 avg=2.10
+[2014 | 16980.48] loss=2.57 avg=2.11
+[2015 | 16987.52] loss=1.80 avg=2.11
+[2016 | 16994.56] loss=2.01 avg=2.11
+[2017 | 17001.59] loss=1.50 avg=2.10
+[2018 | 17008.56] loss=2.04 avg=2.10
+[2019 | 17015.56] loss=1.67 avg=2.09
+[2020 | 17022.61] loss=1.10 avg=2.08
+[2021 | 17029.61] loss=1.64 avg=2.08
+[2022 | 17036.60] loss=2.11 avg=2.08
+[2023 | 17043.60] loss=2.14 avg=2.08
+[2024 | 17050.61] loss=2.17 avg=2.08
+[2025 | 17057.64] loss=2.88 avg=2.09
+[2026 | 17064.70] loss=1.60 avg=2.09
+[2027 | 17071.71] loss=1.93 avg=2.08
+[2028 | 17078.72] loss=1.90 avg=2.08
+[2029 | 17085.79] loss=1.42 avg=2.08
+[2030 | 17092.83] loss=1.94 avg=2.07
+[2031 | 17099.87] loss=1.95 avg=2.07
+[2032 | 17106.89] loss=2.11 avg=2.07
+[2033 | 17113.93] loss=2.36 avg=2.08
+[2034 | 17120.95] loss=1.71 avg=2.07
+[2035 | 17127.99] loss=1.09 avg=2.06
+[2036 | 17135.03] loss=1.97 avg=2.06
+[2037 | 17142.03] loss=1.88 avg=2.06
+[2038 | 17149.06] loss=2.23 avg=2.06
+[2039 | 17156.07] loss=0.93 avg=2.05
+[2040 | 17163.18] loss=2.21 avg=2.05
+[2041 | 17170.22] loss=2.08 avg=2.05
+[2042 | 17177.30] loss=1.15 avg=2.04
+[2043 | 17184.42] loss=1.87 avg=2.04
+[2044 | 17191.50] loss=1.50 avg=2.04
+[2045 | 17198.62] loss=1.85 avg=2.03
+[2046 | 17205.73] loss=1.39 avg=2.03
+[2047 | 17212.81] loss=1.70 avg=2.02
+[2048 | 17219.91] loss=2.75 avg=2.03
+[2049 | 17227.03] loss=1.47 avg=2.03
+[2050 | 17234.14] loss=1.48 avg=2.02
+[2051 | 17241.23] loss=1.59 avg=2.02
+[2052 | 17248.38] loss=1.73 avg=2.01
+[2053 | 17255.46] loss=2.09 avg=2.01
+[2054 | 17262.61] loss=1.87 avg=2.01
+[2055 | 17270.08] loss=1.76 avg=2.01
+[2056 | 17277.10] loss=1.32 avg=2.00
+[2057 | 17284.09] loss=2.29 avg=2.01
+[2058 | 17291.12] loss=2.40 avg=2.01
+[2059 | 17298.11] loss=1.81 avg=2.01
+[2060 | 17305.17] loss=2.18 avg=2.01
+[2061 | 17312.23] loss=2.26 avg=2.01
+[2062 | 17319.28] loss=1.55 avg=2.01
+[2063 | 17326.36] loss=2.26 avg=2.01
+[2064 | 17333.42] loss=2.09 avg=2.01
+[2065 | 17340.47] loss=1.60 avg=2.01
+[2066 | 17347.53] loss=1.96 avg=2.01
+[2067 | 17354.59] loss=1.30 avg=2.00
+[2068 | 17361.67] loss=1.42 avg=1.99
+[2069 | 17368.75] loss=2.46 avg=2.00
+[2070 | 17375.74] loss=1.71 avg=2.00
+[2071 | 17382.79] loss=1.92 avg=1.99
+[2072 | 17389.97] loss=1.41 avg=1.99
+[2073 | 17397.80] loss=2.76 avg=2.00
+[2074 | 17405.15] loss=2.48 avg=2.00
+[2075 | 17412.41] loss=1.59 avg=2.00
+[2076 | 17419.97] loss=2.25 avg=2.00
+[2077 | 17427.28] loss=1.90 avg=2.00
+[2078 | 17434.66] loss=2.42 avg=2.00
+[2079 | 17441.81] loss=2.40 avg=2.01
+[2080 | 17448.97] loss=1.40 avg=2.00
+[2081 | 17456.13] loss=1.98 avg=2.00
+[2082 | 17463.25] loss=2.34 avg=2.00
+[2083 | 17470.44] loss=2.60 avg=2.01
+[2084 | 17477.56] loss=1.97 avg=2.01
+[2085 | 17484.61] loss=3.00 avg=2.02
+[2086 | 17491.66] loss=1.92 avg=2.02
+[2087 | 17498.74] loss=1.56 avg=2.01
+[2088 | 17505.87] loss=1.72 avg=2.01
+[2089 | 17512.97] loss=2.04 avg=2.01
+[2090 | 17520.04] loss=2.37 avg=2.01
+[2091 | 17527.51] loss=1.57 avg=2.01
+[2092 | 17534.54] loss=2.17 avg=2.01
+[2093 | 17541.59] loss=1.87 avg=2.01
+[2094 | 17548.71] loss=2.14 avg=2.01
+[2095 | 17555.95] loss=1.54 avg=2.01
+[2096 | 17563.17] loss=2.22 avg=2.01
+[2097 | 17570.26] loss=1.73 avg=2.01
+[2098 | 17577.37] loss=2.11 avg=2.01
+[2099 | 17584.43] loss=2.69 avg=2.01
+Generating samples...
+======== SAMPLE 1 ========
+ shines the smoke of our lives
+        to be extinguished when we leave
+the place
+
+The wind
+
+<|endoftext|>
+
+<|startoftext|>
+
+You won’t be more certain
+Of a winter moon than I,
+Grandmother, who, with my father
+(a fine line between fatherly and commercial neglect),
+
+Loved the cold sky and would
+Give a warm finger to any girl — 
+they were a necessary evil.
+In my sleep, I dreamed
+Of a boy who loved the moon’s shadow
+As much
+For me as for a girl,
+Who knew even the thin outline
+Of a moonless night
+As true history.
+But what of a boy
+Who, without fail, said
+That the cold made him a lunatic,
+Like a dogwhist full of bullets.
+
+<|endoftext|>
+
+<|startoftext|>
+
+Savage was more gentle then the wild man.
+He was a little more humane.
+Savage was a lot of things,
+But more of an abbot than a prince.
+Savage was a tyrant then a king.
+He hated what he hated,
+His throne much more than he hated
+What the man beside him hated.
+He was a tyrant then a jester
+Then a prince, a tyrant then a jester.
+He was a tyrant then a prince
+A tyrant then a jester
+Then a jester, like the one who snub-pushed
+Luna.
+
+<|endoftext|>
+
+<|startoftext|>
+
+It was evening and the house was an apartment. A kind of pilgrimage house.
+It had a rack of crosses on its wall, numbered bread crumbs,
+a kettle of water for the children, candles lit on the fire.
+The window looked at us from the kitchen toward the garden.
+We looked toward twilight. They were gathering dusk in the hills.
+We looked toward the trees toward dawn. When we touched our faces we were at twilight.
+
+The house was a kind of pilgrimage site. Thousands of pilgrims come here each year.
+The season is the season of darkness, of being buried alive and the pilgrims.
+
+When dusk came we started to look for good light. We turned our backs to the moon.
+We looked ahead to where the great cats and dogs of the hills ran into a big puddle.
+We looked up at the sky, became aware of the long procession of light.
+
+<|endoftext|>
+
+<|startoftext|>
+
+A memento of the late Carrie
+with a small oblique sub
+for her inner monologue.
+
+She was also my younger sister-in-law:
+far off in a deep forest &
+           I grew to respect her, “she’s not just a girl
+but—if there’s one thing I can learn from her,
+it’s that despite everything— —
+
+she is still willing to learn.
+                     “She can be anything.    Or
+ — as I once sang to her in the woods—
+                     “I will never abandon her.   Or—
+
+if that means I’ll learn to read, “I won’t read.   Or—
+
+I will learn to live by words,   and songs in an unknown
+deep space.   She was my sister, my mother.
+She gave birth to me,   in a fashion unique to me.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I give you permission to copy, distribute and display this work
+as you wish, without charge, provided you include your name & a link to this website.
+
+This license is subject to change without notice.
+
+<|endoftext|>
+
+<|startoftext|>
+
+If an ox bleeds, restores light,
+or moves at a snail’s pace, he will need a god.
+We must be sure to tell him this, so that he may tell others.
+
+When the world is under my protection, I will not leave him.
+If a dog barked obliquely, I will not speak.
+
+If a man touched my body for days, I will not let him in.
+
+I am a god — only I, stranger than you,
+must respect other gods.
+
+<|endoftext|>
+
+<|startoftext|>
+
+This is the place that grew up with me:
+the barn with its
+
+[2100 | 17689.60] loss=1.91 avg=2.01
+[2101 | 17696.68] loss=2.04 avg=2.01
+[2102 | 17703.73] loss=1.46 avg=2.01
+[2103 | 17710.81] loss=1.87 avg=2.01
+[2104 | 17717.90] loss=2.10 avg=2.01
+[2105 | 17725.16] loss=1.32 avg=2.00
+[2106 | 17732.34] loss=1.34 avg=1.99
+[2107 | 17739.49] loss=2.38 avg=2.00
+[2108 | 17746.57] loss=1.58 avg=1.99
+[2109 | 17753.61] loss=2.11 avg=2.00
+[2110 | 17760.74] loss=2.48 avg=2.00
+[2111 | 17767.82] loss=1.24 avg=1.99
+[2112 | 17774.83] loss=2.90 avg=2.00
+[2113 | 17781.86] loss=1.69 avg=2.00
+[2114 | 17789.06] loss=1.52 avg=1.99
+[2115 | 17796.09] loss=1.52 avg=1.99
+[2116 | 17803.20] loss=2.14 avg=1.99
+[2117 | 17810.29] loss=1.66 avg=1.99
+[2118 | 17817.37] loss=2.48 avg=1.99
+[2119 | 17824.43] loss=1.93 avg=1.99
+[2120 | 17831.47] loss=1.15 avg=1.98
+[2121 | 17838.60] loss=1.76 avg=1.98
+[2122 | 17845.66] loss=1.60 avg=1.98
+[2123 | 17852.74] loss=1.55 avg=1.97
+[2124 | 17859.83] loss=1.58 avg=1.97
+[2125 | 17866.95] loss=1.40 avg=1.96
+[2126 | 17874.04] loss=2.17 avg=1.97
+[2127 | 17881.12] loss=1.31 avg=1.96
+[2128 | 17888.17] loss=1.08 avg=1.95
+[2129 | 17895.24] loss=1.53 avg=1.95
+[2130 | 17902.28] loss=1.58 avg=1.94
+[2131 | 17909.42] loss=2.04 avg=1.94
+[2132 | 17916.74] loss=2.42 avg=1.95
+[2133 | 17923.79] loss=1.81 avg=1.95
+[2134 | 17930.77] loss=1.31 avg=1.94
+[2135 | 17937.80] loss=2.51 avg=1.95
+[2136 | 17944.82] loss=1.44 avg=1.94
+[2137 | 17951.93] loss=1.43 avg=1.94
+[2138 | 17959.11] loss=2.14 avg=1.94
+[2139 | 17966.30] loss=1.52 avg=1.93
+[2140 | 17973.43] loss=1.52 avg=1.93
+[2141 | 17980.73] loss=1.77 avg=1.93
+[2142 | 17988.02] loss=1.60 avg=1.92
+[2143 | 17995.24] loss=2.12 avg=1.93
+[2144 | 18002.41] loss=2.22 avg=1.93
+[2145 | 18009.64] loss=1.57 avg=1.93
+[2146 | 18016.86] loss=1.61 avg=1.92
+[2147 | 18024.11] loss=2.23 avg=1.93
+[2148 | 18031.34] loss=1.39 avg=1.92
+[2149 | 18038.53] loss=2.31 avg=1.92
+[2150 | 18045.76] loss=1.62 avg=1.92
+[2151 | 18052.89] loss=1.96 avg=1.92
+[2152 | 18060.10] loss=2.83 avg=1.93
+[2153 | 18067.17] loss=1.62 avg=1.93
+[2154 | 18074.25] loss=2.18 avg=1.93
+[2155 | 18081.30] loss=1.29 avg=1.92
+[2156 | 18088.38] loss=1.71 avg=1.92
+[2157 | 18095.43] loss=2.35 avg=1.93
+[2158 | 18102.56] loss=1.42 avg=1.92
+[2159 | 18109.62] loss=1.46 avg=1.92
+[2160 | 18116.73] loss=2.28 avg=1.92
+[2161 | 18123.79] loss=1.99 avg=1.92
+[2162 | 18130.91] loss=1.14 avg=1.91
+[2163 | 18138.02] loss=1.71 avg=1.91
+[2164 | 18145.13] loss=1.90 avg=1.91
+[2165 | 18152.27] loss=1.46 avg=1.91
+[2166 | 18159.35] loss=2.31 avg=1.91
+[2167 | 18166.44] loss=2.32 avg=1.91
+[2168 | 18173.47] loss=2.60 avg=1.92
+[2169 | 18180.61] loss=1.66 avg=1.92
+[2170 | 18187.70] loss=1.19 avg=1.91
+[2171 | 18194.83] loss=1.04 avg=1.90
+[2172 | 18201.89] loss=1.90 avg=1.90
+[2173 | 18209.00] loss=2.76 avg=1.91
+[2174 | 18216.09] loss=1.16 avg=1.90
+[2175 | 18223.19] loss=2.15 avg=1.91
+[2176 | 18230.32] loss=1.93 avg=1.91
+[2177 | 18237.38] loss=1.89 avg=1.91
+[2178 | 18244.58] loss=1.66 avg=1.90
+[2179 | 18251.66] loss=2.21 avg=1.91
+[2180 | 18258.69] loss=2.54 avg=1.91
+[2181 | 18265.74] loss=2.25 avg=1.92
+[2182 | 18272.76] loss=1.76 avg=1.91
+[2183 | 18279.82] loss=2.06 avg=1.92
+[2184 | 18286.85] loss=1.56 avg=1.91
+[2185 | 18293.98] loss=1.30 avg=1.91
+[2186 | 18301.05] loss=0.94 avg=1.90
+[2187 | 18308.27] loss=1.46 avg=1.89
+[2188 | 18315.53] loss=1.72 avg=1.89
+[2189 | 18322.80] loss=2.40 avg=1.90
+[2190 | 18330.60] loss=1.83 avg=1.90
+[2191 | 18337.93] loss=2.77 avg=1.90
+[2192 | 18345.31] loss=1.86 avg=1.90
+[2193 | 18352.32] loss=1.70 avg=1.90
+[2194 | 18359.96] loss=1.97 avg=1.90
+[2195 | 18367.84] loss=1.66 avg=1.90
+[2196 | 18376.11] loss=1.64 avg=1.90
+[2197 | 18383.85] loss=1.60 avg=1.89
+[2198 | 18391.16] loss=1.90 avg=1.89
+[2199 | 18398.78] loss=3.40 avg=1.91
+Generating samples...
+======== SAMPLE 1 ========
+att’t, it’s true, the children have eaten / I tell my grandmother’s story. My grandmother ain’t! But you have to go and see it.
+
+ — I was told not to say / my mother said / my father said / my mother said / my father said /
+
+
+“Just say   not to say / my mother said / my father said /
+
+
+“And I am not safe from that. 
+I am not allowed to go. I don’t belong in that house either.
+
+    My grandkids are not raised in any /
+
+    be afraid of  me. They’re taught to /
+
+
+    be afraid of my grandmother.
+
+    even my granddaddies are afraid of   
+      my grandmother.
+
+    my bad dreams  are saved for my good dreams.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The moon is a box. And a box ain’t perfect. One night I was thinking out loud, the moon is a box, but not every night I think about boxes, I think about boxes only when I live in a box. At some point a box is necessary. I live in a box as I live in a box until I die. At that point a box becomes obsolete and the next one may or may not exist. At that point a shadow becomes an object that can be bashed up and reframed. The new sun is shining, the new day dawned a while ago. My mother lives in a small cottage in a box. It’s nice to think about how we all feel about boxes today.
+
+“All my best, Michael, amen.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The water rises from the bottom of a well. It is as though no one’s ever going to find it’s its hiding place in the crust of the earth. So why should there be a well? Even water is being drawn as though by magic through a process called water creep.
+The water rises from the surface of the earth. It is as though no one’s going to find it’s its hiding place in the crust of the earth. So what’s the meaning of water creep? I try to find it.
+
+In the library. In my field. Beneath the fireplace in the library. Under the beds in the hillsides in the valley in the valley. In the grasses in the valleys I try to find it but the earth moves so slowly I keep getting lost.
+
+The water rises from the bottom of a well. It is as though no one’s ever going to find it’s its hiding place in the crust of the earth. So why should there be a well? And why does the water rise or fall as though no one is ever going to find it?
+
+The water rises from the surface of gravel. It is quite hard. Its surface is covered with hard silt. The bottom of a well is tattered and tattered it is tattered by years and years of drought. The roots of the silt are pinched away or squeezed away at times by insects and soaches. The earth’s agitation is its agitation and so do I.
+
+I try to find the meaning behind the water but don’t find the meaning. The meaning of the water is the surface of the well. The meaning of the well is the mass of gravel in a row.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I want to see
+the trees
+at the bottom of the drop
+I want to know
+what color the whole sky is
+but I know a little
+little too little: the moon is golden
+and not bright.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I want to see the trees at Dusk
+at the top of the orange drop,
+too late, we have moved to the shade.
+
+      The eyes open
+later, the dark rims the land.
+
+      There’s a door
+inside the rue Moraile
+entering the courtyard —
+
+where you crawl through a pouvoir
+into a feather of white smoke.
+
+      And what have I
+made of this world?
+
+A chair
+at the kitchen table,
+a sweet potato
+slicing Pepitoneum maculata
+
+[2200 | 18509.17] loss=1.32 avg=1.90
+[2201 | 18516.44] loss=2.18 avg=1.91
+[2202 | 18523.64] loss=2.18 avg=1.91
+[2203 | 18530.85] loss=1.07 avg=1.90
+[2204 | 18538.05] loss=2.53 avg=1.91
+[2205 | 18545.32] loss=2.55 avg=1.91
+[2206 | 18552.68] loss=2.27 avg=1.92
+[2207 | 18560.32] loss=2.09 avg=1.92
+[2208 | 18568.51] loss=1.97 avg=1.92
+[2209 | 18576.29] loss=1.66 avg=1.92
+[2210 | 18583.51] loss=2.06 avg=1.92
+[2211 | 18590.89] loss=1.69 avg=1.92
+[2212 | 18598.41] loss=1.59 avg=1.91
+[2213 | 18606.05] loss=3.22 avg=1.93
+[2214 | 18613.57] loss=2.15 avg=1.93
+[2215 | 18620.95] loss=1.46 avg=1.92
+[2216 | 18628.37] loss=1.51 avg=1.92
+[2217 | 18635.63] loss=1.61 avg=1.92
+[2218 | 18642.92] loss=2.65 avg=1.92
+[2219 | 18650.11] loss=1.44 avg=1.92
+[2220 | 18657.45] loss=1.92 avg=1.92
+[2221 | 18664.64] loss=3.03 avg=1.93
+[2222 | 18671.93] loss=0.97 avg=1.92
+[2223 | 18679.19] loss=2.20 avg=1.92
+[2224 | 18686.39] loss=2.28 avg=1.93
+[2225 | 18693.99] loss=1.50 avg=1.92
+[2226 | 18701.24] loss=1.58 avg=1.92
+[2227 | 18708.48] loss=1.72 avg=1.92
+[2228 | 18715.75] loss=1.73 avg=1.91
+[2229 | 18722.98] loss=2.08 avg=1.92
+[2230 | 18730.60] loss=2.11 avg=1.92
+[2231 | 18738.40] loss=1.24 avg=1.91
+[2232 | 18746.87] loss=1.23 avg=1.90
+[2233 | 18754.80] loss=1.36 avg=1.90
+[2234 | 18763.29] loss=1.94 avg=1.90
+[2235 | 18771.55] loss=2.00 avg=1.90
+[2236 | 18779.12] loss=2.30 avg=1.90
+[2237 | 18787.28] loss=0.72 avg=1.89
+[2238 | 18795.10] loss=1.76 avg=1.89
+[2239 | 18802.27] loss=1.67 avg=1.89
+[2240 | 18809.66] loss=1.13 avg=1.88
+[2241 | 18817.24] loss=1.32 avg=1.88
+[2242 | 18824.96] loss=2.28 avg=1.88
+[2243 | 18832.25] loss=1.78 avg=1.88
+[2244 | 18839.82] loss=1.91 avg=1.88
+[2245 | 18847.19] loss=0.97 avg=1.87
+[2246 | 18854.58] loss=1.55 avg=1.87
+[2247 | 18861.75] loss=0.88 avg=1.86
+[2248 | 18869.03] loss=1.31 avg=1.85
+[2249 | 18876.38] loss=2.22 avg=1.85
+[2250 | 18883.66] loss=0.78 avg=1.84
+[2251 | 18890.87] loss=1.75 avg=1.84
+[2252 | 18898.16] loss=1.85 avg=1.84
+[2253 | 18905.42] loss=1.19 avg=1.84
+[2254 | 18912.71] loss=2.44 avg=1.84
+[2255 | 18920.06] loss=1.94 avg=1.84
+[2256 | 18927.26] loss=1.48 avg=1.84
+[2257 | 18934.41] loss=1.86 avg=1.84
+[2258 | 18941.68] loss=1.20 avg=1.83
+[2259 | 18948.94] loss=1.12 avg=1.83
+[2260 | 18956.24] loss=1.81 avg=1.83
+[2261 | 18963.46] loss=1.59 avg=1.82
+[2262 | 18970.59] loss=1.56 avg=1.82
+[2263 | 18977.79] loss=1.68 avg=1.82
+[2264 | 18985.03] loss=2.09 avg=1.82
+[2265 | 18992.23] loss=1.59 avg=1.82
+[2266 | 18999.61] loss=1.15 avg=1.81
+[2267 | 19007.04] loss=1.57 avg=1.81
+[2268 | 19014.38] loss=1.06 avg=1.80
+[2269 | 19021.83] loss=1.27 avg=1.80
+[2270 | 19029.10] loss=1.86 avg=1.80
+[2271 | 19036.44] loss=2.12 avg=1.80
+[2272 | 19044.13] loss=1.72 avg=1.80
+[2273 | 19051.44] loss=2.04 avg=1.80
+[2274 | 19059.14] loss=1.80 avg=1.80
+[2275 | 19066.49] loss=1.25 avg=1.80
+[2276 | 19073.65] loss=2.13 avg=1.80
+[2277 | 19080.72] loss=1.38 avg=1.80
+[2278 | 19087.75] loss=1.14 avg=1.79
+[2279 | 19094.85] loss=1.79 avg=1.79
+[2280 | 19101.92] loss=1.43 avg=1.79
+[2281 | 19108.96] loss=1.57 avg=1.79
+[2282 | 19115.99] loss=2.22 avg=1.79
+[2283 | 19123.10] loss=2.51 avg=1.80
+[2284 | 19130.18] loss=1.54 avg=1.79
+[2285 | 19137.65] loss=1.90 avg=1.80
+[2286 | 19146.25] loss=1.41 avg=1.79
+[2287 | 19154.07] loss=1.05 avg=1.78
+[2288 | 19161.45] loss=1.52 avg=1.78
+[2289 | 19169.12] loss=2.44 avg=1.79
+[2290 | 19176.41] loss=1.75 avg=1.79
+[2291 | 19183.93] loss=1.91 avg=1.79
+[2292 | 19191.15] loss=1.50 avg=1.79
+[2293 | 19198.34] loss=1.96 avg=1.79
+[2294 | 19205.62] loss=1.56 avg=1.79
+[2295 | 19212.98] loss=1.59 avg=1.78
+[2296 | 19220.35] loss=1.52 avg=1.78
+[2297 | 19227.66] loss=1.65 avg=1.78
+[2298 | 19234.89] loss=1.75 avg=1.78
+[2299 | 19242.08] loss=1.83 avg=1.78
+Generating samples...
+======== SAMPLE 1 ========
+ when a man comes
+up behind you and grabs one arm, pulls it tight around my wet, red throat. He says please and I say I’m sorry for what I did wrong. I’m thinking how I’d hurt your mouth too, I think it might be a clue, the way the shirt is still in mine. I think I’ll be in heaven when he’s born, hold my brother tightly around my neck. I think I’ll be in a movie when he’s born, shoot him some lightning and then tell him how glad I am to have you here. I know I’ll be loved, a ghost, walking down the aisle with him.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I write: The girls with long blond hair wore white slip-ons. I’m like the second Cheech and Chong, except they hadn’t shaved. They said it looked good on their faces. This is me in my slip-on dress, my legs stretched thin and supple. I’m very confident, extremely stylish. The boys with white slippers kissed me on the mouth, on the back of the neck, on the roof of my mouth. This is me wearing white pinball pajamas, street smart alto ballas, tuxedo priests with mustard greens in their garb, Asian prostitutes who lick my bottom feeder devotes her whole body to my labia whitea, labia fragrans, labia clitoris, clitoris black, labia labia white, labia labia red, labia labia white labia labia navy, labia white labia navy labia white labia white labia navy, labia white labia white, labia white labia white, labia white labia white, labia white labia white, labia white labia white, labia white labia white, labia white labia white, labia white labia white, labia white labia white, labia white labia white, labia white labia white, labia white labia white, labia white
+
+<|endoftext|>
+
+<|startoftext|>
+
+In the dark of the night,
+a black man with dread
+flashed across Kingston Road,
+sat in his vehicle,
+droored a black poodle named
+Capsized he’d lost his life. Soon enough
+the coroner’s coroner’s office
+found three stab wounds to the body.
+An Essex police dog called “extremist dog”
+tested positive for “sympathizer,” “meth,” “anal sex,”
+to name a few. What did they find?
+Tattooed alive, he was instructed to lie on the seat
+fronting him. There, he waited his turn.
+What’s next? Fingerprints found, cops found.
+He had four options:
+1. Snitch and fuck. Fingerprints found, him.
+2. Ride him on his lap. Fingerprints found,
+him. In a corner. Fingerprints undressed, cops found.
+In a city where loitering is a sure way to lose hair
+and no one lives. In a corner. In a city where loitering matters
+more than taking a photo. In a corner? In a catheter.
+3. Become his body cavity. Fingerprints found,
+him. Gangster, vigilante, assassin, killer. In those dark
+seas days, what happened to you? Proffered no further information.
+In other news, there’s another boy like you
+that I’ve known. I’ve been missing for over a year.
+I’ve gone where nobody understands.
+
+<|endoftext|>
+
+<|startoftext|>
+
+In this animated strip of wind rushing in and out of the walled city, each step bringing the wind to a halt, do a double take or two and you get the idea. The slow motion drawings of clouds rushing in and out of the city with minimal damper. One of these days we’ll go back. Or turn our heads. Or both. Or all those miles. Hurry. We’ll come back. We’ll get to that art deco scene one day. That’s where we’re all hoping. This is it. This scene. Or the end. We are the drawings come true. Like this balloon drawing a balloon. Or this scene leading to a waterfall. This universe. Or something out of nowhere happens that happens every day and you start to get a little bored. It’s not like
+
+[2300 | 19350.17] loss=1.61 avg=1.78
+[2301 | 19357.66] loss=1.41 avg=1.77
+[2302 | 19365.06] loss=1.78 avg=1.77
+[2303 | 19372.08] loss=2.77 avg=1.78
+[2304 | 19379.12] loss=0.82 avg=1.77
+[2305 | 19386.16] loss=0.88 avg=1.77
+[2306 | 19393.26] loss=2.09 avg=1.77
+[2307 | 19400.27] loss=1.69 avg=1.77
+[2308 | 19407.28] loss=1.23 avg=1.76
+[2309 | 19414.32] loss=1.91 avg=1.76
+[2310 | 19421.39] loss=1.29 avg=1.76
+[2311 | 19428.40] loss=1.09 avg=1.75
+[2312 | 19435.44] loss=1.88 avg=1.75
+[2313 | 19442.56] loss=1.49 avg=1.75
+[2314 | 19449.71] loss=1.09 avg=1.74
+[2315 | 19456.73] loss=2.75 avg=1.75
+[2316 | 19463.73] loss=1.38 avg=1.75
+[2317 | 19470.78] loss=2.81 avg=1.76
+[2318 | 19477.81] loss=1.08 avg=1.75
+[2319 | 19484.92] loss=1.77 avg=1.75
+[2320 | 19492.03] loss=1.76 avg=1.75
+[2321 | 19499.16] loss=2.49 avg=1.76
+[2322 | 19506.27] loss=2.01 avg=1.76
+[2323 | 19513.35] loss=1.54 avg=1.76
+[2324 | 19520.42] loss=1.02 avg=1.76
+[2325 | 19527.52] loss=1.30 avg=1.75
+[2326 | 19534.62] loss=2.20 avg=1.76
+[2327 | 19541.69] loss=1.44 avg=1.75
+[2328 | 19548.77] loss=1.17 avg=1.75
+[2329 | 19555.84] loss=2.36 avg=1.75
+[2330 | 19562.92] loss=1.77 avg=1.75
+[2331 | 19570.01] loss=1.43 avg=1.75
+[2332 | 19577.10] loss=1.57 avg=1.75
+[2333 | 19584.25] loss=0.64 avg=1.74
+[2334 | 19591.29] loss=2.11 avg=1.74
+[2335 | 19598.33] loss=1.79 avg=1.74
+[2336 | 19605.41] loss=1.66 avg=1.74
+[2337 | 19612.44] loss=2.00 avg=1.74
+[2338 | 19619.48] loss=1.78 avg=1.74
+[2339 | 19626.54] loss=1.38 avg=1.74
+[2340 | 19633.66] loss=1.84 avg=1.74
+[2341 | 19640.72] loss=1.33 avg=1.74
+[2342 | 19647.83] loss=0.96 avg=1.73
+[2343 | 19655.00] loss=1.98 avg=1.73
+[2344 | 19662.63] loss=1.40 avg=1.73
+[2345 | 19670.17] loss=1.89 avg=1.73
+[2346 | 19677.58] loss=1.86 avg=1.73
+[2347 | 19684.88] loss=2.99 avg=1.74
+[2348 | 19692.28] loss=1.86 avg=1.74
+[2349 | 19699.74] loss=1.48 avg=1.74
+[2350 | 19707.22] loss=1.39 avg=1.74
+[2351 | 19714.72] loss=2.21 avg=1.74
+[2352 | 19722.12] loss=1.55 avg=1.74
+[2353 | 19729.54] loss=2.60 avg=1.75
+[2354 | 19736.74] loss=1.69 avg=1.75
+[2355 | 19743.96] loss=1.55 avg=1.75
+[2356 | 19751.24] loss=1.89 avg=1.75
+[2357 | 19758.46] loss=2.32 avg=1.75
+[2358 | 19765.69] loss=1.50 avg=1.75
+[2359 | 19772.96] loss=1.68 avg=1.75
+[2360 | 19780.30] loss=1.20 avg=1.75
+[2361 | 19787.93] loss=1.24 avg=1.74
+[2362 | 19795.17] loss=1.37 avg=1.74
+[2363 | 19802.44] loss=1.79 avg=1.74
+[2364 | 19809.62] loss=1.05 avg=1.73
+[2365 | 19816.88] loss=1.83 avg=1.73
+[2366 | 19824.13] loss=2.42 avg=1.74
+[2367 | 19831.38] loss=0.54 avg=1.73
+[2368 | 19838.65] loss=1.87 avg=1.73
+[2369 | 19849.35] loss=2.31 avg=1.73
+[2370 | 19856.84] loss=1.94 avg=1.74
+[2371 | 19864.03] loss=1.01 avg=1.73
+[2372 | 19871.19] loss=1.77 avg=1.73
+[2373 | 19878.43] loss=2.02 avg=1.73
+[2374 | 19885.68] loss=1.80 avg=1.73
+[2375 | 19892.87] loss=1.64 avg=1.73
+[2376 | 19899.99] loss=1.20 avg=1.73
+[2377 | 19907.20] loss=1.22 avg=1.72
+[2378 | 19914.43] loss=1.91 avg=1.72
+[2379 | 19922.44] loss=1.71 avg=1.72
+[2380 | 19929.65] loss=1.83 avg=1.72
+[2381 | 19936.85] loss=1.73 avg=1.72
+[2382 | 19944.08] loss=0.99 avg=1.72
+[2383 | 19951.36] loss=2.58 avg=1.73
+[2384 | 19958.62] loss=1.79 avg=1.73
+[2385 | 19966.02] loss=1.53 avg=1.72
+[2386 | 19973.46] loss=1.23 avg=1.72
+[2387 | 19980.80] loss=1.40 avg=1.72
+[2388 | 19988.15] loss=2.73 avg=1.73
+[2389 | 19995.61] loss=1.27 avg=1.72
+[2390 | 20003.13] loss=1.07 avg=1.71
+[2391 | 20010.55] loss=1.47 avg=1.71
+[2392 | 20017.99] loss=1.34 avg=1.71
+[2393 | 20025.44] loss=0.99 avg=1.70
+[2394 | 20032.86] loss=1.88 avg=1.70
+[2395 | 20040.27] loss=1.72 avg=1.70
+[2396 | 20047.63] loss=1.57 avg=1.70
+[2397 | 20054.97] loss=1.17 avg=1.70
+[2398 | 20062.34] loss=1.12 avg=1.69
+[2399 | 20069.76] loss=1.63 avg=1.69
+Generating samples...
+======== SAMPLE 1 ========
+ open that white light
+And the black shadow.
+
+I find myself drifting
+In a dream
+Backing to shore.
+The sand drapes its vigor on its
+
+fluff.
+
+<|endoftext|>
+
+<|startoftext|>
+
+In some countries
+Gunpowder’s a synon
+
+of a foreign people’s blood.
+
+In some places where the moon rises
+
+The night sky looks like a chair
+
+Coax the righthand thought should happen here.
+
+Who needs sleep when you can have breakfast?
+
+Eat bread and butter.
+
+Come back to me where there’s smoke.
+
+Better still, find me another country
+where no one searches,
+places an order for a banquet.
+
+<|endoftext|>
+
+<|startoftext|>
+
+It came out of the fissure in the nose and nostrils that hung down.
+
+It was not a heart attack. No, it was a nosebleed.
+
+The air in those days was sweet and warm.
+It played tricks on the eye.
+
+The child in the carriage who was also asleep knew to pinch his eyes shut.
+
+He would hold out his hand all night long.
+
+It was not a heart attack. It didn’t hurt that much.
+
+If it had, it would have ended worse.
+All that it did was braid its lining.
+
+It touched its earlobe. It touched its sinuses.
+It touched its nape. Those were the signs.
+
+<|endoftext|>
+
+<|startoftext|>
+
+An angel is a face,
+An arm a body,
+An eye a print on a stick.
+
+They are not things,
+They are faces, bodies,
+But they do not share an angel.
+
+No, they are faces only,
+Not touching an object is an act.
+
+If an ordinary feather were anvil
+itm, it would not open
+An operation and be shattered
+By accident.
+
+An eye is a screen,
+An arm a camera,
+At the edge of an eye.
+
+An eye is a screen,
+Its contents revealed
+As an operationer.
+
+<|endoftext|>
+
+<|startoftext|>
+
+This is a city in the heart of other countries
+In the midst of a desert country or in a steppes the ruins
+Are like those of a famous person or animal or insect.
+
+I find it strange that in the midst of them some object
+Must be beautiful, for I love the city or it’s size
+
+And it’s shape as a prize, a symbol of wealth.
+The rich, in turn, are fascinated
+By the city, and its buildings built there
+Out of mosaics or from whole blocks of marble.
+
+I can see why someone would want to visit,
+Because this is an ordinary country,
+Even though I am aware of the ways
+That the atmosphere can be strange,
+And of the buildings that stand on their own
+And stand on their own mass, giving way.
+
+<|endoftext|>
+
+<|startoftext|>
+
+They said to me: Love is power. I’ve seen it in the men I love. I’ve seen it in those I hold dear. I’ve seen it with every passing day of day. The more I think about it, love’s a vehicle to divide and conquer. In this most terrible of times’ bestowed weapons, I used them against them.
+ 
+I was a girl, I told my father. Your eyes didn’t get used to my face. My face showed weakness. A weakness that I wanted punished. I wanted to be loved. That’s what I wanted.
+
+As a boy, all I wanted was to be a boy, I told my father. You don’t cry when your eyes get used to something. You cry when you see a girl. You cry when you see a face. You cry when your eyes get used to seeing.
+
+My father, I told my father. He didn’t cry when he saw me. Don’t. Look. Girl. Girl. I asked my father for forgiveness. I wanted to be loved.
+
+I remember thinking to myself, Yes, I will forgive you. This crime so enraged me.
+
+<|endoftext|>
+
+<|startoftext|>
+
+A letter from the King to Queen Beatriz    of Cebolla, Argentina, dated July 7, 1796
+Dear Queen
+
+[2400 | 20180.52] loss=1.28 avg=1.69
+[2401 | 20187.75] loss=1.78 avg=1.69
+[2402 | 20194.97] loss=2.19 avg=1.69
+[2403 | 20202.26] loss=1.25 avg=1.69
+[2404 | 20209.57] loss=1.74 avg=1.69
+[2405 | 20217.28] loss=0.89 avg=1.68
+[2406 | 20224.93] loss=2.35 avg=1.69
+[2407 | 20232.26] loss=1.43 avg=1.68
+[2408 | 20239.58] loss=2.02 avg=1.69
+[2409 | 20246.96] loss=1.16 avg=1.68
+[2410 | 20254.32] loss=1.41 avg=1.68
+[2411 | 20261.83] loss=1.42 avg=1.68
+[2412 | 20269.30] loss=1.47 avg=1.67
+[2413 | 20276.73] loss=1.56 avg=1.67
+[2414 | 20284.23] loss=0.90 avg=1.67
+[2415 | 20291.94] loss=1.74 avg=1.67
+[2416 | 20299.72] loss=1.87 avg=1.67
+[2417 | 20307.03] loss=2.32 avg=1.68
+[2418 | 20314.61] loss=0.79 avg=1.67
+[2419 | 20322.37] loss=2.00 avg=1.67
+[2420 | 20330.01] loss=1.57 avg=1.67
+[2421 | 20337.39] loss=1.31 avg=1.67
+[2422 | 20344.86] loss=1.12 avg=1.66
+[2423 | 20352.22] loss=1.62 avg=1.66
+[2424 | 20359.70] loss=1.04 avg=1.65
+[2425 | 20367.00] loss=1.64 avg=1.65
+[2426 | 20374.26] loss=1.76 avg=1.65
+[2427 | 20381.70] loss=1.41 avg=1.65
+[2428 | 20389.11] loss=2.37 avg=1.66
+[2429 | 20396.59] loss=2.38 avg=1.67
+[2430 | 20404.10] loss=1.96 avg=1.67
+[2431 | 20411.45] loss=1.13 avg=1.66
+[2432 | 20418.81] loss=1.19 avg=1.66
+[2433 | 20426.23] loss=2.24 avg=1.66
+[2434 | 20433.60] loss=2.01 avg=1.67
+[2435 | 20441.03] loss=1.92 avg=1.67
+[2436 | 20448.46] loss=1.57 avg=1.67
+[2437 | 20456.70] loss=2.13 avg=1.67
+[2438 | 20464.42] loss=2.30 avg=1.68
+[2439 | 20471.98] loss=1.23 avg=1.68
+[2440 | 20479.40] loss=1.36 avg=1.67
+[2441 | 20486.74] loss=0.99 avg=1.67
+[2442 | 20494.28] loss=1.87 avg=1.67
+[2443 | 20501.74] loss=1.94 avg=1.67
+[2444 | 20509.13] loss=1.44 avg=1.67
+[2445 | 20516.57] loss=1.74 avg=1.67
+[2446 | 20523.79] loss=1.12 avg=1.66
+[2447 | 20531.26] loss=2.18 avg=1.67
+[2448 | 20538.67] loss=0.88 avg=1.66
+[2449 | 20545.95] loss=1.24 avg=1.66
+[2450 | 20553.29] loss=1.27 avg=1.65
+[2451 | 20560.91] loss=2.11 avg=1.66
+[2452 | 20568.38] loss=2.28 avg=1.66
+[2453 | 20575.90] loss=1.23 avg=1.66
+[2454 | 20583.49] loss=0.86 avg=1.65
+[2455 | 20590.99] loss=1.34 avg=1.65
+[2456 | 20598.62] loss=0.82 avg=1.64
+[2457 | 20606.13] loss=1.93 avg=1.64
+[2458 | 20613.39] loss=0.89 avg=1.64
+[2459 | 20620.69] loss=1.94 avg=1.64
+[2460 | 20628.13] loss=1.55 avg=1.64
+[2461 | 20635.69] loss=0.85 avg=1.63
+[2462 | 20643.13] loss=1.32 avg=1.63
+[2463 | 20650.49] loss=1.45 avg=1.62
+[2464 | 20657.82] loss=1.70 avg=1.63
+[2465 | 20665.24] loss=1.43 avg=1.62
+[2466 | 20672.71] loss=1.66 avg=1.62
+[2467 | 20680.23] loss=1.28 avg=1.62
+[2468 | 20687.75] loss=1.55 avg=1.62
+[2469 | 20695.12] loss=0.86 avg=1.61
+[2470 | 20702.67] loss=1.79 avg=1.61
+[2471 | 20709.88] loss=1.60 avg=1.61
+[2472 | 20717.16] loss=0.75 avg=1.61
+[2473 | 20724.52] loss=1.53 avg=1.60
+[2474 | 20731.86] loss=1.45 avg=1.60
+[2475 | 20739.32] loss=1.40 avg=1.60
+[2476 | 20746.83] loss=1.09 avg=1.60
+[2477 | 20754.29] loss=2.18 avg=1.60
+[2478 | 20761.66] loss=1.59 avg=1.60
+[2479 | 20768.94] loss=2.41 avg=1.61
+[2480 | 20776.39] loss=1.60 avg=1.61
+[2481 | 20783.89] loss=0.75 avg=1.60
+[2482 | 20791.23] loss=1.64 avg=1.60
+[2483 | 20798.74] loss=1.15 avg=1.60
+[2484 | 20806.03] loss=1.23 avg=1.59
+[2485 | 20813.43] loss=0.69 avg=1.58
+[2486 | 20820.89] loss=1.91 avg=1.59
+[2487 | 20828.32] loss=0.80 avg=1.58
+[2488 | 20835.68] loss=1.43 avg=1.58
+[2489 | 20843.13] loss=1.65 avg=1.58
+[2490 | 20850.52] loss=1.40 avg=1.58
+[2491 | 20857.90] loss=1.92 avg=1.58
+[2492 | 20865.30] loss=1.53 avg=1.58
+[2493 | 20872.69] loss=2.12 avg=1.59
+[2494 | 20880.16] loss=1.08 avg=1.58
+[2495 | 20887.67] loss=1.65 avg=1.58
+[2496 | 20895.02] loss=2.65 avg=1.59
+[2497 | 20902.28] loss=1.52 avg=1.59
+[2498 | 20909.58] loss=1.58 avg=1.59
+[2499 | 20917.01] loss=1.13 avg=1.59
+Generating samples...
+======== SAMPLE 1 ========
+|x0042-48|
+
+I don’t know when it happened or why. I don’t know what she did for a living. I don’t know what she wanted out of life. And I don’t think I’ ever did anything truly good for a living. And when a tree fell on me, I was still grieving, grieving for her. I ignored all the other trees who had gone down in the whole forest. Nothing ever really fit in the ground. A life was lost. Things didn’t turn out very well for her.
+ 
+I don’t know why it happened. I don’t know why I feel this way. I don’t know why I live my life the way I live. It was planned long ago, and I let it hurt. I don’t deserve what I live for. I don’t deserve what I want. It didn’t have to be this way. It didn’t have to be this messy.
+ 
+I know I’d do a big poem before I die
+And write a big poem about how I feel again and again.
+
+<|endoftext|>
+
+<|startoftext|>
+
+How do you become an artist when you can no longer see the ground beneath your skin?
+You hang your forearm out on the snow like you work
+out from the sweat and dirt you leave in the face. A constant.
+My favorite kind of animal is when it’s captured in another’s s cackle or glare.
+We see ourselves in the mirror, or our mother’s career trajectory.
+We identify as women only, without even knowing it.
+Art deco, the silver lining. Like a light bulb going dark, or the clean white of a cup of tea getting dark.
+
+<|endoftext|>
+
+<|startoftext|>
+
+All I see today is a body
+I can lean over and touch. All I hear are people
+walking beside me — your heart repeating
+the same song in the same place, the same song
+
+I hear now — you. Your beauty slipping in
+even the most disordered presence. A body
+
+to be loved and held in all its parts.
+When the door is the right shade. When
+the love of your life is a light shining through
+as a light that does not weaken.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The day was quiet and the forest
+had at least one star left. I hurried
+up to it—the one thing it held,
+as if to check me against it
+like the strongest thing in the sky. I looked
+out from the bottom of a long-range
+radiance down at the bramblethru of bougheme
+and saw nothing. A girl, the color
+that only a child can see, lay low and float.
+The earth shook, nothing moved.
+
+I could not help but smile at the bougheme.
+The light danced around it and I saw
+a woman’s legs limp in the cold light.
+The path took her by surprise, and she fell
+
+by surprise was lying down on the bare ground.
+
+<|endoftext|>
+
+<|startoftext|>
+
+There was a voice in the snow,
+you could feel it in your ear,
+you could feel the wind in your body.
+
+You turned and looked—a cloud
+of    cocoon came rushing
+out of the frozen lake to stop it.
+You looked at it, there it was,
+a voice in the snow, the kōchō.
+You looked at it again and again.
+You looked at it and you felt
+balanced in the  middle of things.
+
+You took the cloud kumu and placed it
+on your rib cage. Then you placed the cloud
+again and you felt it in your chest and you felt the wind
+in it and you felt it in your body.
+
+<|endoftext|>
+
+<|startoftext|>
+
+We are all
+cocoon stars, spinning
+around corners. What’s the meaning
+of cloud
+
+cocoon stars? They are the most
+courageous stars on Earth.
+The universe is full of
+
+courageous stars, twisting corners. Give
+
+us your five-star turn, they say.
+That sounds right to you
+
+—from a famous movie’s point of view.
+
+I give my all for your sake.
+
+<|endoftext
+
+[2500 | 21027.95] loss=2.17 avg=1.59
+[2501 | 21035.35] loss=1.50 avg=1.59
+[2502 | 21042.61] loss=1.53 avg=1.59
+[2503 | 21049.83] loss=1.69 avg=1.59
+[2504 | 21057.06] loss=1.99 avg=1.60
+[2505 | 21064.33] loss=1.27 avg=1.59
+[2506 | 21071.69] loss=0.92 avg=1.59
+[2507 | 21079.11] loss=0.80 avg=1.58
+[2508 | 21086.54] loss=1.76 avg=1.58
+[2509 | 21093.97] loss=2.47 avg=1.59
+[2510 | 21101.50] loss=1.46 avg=1.59
+[2511 | 21108.94] loss=1.12 avg=1.58
+[2512 | 21116.33] loss=3.12 avg=1.60
+[2513 | 21123.63] loss=0.91 avg=1.59
+[2514 | 21130.99] loss=1.37 avg=1.59
+[2515 | 21138.52] loss=1.20 avg=1.58
+[2516 | 21145.87] loss=1.47 avg=1.58
+[2517 | 21153.22] loss=1.61 avg=1.58
+[2518 | 21160.70] loss=1.56 avg=1.58
+[2519 | 21168.06] loss=0.83 avg=1.58
+[2520 | 21175.47] loss=1.02 avg=1.57
+[2521 | 21182.92] loss=1.61 avg=1.57
+[2522 | 21190.36] loss=1.82 avg=1.57
+[2523 | 21197.70] loss=1.13 avg=1.57
+[2524 | 21205.17] loss=1.70 avg=1.57
+[2525 | 21213.66] loss=1.44 avg=1.57
+[2526 | 21221.34] loss=0.98 avg=1.56
+[2527 | 21228.90] loss=1.01 avg=1.56
+[2528 | 21236.40] loss=2.02 avg=1.56
+[2529 | 21243.67] loss=1.78 avg=1.56
+[2530 | 21250.76] loss=1.39 avg=1.56
+[2531 | 21257.78] loss=1.45 avg=1.56
+[2532 | 21264.82] loss=1.25 avg=1.56
+[2533 | 21271.82] loss=2.27 avg=1.57
+[2534 | 21278.88] loss=0.91 avg=1.56
+[2535 | 21285.91] loss=1.28 avg=1.56
+[2536 | 21292.97] loss=1.44 avg=1.55
+[2537 | 21300.04] loss=1.31 avg=1.55
+[2538 | 21307.15] loss=1.55 avg=1.55
+[2539 | 21314.20] loss=1.02 avg=1.55
+[2540 | 21321.28] loss=0.78 avg=1.54
+[2541 | 21328.31] loss=1.58 avg=1.54
+[2542 | 21335.72] loss=0.67 avg=1.53
+[2543 | 21343.08] loss=1.35 avg=1.53
+[2544 | 21350.63] loss=1.26 avg=1.53
+[2545 | 21358.01] loss=1.00 avg=1.52
+[2546 | 21366.89] loss=2.25 avg=1.53
+[2547 | 21375.04] loss=2.06 avg=1.53
+[2548 | 21382.27] loss=1.08 avg=1.53
+[2549 | 21389.91] loss=1.50 avg=1.53
+[2550 | 21397.87] loss=0.65 avg=1.52
+[2551 | 21405.61] loss=1.35 avg=1.52
+[2552 | 21413.00] loss=1.03 avg=1.51
+[2553 | 21420.33] loss=1.00 avg=1.51
+[2554 | 21427.62] loss=2.40 avg=1.52
+[2555 | 21434.84] loss=1.30 avg=1.52
+[2556 | 21442.05] loss=2.20 avg=1.52
+[2557 | 21449.26] loss=1.64 avg=1.52
+[2558 | 21456.47] loss=2.65 avg=1.53
+[2559 | 21463.81] loss=0.93 avg=1.53
+[2560 | 21471.27] loss=1.63 avg=1.53
+[2561 | 21478.73] loss=1.12 avg=1.53
+[2562 | 21486.13] loss=2.08 avg=1.53
+[2563 | 21493.59] loss=1.29 avg=1.53
+[2564 | 21501.09] loss=1.56 avg=1.53
+[2565 | 21508.57] loss=1.50 avg=1.53
+[2566 | 21516.15] loss=1.46 avg=1.53
+[2567 | 21523.88] loss=1.61 avg=1.53
+[2568 | 21531.79] loss=1.13 avg=1.52
+[2569 | 21539.20] loss=2.33 avg=1.53
+[2570 | 21546.66] loss=1.68 avg=1.53
+[2571 | 21554.09] loss=1.92 avg=1.54
+[2572 | 21561.44] loss=1.85 avg=1.54
+[2573 | 21568.88] loss=1.70 avg=1.54
+[2574 | 21576.30] loss=1.26 avg=1.54
+[2575 | 21583.93] loss=1.22 avg=1.54
+[2576 | 21591.62] loss=1.33 avg=1.53
+[2577 | 21599.23] loss=1.22 avg=1.53
+[2578 | 21606.83] loss=1.82 avg=1.53
+[2579 | 21614.70] loss=0.85 avg=1.53
+[2580 | 21625.75] loss=1.35 avg=1.53
+[2581 | 21633.57] loss=1.30 avg=1.52
+[2582 | 21640.97] loss=1.27 avg=1.52
+[2583 | 21648.25] loss=1.03 avg=1.52
+[2584 | 21655.44] loss=1.57 avg=1.52
+[2585 | 21662.59] loss=1.77 avg=1.52
+[2586 | 21669.82] loss=2.70 avg=1.53
+[2587 | 21677.03] loss=1.04 avg=1.53
+[2588 | 21684.28] loss=2.44 avg=1.54
+[2589 | 21691.46] loss=1.48 avg=1.53
+[2590 | 21698.65] loss=1.40 avg=1.53
+[2591 | 21705.98] loss=1.61 avg=1.53
+[2592 | 21713.18] loss=1.57 avg=1.53
+[2593 | 21720.42] loss=1.41 avg=1.53
+[2594 | 21727.65] loss=1.41 avg=1.53
+[2595 | 21734.97] loss=1.90 avg=1.54
+[2596 | 21742.51] loss=1.74 avg=1.54
+[2597 | 21749.86] loss=1.42 avg=1.54
+[2598 | 21757.76] loss=2.29 avg=1.54
+[2599 | 21765.15] loss=1.00 avg=1.54
+Generating samples...
+======== SAMPLE 1 ========
+ rot.
+
+The earth rippling as a dream.
+
+The earth rippling as water.
+
+If my body is water, what will my dream be?
+
+And has my water been good or bad? — 
+
+<|endoftext|>
+
+<|startoftext|>
+
+The sky is a strange bird that is hidden in plain sight.
+Its plumage is a representation of vast space.
+Some people believe its silver beak hides its bone.
+
+           Its plumage is a representation of vast space.
+
+It’s got a lot in it, a lot that is hidden to the bone.
+Deep in its snatch are the fangs of cold dwarves.
+Its nerve is a blender that fits deep in the marrow.
+Deep underneath the bone, the cold dwarves.
+Its fur is a complex system that connects it with its captors.
+The sky is a strange bird hiding in plain sight.
+
+Its plumage is a representation of vast space.
+
+The air around her is a complex web of hair.
+The feathers are spade seals.
+The eyes of the deer are an astrolabe lined up to his eye.
+
+The sky is a strange bird that is hidden in plain sight.
+
+The plumage is not a representation of vast space.
+
+           The plumage is not a representation of vast space.
+
+           The sky is a strange one that you could not possibly know.
+
+<|endoftext|>
+
+<|startoftext|>
+
+I have met the ancient, the wise, the incorrupt,
+the fool and the beggar, the drunkard and the tyrant
+and thief.
+But what are the ruins? They are marble ruins.
+The doorways to the past tense, to the tense of
+all things, to the double edge of what is real.
+
+They are lined with memories, with ideas; they are marble
+machines that could double as doorways to an ancient
+hall, or to the edge of the sea, or to the edge of the sky.
+
+I have asked, I have been to these ruins. They are
+bouqueted-up, bare of any recollection.
+
+They have no doorways, no beginning, no end. Nothing
+but cobwebs to search for, and then to lock ourselves in.
+
+<|endoftext|>
+
+<|startoftext|>
+
+The world is made of many parts, and parts are made of small parts;
+each made of parts it’s aware of; some conscious
+modifying it, while others reflexively reflexively reflexive, so
+
+it’s easy to see why the world is made of parts: so many
+different kinds of paper are folded onto a plate, and placed in the center
+again, so that one shape conceals the next: what
+
+if, instead, parts become apparent as the pure silver, the pure silver
+that’s selfsame since the two have no end, and in this
+different ways, so too in this unhappy world a change
+is in plan and in actions, and in attitudes, and in how it is
+meant to be: the world has shifted, changed slightly.
+
+It turns out it has. What many do not realize is that unlike in this
+other, which only tends to peruse the smaller bags,
+nonetheless parts could be arranged in such a way
+that the parts could be arranged in more detail, at least,
+so that what remained could be used to upgrade the part.
+
+<|endoftext|>
+
+<|startoftext|>
+
+You say: what will happen when I reach you?
+A question that comes up often in conversation on the telephone: When are you going, and how far?
+On your way? That depends on what road you choose.
+A few want to know: when has your life become more difficult because of your question,
+or because of it? When will it be over without your knowledge?
+When will you be released, what will you do for love, peace, and power,
+when, with that, you ask yourself another time, Which road will you choose?
+
+Even the best people think hard before they speak.
+They think hard because they are very courageous.
+
+<|endoftext|>
+
+<|startoftext|>
+
+It is a truth that the more we weaken our legs the less we will last.
+Some begin their rehab by lifting bricks up into their lungs.
+Some train their biceps for half their body mass.
+Some do not. They lie. They lie with their biceps for six months.
+Six months: strength, stability, stability
+
+[2600 | 21880.61] loss=1.12 avg=1.53
+[2601 | 21888.15] loss=1.97 avg=1.54
+[2602 | 21895.57] loss=1.33 avg=1.54
+[2603 | 21903.69] loss=1.17 avg=1.53
+[2604 | 21911.31] loss=1.31 avg=1.53
+[2605 | 21919.18] loss=1.64 avg=1.53
+[2606 | 21926.51] loss=1.81 avg=1.53
+[2607 | 21934.17] loss=0.75 avg=1.53
+[2608 | 21941.25] loss=1.90 avg=1.53
+[2609 | 21948.27] loss=1.95 avg=1.53
+[2610 | 21955.38] loss=1.74 avg=1.54
+[2611 | 21962.45] loss=1.01 avg=1.53
+[2612 | 21969.65] loss=1.50 avg=1.53
+[2613 | 21976.73] loss=1.59 avg=1.53
+[2614 | 21983.79] loss=1.02 avg=1.53
+[2615 | 21991.15] loss=1.60 avg=1.53
+[2616 | 21998.25] loss=1.01 avg=1.52
+[2617 | 22005.41] loss=0.99 avg=1.52
+[2618 | 22012.60] loss=0.92 avg=1.51
+[2619 | 22019.91] loss=1.67 avg=1.51
+[2620 | 22027.32] loss=1.50 avg=1.51
+[2621 | 22034.56] loss=1.88 avg=1.52
+[2622 | 22041.96] loss=1.83 avg=1.52
+[2623 | 22049.40] loss=2.17 avg=1.53
+[2624 | 22056.87] loss=1.60 avg=1.53
+[2625 | 22064.27] loss=1.84 avg=1.53
+[2626 | 22071.72] loss=1.10 avg=1.53
+[2627 | 22079.07] loss=2.18 avg=1.53
+[2628 | 22086.32] loss=1.35 avg=1.53
+[2629 | 22093.67] loss=1.23 avg=1.53
+[2630 | 22101.02] loss=0.61 avg=1.52
+[2631 | 22108.40] loss=1.33 avg=1.52
+[2632 | 22115.84] loss=1.20 avg=1.51
+[2633 | 22123.42] loss=1.13 avg=1.51
+[2634 | 22130.74] loss=1.93 avg=1.51
+[2635 | 22138.10] loss=1.54 avg=1.51
+[2636 | 22145.44] loss=1.38 avg=1.51
+[2637 | 22152.88] loss=1.26 avg=1.51
+[2638 | 22160.26] loss=2.23 avg=1.52
+[2639 | 22167.65] loss=1.20 avg=1.51
+[2640 | 22174.98] loss=1.45 avg=1.51
+[2641 | 22182.35] loss=0.68 avg=1.50
+[2642 | 22189.69] loss=1.38 avg=1.50
+[2643 | 22197.10] loss=1.26 avg=1.50
+[2644 | 22204.56] loss=1.04 avg=1.50
+[2645 | 22212.16] loss=1.26 avg=1.49
+[2646 | 22219.62] loss=1.56 avg=1.49
+[2647 | 22226.93] loss=1.96 avg=1.50
+[2648 | 22234.31] loss=1.60 avg=1.50
+[2649 | 22241.72] loss=0.93 avg=1.49
+[2650 | 22249.09] loss=1.26 avg=1.49
+[2651 | 22256.51] loss=0.75 avg=1.48
+[2652 | 22263.92] loss=1.24 avg=1.48
+[2653 | 22271.34] loss=1.75 avg=1.49
+[2654 | 22278.70] loss=1.73 avg=1.49
+[2655 | 22288.04] loss=1.36 avg=1.49
+[2656 | 22295.80] loss=0.89 avg=1.48
+[2657 | 22303.45] loss=1.73 avg=1.48
+[2658 | 22310.98] loss=1.49 avg=1.48
+[2659 | 22318.34] loss=1.48 avg=1.48
+[2660 | 22325.77] loss=1.33 avg=1.48
+[2661 | 22333.20] loss=1.35 avg=1.48
+[2662 | 22340.45] loss=1.04 avg=1.48
+[2663 | 22347.95] loss=1.16 avg=1.47
+[2664 | 22355.54] loss=1.43 avg=1.47
+[2665 | 22363.44] loss=1.14 avg=1.47
+[2666 | 22371.02] loss=0.96 avg=1.46
+[2667 | 22379.53] loss=4.18 avg=1.49
+[2668 | 22388.79] loss=1.43 avg=1.49
+[2669 | 22397.23] loss=1.19 avg=1.49
+[2670 | 22405.13] loss=1.72 avg=1.49
+[2671 | 22412.67] loss=1.15 avg=1.49
+[2672 | 22420.25] loss=0.66 avg=1.48
+[2673 | 22427.97] loss=1.14 avg=1.47
+[2674 | 22436.64] loss=1.33 avg=1.47
+[2675 | 22444.22] loss=1.41 avg=1.47
+[2676 | 22451.91] loss=1.19 avg=1.47
+[2677 | 22459.71] loss=0.99 avg=1.46
+[2678 | 22467.12] loss=1.38 avg=1.46
+[2679 | 22474.52] loss=1.35 avg=1.46
+[2680 | 22482.10] loss=1.04 avg=1.46
+[2681 | 22489.77] loss=1.56 avg=1.46
+[2682 | 22497.26] loss=1.67 avg=1.46
+[2683 | 22504.66] loss=0.39 avg=1.45
+[2684 | 22512.42] loss=1.31 avg=1.45
+[2685 | 22521.31] loss=1.00 avg=1.45
+[2686 | 22528.96] loss=1.26 avg=1.44
+[2687 | 22536.63] loss=2.08 avg=1.45
+[2688 | 22544.40] loss=1.11 avg=1.45
+[2689 | 22552.46] loss=1.11 avg=1.44
+[2690 | 22560.42] loss=1.20 avg=1.44
+[2691 | 22568.29] loss=1.37 avg=1.44
+[2692 | 22575.89] loss=0.78 avg=1.43
+[2693 | 22583.27] loss=1.33 avg=1.43
